@@ -22,7 +22,7 @@
       "uk.brunokirby.helicopter_mod.HelicopterModInitializer"
     ],
     "client": [
-        "uk.brunokirby.helicopter_mod.HelicopterModInitializer"
+        "uk.brunokirby.helicopter_mod.HelicopterModClientInitializer"
     ]
   },
   "mixins": [
