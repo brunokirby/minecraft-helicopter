@@ -47,7 +47,7 @@ public class HelicopterModInitializer implements ModInitializer {
 		System.out.println("Hello Fabric world with a Helicopter!");
 
 		// register the entity
-		FabricDefaultAttributeRegistry.register(HELICOPTER, HelicopterEntity.createHelicopterAttributes());
+//		FabricDefaultAttributeRegistry.register(HELICOPTER, HelicopterEntity.createHelicopterAttributes());
 
 		// register the item
 		Registry.register(Registry.ITEM,
