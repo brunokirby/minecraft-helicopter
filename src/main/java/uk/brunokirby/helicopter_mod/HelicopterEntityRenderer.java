@@ -12,14 +12,14 @@ import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.HELICOPTER_M
  * A renderer is used to provide an entity model, shadow size, and texture.
  */
 @Environment(EnvType.CLIENT)
-public class HelicopterEntityRenderer extends MobEntityRenderer<HelicopterEntity, HelicopterEntityModel> {
+public class HelicopterEntityRenderer extends MobEntityRenderer<HelicopterEntity, newHelicopterEntityModel> {
 
     public HelicopterEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
-        super(entityRenderDispatcher, new HelicopterEntityModel(), 0.5f);  //shadow radius
+        super(entityRenderDispatcher, new newHelicopterEntityModel(), 0.5f);  //shadow radius
     }
 
     @Override
     public Identifier getTexture(HelicopterEntity entity) {
-        return new Identifier(HELICOPTER_MOD_NAMESPACE, "textures/helicopter.png");
+        return new Identifier(HELICOPTER_MOD_NAMESPACE, "textures/helicopter_entity_texture.png");
     }
 }
