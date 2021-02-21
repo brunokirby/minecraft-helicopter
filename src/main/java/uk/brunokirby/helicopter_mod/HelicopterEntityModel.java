@@ -6,132 +6,78 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+//import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
-
-    protected ModelPart body;
-    protected ModelPart arm_l;
-    protected ModelPart arm_r;
-    protected ModelPart leg_l;
-    protected ModelPart leg_r;
+    protected ModelPart heliBody;
+    protected ModelPart secondaryRotors;
+    protected ModelPart primaryRotors;
+    protected ModelPart rotatedCube1;
 
     public HelicopterEntityModel() {
-        textureWidth = 64;
-        textureHeight = 64;
+        textureWidth = 256;
+        textureHeight = 256;
 
-        body = new ModelPart(this);
+        heliBody = new ModelPart(this);
+        // heli_body.setRotationPoint(0.0F, 24.0F, 0.0F);
+        heliBody.setPivot(0.0F, 24.0F, 0.0F);
+        //		heli_body.setTextureOffset(0, 34).addBox(-15.0F, -8.0F, -7.0F, 32.0F, 8.0F, 14.0F, 0.0F, false);
+        heliBody.addCuboid("1", -15.0F, -8.0F, -7.0F, 32, 8, 14,
+                0.0F, 0, 34);
+        //		heli_body.setTextureOffset(1, 110).addBox(14.0F, -16.0F, -3.0F, 45.0F, 11.0F, 6.0F, 0.0F, false);
+        heliBody.addCuboid("2",14.0F, -16.0F, -3.0F, 45, 11, 6, 0.0F,
+                1, 110);
+        //		heli_body.setTextureOffset(189, 166).addBox(-5.0F, -12.0F, 7.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
+        heliBody.addCuboid("3", -5.0F, -12.0F, 7.0F, 22, 8, 1,
+                0.0F, 189, 166);
+        //		heli_body.setTextureOffset(187, 150).addBox(-5.0F, -12.0F, -8.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
+        heliBody.addCuboid("4", -5.0F, -12.0F, -8.0F, 22, 8, 1,
+                0.0F,187, 150);
+        //		heli_body.setTextureOffset(191, 47).addBox(-2.0F, -29.0F, -5.0F, 21.0F, 4.0F, 10.0F, 0.0F, false);
+        heliBody.addCuboid("5", -2.0F, -29.0F, -5.0F, 21, 4, 10,
+                0.0F,191, 47);
+        //		heli_body.setTextureOffset(190, 22).addBox(0.0F, -25.0F, -6.0F, 19.0F, 7.0F, 12.0F, 0.0F, false);
+        heliBody.addCuboid("6", 0.0F, -25.0F, -6.0F, 19, 7, 12,
+                0.0F, 190, 22);
+        //		heli_body.setTextureOffset(218, 110).addBox(53.0F, -10.0F, 3.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
+        heliBody.addCuboid("7", 53.0F, -10.0F, 3.0F, 2, 1, 6,
+                0.0F, 218, 110);
+        //		heli_body.setTextureOffset(218, 122).addBox(53.0F, -10.0F, -9.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
+        heliBody.addCuboid("8", 53.0F, -10.0F, -9.0F, 2, 1, 6,
+                0.0F, 218, 122);
+        //		heli_body.setTextureOffset(30, 186).addBox(16.0F, -18.1F, -7.0F, 7.0F, 13.0F, 14.0F, 0.0F, false);
+        heliBody.addCuboid("9", 16.0F, -18.1F, -7.0F, 7, 13, 14,
+                0.0F, 30, 186);
 
-//        bb_main = new ModelRenderer(this);
-//        bb_main.setRotationPoint(0.0F, 24.0F, 0.0F);
-//        bb_main.setTextureOffset(0, 0).addBox(-6.0F, -9.0F, -6.0F, 12.0F, 9.0F, 12.0F, 0.0F, false);
-        body.setPivot(0.0F, 24.0F, 0.0F);
-        body.addCuboid("body", -6.0F, -9.0F, -6.0F,
-                (int) 12.0F, (int) 9.0F, (int) 12.0F,
-                0.0F, 0, 0);
+        //		cube_r1 = new ModelRenderer(this);
+        rotatedCube1 = new ModelPart(this);
+        //		cube_r1.setRotationPoint(-6.0F, -6.0F, -8.0F);
+        rotatedCube1.setPivot(-6.0F, -6.0F, -8.0F);
+        //		heli_body.addChild(cube_r1);
+        heliBody.addChild(rotatedCube1);
+        //		setRotationAngle(cube_r1, 0.0F, 0.0F, 0.1745F);
+        rotatedCube1.roll = 0.1745F;
+        //		cube_r1.setTextureOffset(37, 147).addBox(-13.0F, -5.0F, 0.0F, 13.0F, 8.0F, 1.0F, 0.0F, false);
+        rotatedCube1.addCuboid("101",-13.0F, -5.0F, 0.0F, 13, 8, 1,
+                0.0F, 37, 147);
+        //		cube_r1.setTextureOffset(78, 155).addBox(-13.0F, -5.0F, 15.0F, 13.0F, 8.0F, 1.0F, 0.0F, false);
+        rotatedCube1.addCuboid("102", -13.0F, -5.0F, 15.0F, 13, 8, 1,
+                0.0F, 78, 155);
+    }
 
-//        bone_head = new ModelRenderer(this);
-//        bone_head.setRotationPoint(0.0F, 24.0F, 0.0F);
-//        setRotationAngle(bone_head, -0.0873F, 0.0F, 0.0F);
-//        bone_head.setTextureOffset(1, 18).addBox(-5.5F, -17.5F, -6.0F, 11.0F, 9.0F, 10.0F, 0.0F, false);
-//        bone_head.setTextureOffset(0, 0).addBox(-6.5F, -15.0F, -4.0F, 1.0F, 3.0F, 1.0F, 0.0F, false);
-//        bone_head.setTextureOffset(0, 0).addBox(5.5F, -15.0F, -4.0F, 1.0F, 3.0F, 1.0F, 0.0F, true);
-        ModelPart head = new ModelPart(this);
-        head.setPivot(0.0F, 0.0F, 0.0F);
-        body.addChild(head);
-        head.addCuboid("head", -5.5F, -17.5F, -6.0F,
-                11, 9, 10,
-                0.0F, 1, 18);
-        head.addCuboid("ear_r", -6.5F, -15.0F, -4.0F,
-                1, 3, 1,
-                0.0F, 0, 0);
-        head.addCuboid("ear_l", 5.5F, -15.0F, -4.0F,
-                1, 3, 1,
-                0.0F, 0, 0);
-        head.pitch = -0.0873F;
-
-//        bone_leg_r = new ModelRenderer(this);
-//        bone_leg_r.setRotationPoint(-3.25F, 23.0F, -3.0F);
-//        bone_leg_r.setTextureOffset(39, 38).addBox(-2.5F, -1.0F, -6.0F, 5.0F, 2.0F, 4.0F, 0.0F, false);
-        leg_r = new ModelPart(this);
-        leg_r.setPivot(-3.25F, -1.0F, -3.0F);
-        body.addChild(leg_r);
-        leg_r.addCuboid("leg_r", -2.5F, -1.0F, -6.0F,
-                5, 2, 4,
-                0.0F, 39, 38);
-
-
-//        bone_leg_l = new ModelRenderer(this);
-//        bone_leg_l.setRotationPoint(3.25F, 23.0F, -3.0F);
-//        bone_leg_l.setTextureOffset(39, 38).addBox(-2.5F, -1.0F, -6.0F, 5.0F, 2.0F, 4.0F, 0.0F, true);
-        leg_l = new ModelPart(this);
-        leg_l.setPivot(3.25F, -1.0F, -3.0F);
-        body.addChild(leg_l);
-        leg_l.addCuboid("leg_l", -2.5F, -1.0F, -6.0F,
-                5, 2, 4,
-                0.0F, 39, 38);
-
-
-//        bone_arm_r = new ModelRenderer(this);
-//        bone_arm_r.setRotationPoint(0.0F, 24.0F, 0.0F);
-//        arm_r_r1 = new ModelRenderer(this);
-//        arm_r_r1.setRotationPoint(-5.25F, -11.5F, 0.0F);
-//        bone_arm_r.addChild(arm_r_r1);
-//        setRotationAngle(arm_r_r1, 0.0F, 0.0F, -1.0472F);
-//        arm_r_r1.setTextureOffset(0, 47).addBox(-9.75F, -1.5F, -1.25F, 12.0F, 2.0F, 3.0F, 0.25F, false);
-        arm_r = new ModelPart(this);
-        arm_r.setPivot(-5.25F, -11.5F, 0.0F);
-        body.addChild(arm_r);
-        arm_r.addCuboid("arm_r", -9.75F, -1.5F, -1.25F,
-                12, 2, 3,
-                0.25F, 0, 47);
-        arm_r.roll = -1.0472F;
-
-//        bone_arm_l = new ModelRenderer(this);
-//        bone_arm_l.setRotationPoint(0.0F, 24.0F, 0.0F);
-//        arm_l_r1 = new ModelRenderer(this);
-//        arm_l_r1.setRotationPoint(5.25F, -11.5F, 0.0F);
-//        bone_arm_l.addChild(arm_l_r1);
-//        setRotationAngle(arm_l_r1, 0.0F, 0.0F, 1.0472F);
-//        arm_l_r1.setTextureOffset(0, 53).addBox(-2.25F, -1.5F, -1.25F, 12.0F, 2.0F, 3.0F, 0.25F, true);
-        arm_l = new ModelPart(this);
-        arm_l.setPivot(5.25F, -11.5F, 0.0F);
-        body.addChild(arm_l);
-        arm_l.addCuboid("arm_l", -2.25F, -1.5F, -1.25F,
-                12, 2, 3,
-                0.25F, 0, 53);
-        arm_l.roll = 1.0472F;
+    @Override
+    public void setAngles(HelicopterEntity entity, float limbAngle, float limbDistance,
+                          float animationProgress, float headYaw, float headPitch) {
 
     }
 
     @Override
-    public void setAngles(HelicopterEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        // TODO do the movement
-        //System.out.println("limbAngle=" + limbAngle + " limbDistance=" + limbDistance + " animationProgress=" + animationProgress);
+    public void render(MatrixStack matrices, VertexConsumer vertices,
+                       int light, int overlay, float red, float green, float blue, float alpha) {
+        heliBody.render(matrices, vertices, light, overlay, red, blue, green, alpha);
 
-        // we don't want all the gorillas to be in sync!
-        float unique = (float)(System.identityHashCode(entity) % 10000)/1000; // effectively random from 0-10
-
-        // arms flap all the time
-        float arm_angle = 0.8F + MathHelper.sin(unique + animationProgress * 0.5F) * 0.2F;
-        arm_l.roll = arm_angle;
-        arm_r.roll = -arm_angle;
-
-        unique += 1.0F;
-
-        // limbs move only when gorilla is moving (via limbDistance)
-        float leg_range = 0.2F; // how far the legs move (from horizontal)
-        float leg_speed = 2.0F; // how fast the legs flap
-        float leg_l_angle = leg_range * (1.0F + MathHelper.sin(unique + limbAngle * leg_speed + 3.14F));
-        float leg_r_angle = leg_range * (1.0F + MathHelper.sin(unique + limbAngle * leg_speed));
-        leg_l.pitch = -leg_l_angle * limbDistance;
-        leg_r.pitch = -leg_r_angle * limbDistance;
-    }
-
-
-    @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-        body.render(matrices, vertices, light, overlay, red, blue, green, alpha);
     }
 }
+
+// for rotations ( , , roll)
