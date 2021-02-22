@@ -3,38 +3,22 @@ package uk.brunokirby.helicopter_mod;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
+
 
 import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.HELICOPTER_MOD_NAMESPACE;
 
 /*
  * A renderer is used to provide an entity model, shadow size, and texture.
  */
-//@Environment(EnvType.CLIENT)
-//public class HelicopterEntityRenderer extends MobEntityRenderer<HelicopterEntity, HelicopterEntityModel> {
-//
-//    public HelicopterEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
-//        super(entityRenderDispatcher, new HelicopterEntityModel(), 0.5f);  //shadow radius
-//    }
-//
-//    @Override
-//    public Identifier getTexture(HelicopterEntity entity) {
-//        return new Identifier(HELICOPTER_MOD_NAMESPACE, "textures/helicopter_entity_texture.png");
-//    }
-//}
 @Environment(EnvType.CLIENT)
 public class HelicopterEntityRenderer extends EntityRenderer<HelicopterEntity> {
-    private static final Identifier TEXTURE = new Identifier("textures/entity/fish/cod.png");
     protected final HelicopterEntityModel model = new HelicopterEntityModel();
 
     public HelicopterEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
@@ -49,7 +33,10 @@ public class HelicopterEntityRenderer extends EntityRenderer<HelicopterEntity> {
 
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
         matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
+
+        // TODO we probably don't want setAngles when it stops being a mob!
         this.model.setAngles(helicopterEntity, g, 0.0F, -0.1F, 0.0F, 0.0F);
+
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(this.getTexture(helicopterEntity)));
         this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -60,7 +47,5 @@ public class HelicopterEntityRenderer extends EntityRenderer<HelicopterEntity> {
     @Override
     public Identifier getTexture(HelicopterEntity entity) {
         return new Identifier(HELICOPTER_MOD_NAMESPACE, "textures/helicopter_entity_texture.png");
-//        return TEXTURE;
     }
-
 }
