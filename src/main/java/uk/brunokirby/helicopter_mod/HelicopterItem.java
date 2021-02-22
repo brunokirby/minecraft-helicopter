@@ -24,6 +24,7 @@ public class HelicopterItem extends Item {
         super(settings);
     }
 
+    // TODO we should do some hitbox checks to see if it's possible to place helicopter here
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         HitResult hitResult = raycast(world, user, RaycastContext.FluidHandling.ANY);

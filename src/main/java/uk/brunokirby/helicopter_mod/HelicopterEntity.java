@@ -1,5 +1,6 @@
 package uk.brunokirby.helicopter_mod;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -10,6 +11,8 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Packet;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
@@ -20,6 +23,23 @@ public class HelicopterEntity extends MobEntity {
         super(entityType, world);
         System.out.println("I'm a new Helicopter!!!");
     }
+
+//    @Override
+//    protected void initDataTracker() {
+//    }
+//
+//    @Override
+//    protected void readCustomDataFromTag(CompoundTag tag) {
+//    }
+//
+//    @Override
+//    protected void writeCustomDataToTag(CompoundTag tag) {
+//    }
+//
+//    @Override
+//    public Packet<?> createSpawnPacket() {
+//        return null;
+//    }
 
 //    public HelicopterEntity(EntityType<? extends AnimalEntity> entityType, World world, double x, double y, double z) {
 //        super(entityType, world);

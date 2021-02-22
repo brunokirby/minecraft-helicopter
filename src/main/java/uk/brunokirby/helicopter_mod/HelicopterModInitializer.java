@@ -4,9 +4,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.mixin.object.builder.DefaultAttributeRegistryAccessor;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
@@ -34,9 +37,15 @@ public class HelicopterModInitializer implements ModInitializer {
 					.dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
 	);
 
+//	public static final EntityType<HelicopterEntity> CANOE = register("canoe", new HelicopterEntityType());
+//	private static EntityType<HelicopterEntity> register(String id, EntityType entityType) {
+//		return Registry.register(Registry.ENTITY_TYPE, new Identifier(HELICOPTER_MOD_NAMESPACE, id), entityType);
+//	}
+
 	// an instance of our new item
 	// TODO fix group type
     public static final Item HELICOPTER_ITEM = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+
 
     @Override
 	public void onInitialize() {
@@ -47,7 +56,8 @@ public class HelicopterModInitializer implements ModInitializer {
 		System.out.println("Hello Fabric world with a Helicopter!");
 
 		// register the entity
-		FabricDefaultAttributeRegistry.register(HELICOPTER, HelicopterEntity.createHelicopterAttributes());
+//		FabricDefaultAttributeRegistry.register(HELICOPTER, HelicopterEntity.createHelicopterAttributes());
+		DefaultAttributeRegistryAccessor.getRegistry().put(HELICOPTER, HelicopterEntity.createHelicopterAttributes().build());
 
 		// register the item
 		Registry.register(Registry.ITEM,
