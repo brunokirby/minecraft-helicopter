@@ -70,14 +70,13 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
     public void setAngles(HelicopterEntity entity, float limbAngle, float limbDistance,
                           float animationProgress, float headYaw, float headPitch) {
 
-        System.out.println("Helicopter setAngles x="+entity.getPos().x+" y="+entity.getPos().y+" z="+entity.getPos().z);
     }
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices,
                        int light, int overlay, float red, float green, float blue, float alpha) {
-        System.out.println("Helicopter render");
         heliBody.render(matrices, vertices, light, overlay, red, blue, green, alpha);
+
     }
 }
 
