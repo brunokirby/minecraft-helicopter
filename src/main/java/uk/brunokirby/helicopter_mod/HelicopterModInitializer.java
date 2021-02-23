@@ -2,17 +2,9 @@ package uk.brunokirby.helicopter_mod;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.fabric.mixin.object.builder.DefaultAttributeRegistryAccessor;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -28,23 +20,17 @@ import net.minecraft.util.registry.Registry;
  */
 public class HelicopterModInitializer implements ModInitializer {
 
-	public static final String HELICOPTER_MOD_NAMESPACE ="helicopter_mod";
+	public static final String HELICOPTER_MOD_NAMESPACE = "helicopter_mod";
 
+	// create using our EntityType (which we already need for server/client interaction)
 	public static final EntityType<HelicopterEntity> HELICOPTER = Registry.register(
 			Registry.ENTITY_TYPE,
 			new Identifier(HELICOPTER_MOD_NAMESPACE, "helicopter"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, HelicopterEntity::new)
-					.dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
+			new HelicopterEntityType()
 	);
 
-//	public static final EntityType<HelicopterEntity> CANOE = register("canoe", new HelicopterEntityType());
-//	private static EntityType<HelicopterEntity> register(String id, EntityType entityType) {
-//		return Registry.register(Registry.ENTITY_TYPE, new Identifier(HELICOPTER_MOD_NAMESPACE, id), entityType);
-//	}
 
-	// an instance of our new item
-	// TODO fix group type
-    public static final Item HELICOPTER_ITEM = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+	// NB don't register an Item for Helicopter: we create a custom class
 
 
     @Override
@@ -55,10 +41,7 @@ public class HelicopterModInitializer implements ModInitializer {
 
 		System.out.println("Hello Fabric world with a Helicopter!");
 
-		// register the entity
-		// (FabricDefaultAttributeRegistry assumes LivingEntity)
-		// FabricDefaultAttributeRegistry.register(HELICOPTER, HelicopterEntity.createHelicopterAttributes());
-		DefaultAttributeRegistryAccessor.getRegistry().put(HELICOPTER, HelicopterEntity.createHelicopterAttributes().build());
+		// NB we don't need to register "Attributes" because they're specific to LivingEntity
 
 		// register the item
 		Registry.register(Registry.ITEM,
