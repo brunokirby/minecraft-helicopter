@@ -2,26 +2,39 @@ package uk.brunokirby.helicopter_mod;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Packet;
-import net.minecraft.recipe.Ingredient;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Arm;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class HelicopterEntity extends MobEntity {
-    public HelicopterEntity(EntityType<? extends MobEntity> entityType, World world) {
+public class HelicopterEntity extends LivingEntity {
+    public HelicopterEntity(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
         System.out.println("I'm a new Helicopter!!!");
+    }
+
+    @Override
+    public Iterable<ItemStack> getArmorItems() {
+        return DefaultedList.ofSize(4, ItemStack.EMPTY);
+    }
+    @Override
+    public ItemStack getEquippedStack(EquipmentSlot slot) {
+        return ItemStack.EMPTY;
+    }
+    @Override
+    public void equipStack(EquipmentSlot slot, ItemStack stack) {
+    }
+    @Override
+    public Arm getMainArm() {
+        return Arm.LEFT;
     }
 
 //    @Override
