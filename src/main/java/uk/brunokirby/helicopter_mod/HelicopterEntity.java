@@ -94,7 +94,7 @@ public class HelicopterEntity extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS;
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE;
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH;
-    private static final TrackedData<Integer> CANOE_TYPE;
+//    private static final TrackedData<Integer> CANOE_TYPE;
     private static final TrackedData<Boolean> LEFT_PADDLE_MOVING;
     private static final TrackedData<Boolean> RIGHT_PADDLE_MOVING;
     private static final TrackedData<Integer> BUBBLE_WOBBLE_TICKS;
@@ -150,7 +150,6 @@ public class HelicopterEntity extends Entity {
         this.dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0F);
-        this.dataTracker.startTracking(CANOE_TYPE, HelicopterEntity.Type.OAK.ordinal());
         this.dataTracker.startTracking(LEFT_PADDLE_MOVING, false);
         this.dataTracker.startTracking(RIGHT_PADDLE_MOVING, false);
         this.dataTracker.startTracking(BUBBLE_WOBBLE_TICKS, 0);
@@ -715,14 +714,13 @@ public class HelicopterEntity extends Entity {
     }
 
     protected void writeCustomDataToTag(CompoundTag tag) {
-        tag.putString("Type", this.getCanoeType().getName());
+//        tag.putString("Type", this.getCanoeType().getName());
     }
 
     protected void readCustomDataFromTag(CompoundTag tag) {
-        if (tag.contains("Type", 8)) {
-            this.setCanoeType(HelicopterEntity.Type.getType(tag.getString("Type")));
-        }
-
+//        if (tag.contains("Type", 8)) {
+//            this.setCanoeType(HelicopterEntity.Type.getType(tag.getString("Type")));
+//        }
     }
 
     public ActionResult interact(PlayerEntity player, Hand hand) {
@@ -754,10 +752,7 @@ public class HelicopterEntity extends Entity {
                         this.remove();
                         if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                             int j;
-                            for(j = 0; j < 3; ++j) {
-                                this.dropItem(this.getCanoeType().getBaseBlock());
-                            }
-
+                            // TODO drop something more interesting?
                             for(j = 0; j < 2; ++j) {
                                 this.dropItem(Items.STICK);
                             }
@@ -814,14 +809,6 @@ public class HelicopterEntity extends Entity {
         return (Integer)this.dataTracker.get(DAMAGE_WOBBLE_SIDE);
     }
 
-    public void setCanoeType(HelicopterEntity.Type type) {
-        this.dataTracker.set(CANOE_TYPE, type.ordinal());
-    }
-
-    public HelicopterEntity.Type getCanoeType() {
-        return HelicopterEntity.Type.getType((Integer)this.dataTracker.get(CANOE_TYPE));
-    }
-
     protected boolean canAddPassenger(Entity passenger) {
         return this.getPassengerList().size() < 2 && !this.isSubmergedIn(FluidTags.WATER);
     }
@@ -852,7 +839,7 @@ public class HelicopterEntity extends Entity {
         DAMAGE_WOBBLE_TICKS = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
         DAMAGE_WOBBLE_SIDE = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
         DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.FLOAT);
-        CANOE_TYPE = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
+//        CANOE_TYPE = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
         LEFT_PADDLE_MOVING = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
         RIGHT_PADDLE_MOVING = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
         BUBBLE_WOBBLE_TICKS = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -863,64 +850,6 @@ public class HelicopterEntity extends Entity {
         return new HelicopterItem(new FabricItemSettings().group(ItemGroup.MISC));
     }
 
-//    public Item asItem() {
-//        return CANOE_ITEM;
-//        switch (this.getCanoeType()) {
-//            case OAK:
-//            default:
-//                return Items.OAK_CANOE;
-//        }
-//    }
-
-    public static enum Type {
-        OAK(Blocks.OAK_PLANKS, "oak"),
-        SPRUCE(Blocks.SPRUCE_PLANKS, "spruce"),
-        BIRCH(Blocks.BIRCH_PLANKS, "birch"),
-        JUNGLE(Blocks.JUNGLE_PLANKS, "jungle"),
-        ACACIA(Blocks.ACACIA_PLANKS, "acacia"),
-        DARK_OAK(Blocks.DARK_OAK_PLANKS, "dark_oak");
-
-        private final String name;
-        private final Block baseBlock;
-
-        private Type(Block baseBlock, String name) {
-            this.name = name;
-            this.baseBlock = baseBlock;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public Block getBaseBlock() {
-            return this.baseBlock;
-        }
-
-        public String toString() {
-            return this.name;
-        }
-
-        public static HelicopterEntity.Type getType(int i) {
-            HelicopterEntity.Type[] types = values();
-            if (i < 0 || i >= types.length) {
-                i = 0;
-            }
-
-            return types[i];
-        }
-
-        public static HelicopterEntity.Type getType(String string) {
-            HelicopterEntity.Type[] types = values();
-
-            for(int i = 0; i < types.length; ++i) {
-                if (types[i].getName().equals(string)) {
-                    return types[i];
-                }
-            }
-
-            return types[0];
-        }
-    }
 
     public static enum Location {
         IN_WATER,
