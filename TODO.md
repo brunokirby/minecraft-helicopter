@@ -10,4 +10,12 @@ TODO list
 - fix player height in vehicle when mounted / edit model
 - make it fly
   - basic: up with sprint?
-  - custom key commands?  
+  - custom key commands?
+- translation (in inventory)
+- placement rules (?)
+- icon
+
+---
+
+Done:
+- ...
