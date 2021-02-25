@@ -32,8 +32,10 @@ public class HelicopterModInitializer implements ModInitializer {
 
 	// NB don't register an Item for Helicopter: we create a custom class
 
+//	public static final Item CANOE_ITEM = new Item(new FabricItemSettings().group(ItemGroup.MISC));
 
-    @Override
+
+	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
