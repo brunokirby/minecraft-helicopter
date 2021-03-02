@@ -1,7 +1,7 @@
 TODO list
 =========
 
-- shouldn't be pushable
+
 - what should it drop if broken?
 - height of base?
 - size of hitbox (should be smaller?)
@@ -11,11 +11,13 @@ TODO list
 - make it fly
   - basic: up with sprint?
   - custom key commands?
-- translation (in inventory)
 - placement rules (?)
 - icon
+- cleanup
 
 ---
 
 Done:
-- ...
+- shouldn't be pushable
+- translation (in inventory)
+

@@ -4,9 +4,7 @@ import com.google.common.collect.UnmodifiableIterator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
 import net.minecraft.entity.damage.DamageSource;
@@ -168,7 +166,7 @@ public class HelicopterEntity extends Entity {
     }
 
     public boolean isPushable() {
-        return true;
+        return false;
     }
 
     protected Vec3d method_30633(Direction.Axis axis, class_5459.class_5460 arg) {
@@ -176,6 +174,7 @@ public class HelicopterEntity extends Entity {
     }
 
     public double getMountedHeightOffset() {
+//        return 0D;
         return -0.1D;
     }
 
@@ -223,9 +222,9 @@ public class HelicopterEntity extends Entity {
             if (entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
                 super.pushAwayFrom(entity);
             }
-        } else if (entity.getBoundingBox().minY <= this.getBoundingBox().minY) {
-            super.pushAwayFrom(entity);
-        }
+        } //else if (entity.getBoundingBox().minY <= this.getBoundingBox().minY) {
+//            super.pushAwayFrom(entity);
+//        }
 
     }
 
