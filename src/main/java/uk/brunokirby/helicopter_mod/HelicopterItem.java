@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
@@ -22,6 +23,18 @@ import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.HELICOPTER;
 public class HelicopterItem extends Item {
     public HelicopterItem(Item.Settings settings) {
         super(settings);
+    }
+
+    private static HelicopterItem prototype = null;
+    public static HelicopterItem getPrototype() {
+        if (prototype == null) {
+            synchronized (HelicopterItem.class) {
+                if (prototype == null) {    // double check lock
+                    prototype = new HelicopterItem(new Item.Settings().group(ItemGroup.MISC));
+                }
+            }
+        }
+        return prototype;
     }
 
     // TODO we should do some hitbox checks to see if it's possible to place helicopter here

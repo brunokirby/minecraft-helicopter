@@ -47,7 +47,7 @@ public class HelicopterModInitializer implements ModInitializer {
 		// register the item
 		Registry.register(Registry.ITEM,
 				new Identifier(HELICOPTER_MOD_NAMESPACE, "helicopter"),
-				new HelicopterItem(new Item.Settings().group(ItemGroup.MISC)));
+				HelicopterItem.getPrototype());
 	}
 }
 

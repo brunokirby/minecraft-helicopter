@@ -741,7 +741,7 @@ public class HelicopterEntity extends Entity {
         if (!this.hasVehicle()) {
             if (onGround) {
                 if (this.fallDistance > 3.0F) {
-                    if (this.location != HelicopterEntity.Location.ON_LAND) {
+                    if (this.location != Location.ON_LAND) {
                         this.fallDistance = 0.0F;
                         return;
                     }
@@ -846,7 +846,7 @@ public class HelicopterEntity extends Entity {
 
 
     public Item asItem() {
-        return new HelicopterItem(new FabricItemSettings().group(ItemGroup.MISC));
+        return HelicopterItem.getPrototype();
     }
 
 

@@ -2,7 +2,7 @@ TODO list
 =========
 
 
-- what should it drop if broken?
+- what should it drop if broken? 
 - height of base?
 - size of hitbox (should be smaller?)
 - it's facing backwards :-)
@@ -20,4 +20,5 @@ TODO list
 Done:
 - shouldn't be pushable
 - translation (in inventory)
+- currently drops item.air but that can spawn helicopter (is weird)
 
