@@ -175,7 +175,7 @@ public class HelicopterEntity extends Entity {
 
     public double getMountedHeightOffset() {
 //        return 0D;
-        return -0.1D;
+        return -0.4D;
     }
 
     public boolean damage(DamageSource source, float amount) {
