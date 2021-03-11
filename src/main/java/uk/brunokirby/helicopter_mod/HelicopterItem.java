@@ -71,7 +71,7 @@ public class HelicopterItem extends Item {
                 helicopterEntity.moveTo(hitResult.getPos());
 //                System.out.println("helicopter moved x="+helicopterEntity.getX()+" y="+helicopterEntity.getY()+"z="+helicopterEntity.getZ());
 
-                helicopterEntity.yaw = user.yaw;
+                helicopterEntity.yaw = user.yaw + 180.0F;
                 if (!world.isSpaceEmpty(helicopterEntity, helicopterEntity.getBoundingBox().expand(-0.1D))) {
                     return TypedActionResult.fail(itemStack);
                 } else {
