@@ -52,51 +52,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 
-//public class HelicopterEntity extends Entity {
-//    public HelicopterEntity(EntityType<? extends Entity> entityType, World world) {
-//        super(entityType, world);
-//        System.out.println("I'm a new Helicopter!!!");
-//    }
-//
-//    @Override
-//    protected void initDataTracker() {
-//        // e.g.
-//        // this.dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
-//    }
-//
-//    @Override
-//    protected void readCustomDataFromTag(CompoundTag tag) {
-//        // e.g.
-//        // if (tag.contains("Type", 8)) {
-//        //     this.setCanoeType(CanoeEntity.Type.getType(tag.getString("Type")));
-//        // }
-//    }
-//
-//    @Override
-//    protected void writeCustomDataToTag(CompoundTag tag) {
-//        // e.g.
-//        // tag.putString("Type", this.getCanoeType().getName());
-//    }
-//    @Override
-//    public Packet<?> createSpawnPacket() {
-//        return new EntitySpawnS2CPacket(this);
-//    }
-//
-//
-//}
-//
-
-
 
 public class HelicopterEntity extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS;
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE;
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH;
-//    private static final TrackedData<Integer> CANOE_TYPE;
-    private static final TrackedData<Boolean> LEFT_PADDLE_MOVING;
-    private static final TrackedData<Boolean> RIGHT_PADDLE_MOVING;
     private static final TrackedData<Integer> BUBBLE_WOBBLE_TICKS;
-    private final float[] paddlePhases;
     private float velocityDecay;
     private float ticksUnderwater;
     private float yawVelocity;
@@ -123,7 +84,6 @@ public class HelicopterEntity extends Entity {
 
     public HelicopterEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
-        this.paddlePhases = new float[2];
         this.inanimate = true;
         System.out.println("I'm a new Helicopter!!!");
     }
@@ -148,8 +108,6 @@ public class HelicopterEntity extends Entity {
         this.dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0F);
-        this.dataTracker.startTracking(LEFT_PADDLE_MOVING, false);
-        this.dataTracker.startTracking(RIGHT_PADDLE_MOVING, false);
         this.dataTracker.startTracking(BUBBLE_WOBBLE_TICKS, 0);
     }
 
@@ -279,14 +237,14 @@ public class HelicopterEntity extends Entity {
         this.method_7555();
         if (this.isLogicalSideForUpdatingMovement()) {
             if (this.getPassengerList().isEmpty() || !(this.getPassengerList().get(0) instanceof PlayerEntity)) {
-                this.setPaddleMovings(false, false);
+//                this.setPaddleMovings(false, false);
             }
 
             this.updateVelocity();
-            if (this.world.isClient) {
-                this.updatePaddles();
-                this.world.sendPacket(new BoatPaddleStateC2SPacket(this.isPaddleMoving(0), this.isPaddleMoving(1)));
-            }
+//            if (this.world.isClient) {
+//                this.updatePaddles();
+//                this.world.sendPacket(new BoatPaddleStateC2SPacket(this.isPaddleMoving(0), this.isPaddleMoving(1)));
+//            }
 
             this.move(MovementType.SELF, this.getVelocity());
         } else {
@@ -295,24 +253,24 @@ public class HelicopterEntity extends Entity {
 
         this.handleBubbleColumn();
 
-        for(int i = 0; i <= 1; ++i) {
-            if (this.isPaddleMoving(i)) {
-                if (!this.isSilent() && (double)(this.paddlePhases[i] % 6.2831855F) <= 0.7853981852531433D && ((double)this.paddlePhases[i] + 0.39269909262657166D) % 6.2831854820251465D >= 0.7853981852531433D) {
-                    SoundEvent soundEvent = this.getPaddleSoundEvent();
-                    if (soundEvent != null) {
-                        Vec3d vec3d = this.getRotationVec(1.0F);
-                        double d = i == 1 ? -vec3d.z : vec3d.z;
-                        double e = i == 1 ? vec3d.x : -vec3d.x;
-                        this.world.playSound((PlayerEntity)null, this.getX() + d, this.getY(), this.getZ() + e, soundEvent, this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat());
-                    }
-                }
-
-                float[] var10000 = this.paddlePhases;
-                var10000[i] = (float)((double)var10000[i] + 0.39269909262657166D);
-            } else {
-                this.paddlePhases[i] = 0.0F;
-            }
-        }
+//        for(int i = 0; i <= 1; ++i) {
+//            if (this.isPaddleMoving(i)) {
+//                if (!this.isSilent() && (double)(this.paddlePhases[i] % 6.2831855F) <= 0.7853981852531433D && ((double)this.paddlePhases[i] + 0.39269909262657166D) % 6.2831854820251465D >= 0.7853981852531433D) {
+//                    SoundEvent soundEvent = this.getPaddleSoundEvent();
+//                    if (soundEvent != null) {
+//                        Vec3d vec3d = this.getRotationVec(1.0F);
+//                        double d = i == 1 ? -vec3d.z : vec3d.z;
+//                        double e = i == 1 ? vec3d.x : -vec3d.x;
+//                        this.world.playSound((PlayerEntity)null, this.getX() + d, this.getY(), this.getZ() + e, soundEvent, this.getSoundCategory(), 1.0F, 0.8F + 0.4F * this.random.nextFloat());
+//                    }
+//                }
+//
+//                float[] var10000 = this.paddlePhases;
+//                var10000[i] = (float)((double)var10000[i] + 0.39269909262657166D);
+//            } else {
+//                this.paddlePhases[i] = 0.0F;
+//            }
+//        }
 
         this.checkBlockCollision();
         List<Entity> list = this.world.getOtherEntities(this, this.getBoundingBox().expand(0.20000000298023224D, -0.009999999776482582D, 0.20000000298023224D), EntityPredicates.canBePushedBy(this));
@@ -407,15 +365,10 @@ public class HelicopterEntity extends Entity {
         }
     }
 
-    public void setPaddleMovings(boolean leftMoving, boolean rightMoving) {
-        this.dataTracker.set(LEFT_PADDLE_MOVING, leftMoving);
-        this.dataTracker.set(RIGHT_PADDLE_MOVING, rightMoving);
-    }
-
-    @Environment(EnvType.CLIENT)
-    public float interpolatePaddlePhase(int paddle, float tickDelta) {
-        return this.isPaddleMoving(paddle) ? (float)MathHelper.clampedLerp((double)this.paddlePhases[paddle] - 0.39269909262657166D, (double)this.paddlePhases[paddle], (double)tickDelta) : 0.0F;
-    }
+//    @Environment(EnvType.CLIENT)
+//    public float interpolatePaddlePhase(int paddle, float tickDelta) {
+//        return this.isPaddleMoving(paddle) ? (float)MathHelper.clampedLerp((double)this.paddlePhases[paddle] - 0.39269909262657166D, (double)this.paddlePhases[paddle], (double)tickDelta) : 0.0F;
+//    }
 
     private HelicopterEntity.Location checkLocation() {
         HelicopterEntity.Location location = this.getUnderWaterLocation();
@@ -608,34 +561,34 @@ public class HelicopterEntity extends Entity {
 
     }
 
-    private void updatePaddles() {
-        if (this.hasPassengers()) {
-            float f = 0.0F;
-            if (this.pressingLeft) {
-                --this.yawVelocity;
-            }
-
-            if (this.pressingRight) {
-                ++this.yawVelocity;
-            }
-
-            if (this.pressingRight != this.pressingLeft && !this.pressingForward && !this.pressingBack) {
-                f += 0.005F;
-            }
-
-            this.yaw += this.yawVelocity;
-            if (this.pressingForward) {
-                f += 0.04F;
-            }
-
-            if (this.pressingBack) {
-                f -= 0.005F;
-            }
-
-            this.setVelocity(this.getVelocity().add((double)(MathHelper.sin(-this.yaw * 0.017453292F) * f), 0.0D, (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
-            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
-        }
-    }
+//    private void updatePaddles() {
+//        if (this.hasPassengers()) {
+//            float f = 0.0F;
+//            if (this.pressingLeft) {
+//                --this.yawVelocity;
+//            }
+//
+//            if (this.pressingRight) {
+//                ++this.yawVelocity;
+//            }
+//
+//            if (this.pressingRight != this.pressingLeft && !this.pressingForward && !this.pressingBack) {
+//                f += 0.005F;
+//            }
+//
+//            this.yaw += this.yawVelocity;
+//            if (this.pressingForward) {
+//                f += 0.04F;
+//            }
+//
+//            if (this.pressingBack) {
+//                f -= 0.005F;
+//            }
+//
+//            this.setVelocity(this.getVelocity().add((double)(MathHelper.sin(-this.yaw * 0.017453292F) * f), 0.0D, (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
+//            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
+//        }
+//    }
 
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
@@ -767,10 +720,6 @@ public class HelicopterEntity extends Entity {
         }
     }
 
-    public boolean isPaddleMoving(int paddle) {
-        return (Boolean)this.dataTracker.get(paddle == 0 ? LEFT_PADDLE_MOVING : RIGHT_PADDLE_MOVING) && this.getPrimaryPassenger() != null;
-    }
-
     public void setDamageWobbleStrength(float wobbleStrength) {
         this.dataTracker.set(DAMAGE_WOBBLE_STRENGTH, wobbleStrength);
     }
@@ -824,6 +773,7 @@ public class HelicopterEntity extends Entity {
         this.pressingRight = pressingRight;
         this.pressingForward = pressingForward;
         this.pressingBack = pressingBack;
+        System.out.println("pressingLeft"+pressingLeft);
     }
 
     public Packet<?> createSpawnPacket() {
@@ -838,9 +788,6 @@ public class HelicopterEntity extends Entity {
         DAMAGE_WOBBLE_TICKS = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
         DAMAGE_WOBBLE_SIDE = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
         DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.FLOAT);
-//        CANOE_TYPE = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        LEFT_PADDLE_MOVING = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-        RIGHT_PADDLE_MOVING = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
         BUBBLE_WOBBLE_TICKS = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);
     }
 
