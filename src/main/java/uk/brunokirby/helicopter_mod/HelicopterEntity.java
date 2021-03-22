@@ -133,7 +133,8 @@ public class HelicopterEntity extends Entity {
 
     public double getMountedHeightOffset() {
 //        return 0D;
-        return -0.4D;
+        // number is to make feet just about not visible
+        return 0.111D;
     }
 
     public boolean damage(DamageSource source, float amount) {

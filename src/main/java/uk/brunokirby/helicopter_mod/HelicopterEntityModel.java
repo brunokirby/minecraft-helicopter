@@ -21,36 +21,36 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 
         heliBody = new ModelPart(this);
         // heli_body.setRotationPoint(0.0F, 24.0F, 0.0F);
-        heliBody.setPivot(0.0F, 24.0F, 0.0F);
+        heliBody.setPivot(0.0F, 16.0F, 0.0F);
         //		heli_body.setTextureOffset(0, 34).addBox(-15.0F, -8.0F, -7.0F, 32.0F, 8.0F, 14.0F, 0.0F, false);
-        heliBody.addCuboid("1", -15.0F, -10.0F, -7.0F, 32, 10, 14,
+        heliBody.addCuboid("1", -15.0F, -8.0F, -7.0F, 14, 10, 14,
                 0.0F, 0, 34);
         //        heliBody.addCuboid("1", -15.0F, -8.0F, -7.0F, 32, 8, 14,
         //                0.0F, 0, 34);
         //		heli_body.setTextureOffset(1, 110).addBox(14.0F, -16.0F, -3.0F, 45.0F, 11.0F, 6.0F, 0.0F, false);
-        heliBody.addCuboid("2",14.0F, -18.0F, -3.0F, 45, 11, 6, 0.0F,
+        heliBody.addCuboid("2",0.0F, -25.0F, -6.0F, 19, 7, 12, 0.0F,
                 1, 110);
         //		heli_body.setTextureOffset(189, 166).addBox(-5.0F, -12.0F, 7.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
-        heliBody.addCuboid("3", -5.0F, -14.0F, 7.0F, 22, 8, 1,
-                0.0F, 189, 166);
-        //		heli_body.setTextureOffset(187, 150).addBox(-5.0F, -12.0F, -8.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
-        heliBody.addCuboid("4", -5.0F, -14.0F, -8.0F, 22, 8, 1,
-                0.0F,187, 150);
-        //		heli_body.setTextureOffset(191, 47).addBox(-2.0F, -29.0F, -5.0F, 21.0F, 4.0F, 10.0F, 0.0F, false);
-        heliBody.addCuboid("5", -2.0F, -31.0F, -5.0F, 21, 4, 10,
-                0.0F,191, 47);
-        //		heli_body.setTextureOffset(190, 22).addBox(0.0F, -25.0F, -6.0F, 19.0F, 7.0F, 12.0F, 0.0F, false);
-        heliBody.addCuboid("6", 0.0F, -27.0F, -6.0F, 19, 7, 12,
-                0.0F, 190, 22);
-        //		heli_body.setTextureOffset(218, 110).addBox(53.0F, -10.0F, 3.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
-        heliBody.addCuboid("7", 53.0F, -12.0F, 3.0F, 2, 1, 6,
-                0.0F, 218, 110);
-        //		heli_body.setTextureOffset(218, 122).addBox(53.0F, -10.0F, -9.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
-        heliBody.addCuboid("8", 53.0F, -12.0F, -9.0F, 2, 1, 6,
-                0.0F, 218, 122);
-        //		heli_body.setTextureOffset(30, 186).addBox(16.0F, -18.1F, -7.0F, 7.0F, 13.0F, 14.0F, 0.0F, false);
-        heliBody.addCuboid("9", 16.0F, -20.1F, -7.0F, 7, 13, 14,
-                0.0F, 30, 186);
+//        heliBody.addCuboid("3", -5.0F, -14.0F, 7.0F, 22, 8, 1,
+//                0.0F, 189, 166);
+//        //		heli_body.setTextureOffset(187, 150).addBox(-5.0F, -12.0F, -8.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
+//        heliBody.addCuboid("4", -5.0F, -14.0F, -8.0F, 22, 8, 1,
+//                0.0F,187, 150);
+//        //		heli_body.setTextureOffset(191, 47).addBox(-2.0F, -29.0F, -5.0F, 21.0F, 4.0F, 10.0F, 0.0F, false);
+//        heliBody.addCuboid("5", -2.0F, -31.0F, -5.0F, 21, 4, 10,
+//                0.0F,191, 47);
+//        //		heli_body.setTextureOffset(190, 22).addBox(0.0F, -25.0F, -6.0F, 19.0F, 7.0F, 12.0F, 0.0F, false);
+//        heliBody.addCuboid("6", 0.0F, -27.0F, -6.0F, 19, 7, 12,
+//                0.0F, 190, 22);
+//        //		heli_body.setTextureOffset(218, 110).addBox(53.0F, -10.0F, 3.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
+//        heliBody.addCuboid("7", 53.0F, -12.0F, 3.0F, 2, 1, 6,
+//                0.0F, 218, 110);
+//        //		heli_body.setTextureOffset(218, 122).addBox(53.0F, -10.0F, -9.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
+//        heliBody.addCuboid("8", 53.0F, -12.0F, -9.0F, 2, 1, 6,
+//                0.0F, 218, 122);
+//        //		heli_body.setTextureOffset(30, 186).addBox(16.0F, -18.1F, -7.0F, 7.0F, 13.0F, 14.0F, 0.0F, false);
+//        heliBody.addCuboid("9", 16.0F, -20.1F, -7.0F, 7, 13, 14,
+//                0.0F, 30, 186);
 
         //		cube_r1 = new ModelRenderer(this);
         rotatedCube1 = new ModelPart(this);
