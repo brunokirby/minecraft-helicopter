@@ -79,73 +79,73 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		cube_r1 = new ModelPart(this);
 		cube_r1.setPivot(-18.9F, -6.1F, 6.9F);
 		heli_body.addChild(cube_r1);
-// TODO		setRotationAngle(cube_r1, 0.0F, 0.0F, 0.1745F);
+		cube_r1.roll = 0.1745F;
 		cube_r1.addCuboid("banana", -2.0F, -6.0F, 0.0F, 2, 4, 1, 0.0F, 60, 56);
 		cube_r1.addCuboid("banana", -2.0F, -6.0F, -14.8F, 2, 4, 1, 0.0F, 66, 56);
 
 		cube_r2 = new ModelPart(this);
 		cube_r2.setPivot(-20.0F, -10.0F, -8.0F);
 		heli_body.addChild(cube_r2);
-// TODO		setRotationAngle(cube_r2, 0.0F, 0.0F, 0.1745F);
+		cube_r2.roll = 0.1745F;
 		cube_r2.addCuboid("banana", -1.0F, -1.0F, 0.0F, 1, 1, 1, 0.0F, 64, 61);
 		cube_r2.addCuboid("banana", -1.0F, -1.0F, 15.0F, 1, 1, 1, 0.0F, 68, 61);
 
 		cube_r3 = new ModelPart(this);
 		cube_r3.setPivot(-3.0F, -15.0F, 6.9F);
 		heli_body.addChild(cube_r3);
-// TODO		setRotationAngle(cube_r3, 0.0F, 0.0F, 0.2618F);
+		cube_r3.roll = 0.2618F;
 		cube_r3.addCuboid("banana", -1.0F, -9.0F, 0.0F, 1, 18, 1, 0.0F, 124, 20);
 		cube_r3.addCuboid("banana", -1.0F, -9.0F, -14.8F, 1, 18, 1, 0.0F, 124, 20);
 
 		rear_wheel_stalk_r1 = new ModelPart(this);
 		rear_wheel_stalk_r1.setPivot(48.0F, 0.0F, -0.5F);
 		heli_body.addChild(rear_wheel_stalk_r1);
-// TODO		setRotationAngle(rear_wheel_stalk_r1, 0.0F, 0.0F, -0.3054F);
+		rear_wheel_stalk_r1.roll = -0.3054F;
 		rear_wheel_stalk_r1.addCuboid("banana", -1.0F, -3.0F, 0.0F, 1, 9, 1, 0.0F, 118, 28);
 
 		cube_r4 = new ModelPart(this);
 		cube_r4.setPivot(-6.0F, -6.0F, -8.0F);
 		heli_body.addChild(cube_r4);
-// TODO		setRotationAngle(cube_r4, 0.0F, 0.0F, 0.1745F);
+		cube_r4.roll = 0.1745F;
 		cube_r4.addCuboid("banana", -13.0F, -5.0F, 0.0F, 13, 8, 1, 0.0F, 58, 47);
 		cube_r4.addCuboid("banana", -13.0F, -5.0F, 15.0F, 13, 8, 1, 0.0F, 6, 79);
 
 		cube_r5 = new ModelPart(this);
 		cube_r5.setPivot(17.0F, -1.0F, 0.0F);
 		heli_body.addChild(cube_r5);
-// TODO		setRotationAngle(cube_r5, 0.0F, 0.0F, -0.5236F);
+		cube_r5.roll = -0.5236F;
 		cube_r5.addCuboid("banana", -1.0F, -3.0F, -6.0F, 9, 4, 12, 0.0F, 14, 41);
 
 		cube_r6 = new ModelPart(this);
 		cube_r6.setPivot(-22.0F, -10.0F, 0.0F);
 		heli_body.addChild(cube_r6);
-// TODO		setRotationAngle(cube_r6, 0.0F, 0.0F, -0.5672F);
+		cube_r6.roll = -0.5672F;
 		cube_r6.addCuboid("banana", -1.0F, -1.0F, -6.0F, 1, 1, 12, 0.0F, 30, 43);
 
 		cube_r7 = new ModelPart(this);
 		cube_r7.setPivot(-17.0F, -13.0F, -7.0F);
 		heli_body.addChild(cube_r7);
-// TODO		setRotationAngle(cube_r7, 0.0F, 0.0F, -0.5672F);
+		cube_r7.roll = -0.5672F;
 		cube_r7.addCuboid("banana", -7.0F, -1.0F, 0.0F, 28, 1, 1, 0.0F, 70, 20);
 		cube_r7.addCuboid("banana", -3.0F, -1.0F, 13.0F, 24, 1, 1, 0.0F, 78, 20);
 
 		cube_r8 = new ModelPart(this);
 		cube_r8.setPivot(55.0F, -9.0F, -10.0F);
 		heli_body.addChild(cube_r8);
-// TODO		setRotationAngle(cube_r8, 0.0F, 0.0F, 0.3491F);
+		cube_r8.roll = 0.3491F;
 		cube_r8.addCuboid("banana", -3.0F, -7.0F, 0.0F, 4, 8, 1, 0.0F, 46, 47);
 		cube_r8.addCuboid("banana", -3.0F, -7.0F, 19.0F, 4, 8, 1, 0.0F, 46, 47);
 
 		cube_r9 = new ModelPart(this);
 		cube_r9.setPivot(-16.0F, -3.0F, 0.0F);
 		heli_body.addChild(cube_r9);
-// TODO		setRotationAngle(cube_r9, 0.0F, 0.0F, 0.6545F);
+		cube_r9.roll = 0.6545F;
 		cube_r9.addCuboid("banana", -9.0F, -2.0F, -7.0F, 12, 4, 14, -0.001F, 20, 89);
 
 		cube_r10 = new ModelPart(this);
 		cube_r10.setPivot(53.0F, -14.0F, 0.0F);
 		heli_body.addChild(cube_r10);
-// TODO		setRotationAngle(cube_r10, 0.0F, 0.0F, 0.3927F);
+		cube_r10.roll = 0.3927F;
 		cube_r10.addCuboid("banana", -5.0F, -19.0F, -1.0F, 9, 19, 2, 0.0F, 0, 35);
 
 		secondary_rotors = new ModelPart(this);
@@ -156,25 +156,27 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		secondary_rotors_top_r1 = new ModelPart(this);
 		secondary_rotors_top_r1.setPivot(58.0F, -32.0F, -3.0F);
 		secondary_rotors.addChild(secondary_rotors_top_r1);
-// TODO		setRotationAngle(secondary_rotors_top_r1, -0.3927F, 0.0F, 1.5708F);
+		secondary_rotors_top_r1.pitch = -0.3927F;
+		secondary_rotors_top_r1.roll = 1.5708F;
 		secondary_rotors_top_r1.addCuboid("banana", -9.0F, -1.0F, 0.0F, 9, 2, 1, 0.0F, 108, 21);
 
 		secondary_rotors_front_r1 = new ModelPart(this);
 		secondary_rotors_front_r1.setPivot(56.0F, -30.0F, -3.0F);
 		secondary_rotors.addChild(secondary_rotors_front_r1);
-// TODO		setRotationAngle(secondary_rotors_front_r1, -0.3927F, 0.0F, 0.0F);
+		secondary_rotors_front_r1.pitch = -0.3927F;
 		secondary_rotors_front_r1.addCuboid("banana", -9.0F, -1.0F, 0.0F, 9, 2, 1, 0.0F, 108, 21);
 
 		secondary_rotorsback_r1 = new ModelPart(this);
 		secondary_rotorsback_r1.setPivot(69.0F, -30.0F, -3.0F);
 		secondary_rotors.addChild(secondary_rotorsback_r1);
-// TODO		setRotationAngle(secondary_rotorsback_r1, 0.3927F, 0.0F, 0.0F);
+		secondary_rotorsback_r1.pitch = 0.3927F;
 		secondary_rotorsback_r1.addCuboid("banana", -9.0F, -1.0F, 0.0F, 9, 2, 1, 0.0F, 108, 21);
 
 		secondary_rotors_bottom_r1 = new ModelPart(this);
 		secondary_rotors_bottom_r1.setPivot(58.0F, -19.0F, -3.0F);
 		secondary_rotors.addChild(secondary_rotors_bottom_r1);
-// TODO		setRotationAngle(secondary_rotors_bottom_r1, 0.3927F, 0.0F, 1.5708F);
+		secondary_rotors_bottom_r1.pitch = 0.3927F;
+		secondary_rotors_bottom_r1.roll = 1.5708F;
 		secondary_rotors_bottom_r1.addCuboid("banana", -9.0F, -1.0F, 0.0F, 9, 2, 1, 0.0F, 108, 21);
 
 		r_outer_missiles = new ModelPart(this);
@@ -204,20 +206,20 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		r_wheel_assembly = new ModelPart(this);
 		r_wheel_assembly.setPivot(-11.0F, 6.8F, 9.0F);
 		full_heli.addChild(r_wheel_assembly);
-// TODO		setRotationAngle(r_wheel_assembly, 0.0F, 3.1416F, 0.0F);
+		r_wheel_assembly.yaw = 3.1416F;
 		r_wheel_assembly.addCuboid("banana", -2.0F, -2.0F, -1.0F, 3, 3, 1, 0.25F, 87, 0);
 		r_wheel_assembly.addCuboid("banana", -1.0F, -1.0F, 0.0F, 1, 1, 1, 0.25F, 114, 30);
 
 		r_inner_wheel_stalk_r1 = new ModelPart(this);
 		r_inner_wheel_stalk_r1.setPivot(0.0F, -5.0F, 4.0F);
 		r_wheel_assembly.addChild(r_inner_wheel_stalk_r1);
-// TODO		setRotationAngle(r_inner_wheel_stalk_r1, -0.6981F, 0.0F, 0.0F);
+		r_inner_wheel_stalk_r1.pitch = -0.6981F;
 		r_inner_wheel_stalk_r1.addCuboid("banana", -1.0F, -4.0F, 0.0F, 1, 10, 1, 0.0F, 119, 28);
 
 		r_outer_wheel_stalk_r1 = new ModelPart(this);
 		r_outer_wheel_stalk_r1.setPivot(0.0F, -7.0F, 2.0F);
 		r_wheel_assembly.addChild(r_outer_wheel_stalk_r1);
-// TODO		setRotationAngle(r_outer_wheel_stalk_r1, -0.3491F, 0.0F, 0.0F);
+		r_outer_wheel_stalk_r1.pitch = -0.3491F;
 		r_outer_wheel_stalk_r1.addCuboid("banana", -1.0F, -1.0F, 0.0F, 1, 7, 1, 0.0F, 114, 30);
 
 		l_wheel_assembly = new ModelPart(this);
@@ -229,13 +231,13 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		l_inner_wheel_stalk_r1 = new ModelPart(this);
 		l_inner_wheel_stalk_r1.setPivot(0.0F, -5.0F, 4.0F);
 		l_wheel_assembly.addChild(l_inner_wheel_stalk_r1);
-// TODO		setRotationAngle(l_inner_wheel_stalk_r1, -0.6981F, 0.0F, 0.0F);
+		l_inner_wheel_stalk_r1.pitch = -0.6981F;
 		l_inner_wheel_stalk_r1.addCuboid("banana", -1.0F, -4.0F, 0.0F, 1, 10, 1, 0.0F, 120, 28);
 
 		l_outer_wheel_stalk_r1 = new ModelPart(this);
 		l_outer_wheel_stalk_r1.setPivot(0.0F, -7.0F, 2.0F);
 		l_wheel_assembly.addChild(l_outer_wheel_stalk_r1);
-// TODO		setRotationAngle(l_outer_wheel_stalk_r1, -0.3491F, 0.0F, 0.0F);
+		l_outer_wheel_stalk_r1.pitch = -0.3491F;
 		l_outer_wheel_stalk_r1.addCuboid("banana", -1.0F, -1.0F, 0.0F, 1, 7, 1, 0.0F, 114, 30);
 
 		main_rotors = new ModelPart(this);
@@ -246,25 +248,27 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		main_rotors_right_r1 = new ModelPart(this);
 		main_rotors_right_r1.setPivot(8.0F, -30.0F, 3.0F);
 		main_rotors.addChild(main_rotors_right_r1);
-// TODO		setRotationAngle(main_rotors_right_r1, -0.3927F, 1.5708F, 0.0F);
+		main_rotors_right_r1.pitch = -0.3927F;
+		main_rotors_right_r1.yaw = 1.5708F;
 		main_rotors_right_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 20);
 
 		main_rotors_front_r1 = new ModelPart(this);
 		main_rotors_front_r1.setPivot(6.0F, -30.0F, 0.0F);
 		main_rotors.addChild(main_rotors_front_r1);
-// TODO		setRotationAngle(main_rotors_front_r1, -0.3927F, 0.0F, 0.0F);
+		main_rotors_front_r1.pitch = -0.3927F;
 		main_rotors_front_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 21);
 
 		main_rotors_left_r1 = new ModelPart(this);
 		main_rotors_left_r1.setPivot(8.0F, -30.0F, -35.0F);
 		main_rotors.addChild(main_rotors_left_r1);
-// TODO		setRotationAngle(main_rotors_left_r1, 0.3927F, 1.5708F, 0.0F);
+		main_rotors_left_r1.pitch = 0.3927F;
+		main_rotors_left_r1.yaw = 1.5708F;
 		main_rotors_left_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 20);
 
 		main_rotors_back_r1 = new ModelPart(this);
 		main_rotors_back_r1.setPivot(43.0F, -30.0F, 0.0F);
 		main_rotors.addChild(main_rotors_back_r1);
-// TODO		setRotationAngle(main_rotors_back_r1, 0.3927F, 0.0F, 0.0F);
+		main_rotors_back_r1.pitch = 0.3927F;
 		main_rotors_back_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 20);
 	}
 
@@ -275,12 +279,10 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 
 	@Override
 	public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+		full_heli.yaw = (float) Math.PI;
 		full_heli.render(matrixStack, buffer, packedLight, packedOverlay);
+
 	}
 
-// TODO	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-//		modelRenderer.rotateAngleX = x;
-//		modelRenderer.rotateAngleY = y;
-//		modelRenderer.rotateAngleZ = z;
-//	}
+
 }

@@ -105,7 +105,48 @@ public class BlockbenchConverter {
                     "setRotationAngles\\(Entity",
                     "setAngles(HelicopterEntity");
         } else if (original.contains("setRotationAngle(")) {
-            return "// TODO" + original;
+            Pattern patternParseRotation = Pattern.compile(
+                    "(.*)setRotationAngle\\("
+                    + "([^,]+)" + ", "
+                    + "(-?\\d+\\.\\d+F)" + ", "
+                    + "(-?\\d+\\.\\d+F)" + ", "
+                    + "(-?\\d+\\.\\d+F)" + "\\);"
+            );
+            Matcher matcherParseRotation = patternParseRotation.matcher(original);
+            if(matcherParseRotation.find()) {
+                List<String> return_string = new ArrayList<>();
+                if (!"0.0F".equals(matcherParseRotation.group(3))) {
+                    return_string.add(
+                            matcherParseRotation.group(1)
+                            + matcherParseRotation.group(2)
+                            + ".pitch = "
+                            + matcherParseRotation.group(3)
+                            + ";"
+                    );
+                }
+                if (!"0.0F".equals(matcherParseRotation.group(4))) {
+                    return_string.add(
+                            matcherParseRotation.group(1)
+                            + matcherParseRotation.group(2)
+                            + ".yaw = "
+                            + matcherParseRotation.group(4)
+                            + ";"
+                    );
+                }
+                if (!"0.0F".equals(matcherParseRotation.group(5))) {
+                    return_string.add(
+                            matcherParseRotation.group(1)
+                            + matcherParseRotation.group(2)
+                            + ".roll = "
+                            + matcherParseRotation.group(5)
+                            + ";"
+                    );
+                }
+                return String.join("\n", return_string);
+            }
+            else {
+                // error
+            }
         }
 
 //        String inputLine="bone_head.setTextureOffset(10, 20).addBox(5.5F, -15.0F, -4.0F, 1.0F, 3.0F, 1.0F, 0.0F, false);";

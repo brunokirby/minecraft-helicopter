@@ -63,6 +63,36 @@ class BlockbenchConverterTest {
         Assertions.assertEquals(outputLine, bc.convertLine(inputLine));
     }
 
+    @Test
+    void shouldConvertSetAnglePitch() {
+        String inputLine = "setRotationAngle(main_rotors_back_r1, 0.3927F, 0.0F, 0.0F);";
+        String outputLine = "main_rotors_back_r1.pitch = 0.3927F;";
+        Assertions.assertEquals(outputLine, bc.convertLine(inputLine));
+    }
+
+    @Test
+    void shouldConvertSetAngleYaw() {
+        String inputLine = "setRotationAngle(main_rotors_back_r1, 0.0F, -0.3927F, 0.0F);";
+        String outputLine = "main_rotors_back_r1.yaw = -0.3927F;";
+        Assertions.assertEquals(outputLine, bc.convertLine(inputLine));
+    }
+
+    @Test
+    void shouldConvertSetAngleRoll() {
+        String inputLine = "setRotationAngle(main_rotors_back_r1, 0.0F, 0.0F, 0.3927F);";
+        String outputLine = "main_rotors_back_r1.roll = 0.3927F;";
+        Assertions.assertEquals(outputLine, bc.convertLine(inputLine));
+    }
+
+    @Test
+    void shouldConvertSetAnglePitchYawRoll() {
+        String inputLine = "setRotationAngle(main_rotors_back_r1, 0.3927F, -10.0F, 3.0F);";
+        String outputLine = "main_rotors_back_r1.pitch = 0.3927F;\n"
+                + "main_rotors_back_r1.yaw = -10.0F;\n"
+                + "main_rotors_back_r1.roll = 3.0F;";
+        Assertions.assertEquals(outputLine, bc.convertLine(inputLine));
+    }
+
 
 
 }
