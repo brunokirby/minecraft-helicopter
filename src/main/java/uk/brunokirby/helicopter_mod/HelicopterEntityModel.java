@@ -281,8 +281,11 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 	public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
 		full_heli.yaw = (float) Math.PI;
 		full_heli.render(matrixStack, buffer, packedLight, packedOverlay);
-
 	}
+
+
+
+
 
 
 }

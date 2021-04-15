@@ -1,8 +1,5 @@
 package uk.brunokirby.blockbench_import;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -11,21 +8,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class BlockbenchConverter {
     private final static String blockbenchInputFilename = "src/main/resources/helicopter_entity_model_bb_two.java";
     private final static String fabricOutputFilename = "src/main/java/uk/brunokirby/helicopter_mod/HelicopterEntityModel.java";
 //    private final static String fabricOutputFilename = "src/main/resources/HelicopterEntityModel.java";
+    private boolean deleteNextLine;
 
     public static void main(String[] args) {
-        new BlockbenchConverter().appMain(args);
+        new BlockbenchConverter().appMain();
     }
 
-    public void appMain(String[] args) {
+    public void appMain() {
+        deleteNextLine = false;
         System.out.println("bananas");
 
         File blockbenchInputFile = new File(blockbenchInputFilename);
 
-        List<String> allLines = new ArrayList<String>();
+        List<String> allLines = new ArrayList<>();
         try (Stream<String> lines = Files.lines(blockbenchInputFile.toPath())
                 ) {
 //            lines.forEach(line -> {
@@ -37,7 +38,7 @@ public class BlockbenchConverter {
         }
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(fabricOutputFilename), "utf-8"))) {
+                new FileOutputStream(fabricOutputFilename), UTF_8))) {
 
             // write header
             writer.write("package uk.brunokirby.helicopter_mod;\n" +
@@ -58,10 +59,6 @@ public class BlockbenchConverter {
 
                 writer.write(modified+"\n");
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,6 +101,14 @@ public class BlockbenchConverter {
             return original.replaceAll(
                     "setRotationAngles\\(Entity",
                     "setAngles(HelicopterEntity");
+        }else if (original.contains("public void setRotationAngle(ModelRenderer modelRenderer")) {
+            deleteNextLine = true;
+            return "";
+        } else if (deleteNextLine) {
+            if (original.contains("}")) {
+                deleteNextLine = false;
+            }
+            return "";
         } else if (original.contains("setRotationAngle(")) {
             Pattern patternParseRotation = Pattern.compile(
                     "(.*)setRotationAngle\\("
@@ -146,6 +151,7 @@ public class BlockbenchConverter {
             }
             else {
                 // error
+                throw new RuntimeException("eeek");
             }
         }
 

@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BlockbenchConverterTest {
@@ -91,6 +94,26 @@ class BlockbenchConverterTest {
                 + "main_rotors_back_r1.yaw = -10.0F;\n"
                 + "main_rotors_back_r1.roll = 3.0F;";
         Assertions.assertEquals(outputLine, bc.convertLine(inputLine));
+    }
+
+    @Test
+    void shouldRemoveSetRotationAngle() {
+        List<String>inputLines = new ArrayList<>();
+        inputLines.add("\tpublic void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {\\n\",");
+        inputLines.add("\t\tmodelRenderer.rotateAngleX = x;\n");
+        inputLines.add("\t\tmodelRenderer.rotateAngleY = y;\n");
+        inputLines.add("\t\tmodelRenderer.rotateAngleZ = z;\n");
+        inputLines.add("\t}");
+        String outputLine = "\n"
+                          + "\n"
+                          + "\n"
+                          + "\n"
+                          + "\n";
+        String createdLines = "";
+        for (String line:inputLines) {
+            createdLines += bc.convertLine(line) + "\n";
+        }
+        Assertions.assertEquals(outputLine, createdLines);
     }
 
 
