@@ -120,7 +120,7 @@ public class HelicopterEntity extends Entity {
     }
 
     public boolean isCollidable() {
-        return true;
+        return false;
     }
 
     public boolean isPushable() {

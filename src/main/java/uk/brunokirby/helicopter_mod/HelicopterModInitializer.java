@@ -1,6 +1,7 @@
 package uk.brunokirby.helicopter_mod;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -28,6 +29,10 @@ public class HelicopterModInitializer implements ModInitializer {
 			new HelicopterEntityType()
 	);
 
+	public static final Item HELICOPTER_ITEM_PART = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+	public static final Item HELICOPTER_ITEM_ROTORS = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+
+
 
 	// NB don't register an Item for Helicopter: we create a custom class
 
@@ -48,6 +53,13 @@ public class HelicopterModInitializer implements ModInitializer {
 		Registry.register(Registry.ITEM,
 				new Identifier(HELICOPTER_MOD_NAMESPACE, "helicopter"),
 				HelicopterItem.getPrototype());
+
+		Registry.register(Registry.ITEM,new Identifier(HELICOPTER_MOD_NAMESPACE,
+				"helicopter_part"),
+				HELICOPTER_ITEM_PART);
+		Registry.register(Registry.ITEM,new Identifier(HELICOPTER_MOD_NAMESPACE,
+						"helicopter_rotors"),
+				HELICOPTER_ITEM_ROTORS);
 	}
 }
 

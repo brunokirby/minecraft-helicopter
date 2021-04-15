@@ -1,16 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " II",
-    "IRI",
-    " II"
+    " RH",
+    "RPH",
+    "HHH"
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
+    "H": {
+      "item": "helicopter_mod:helicopter_part"
+    },
+    "P": {
+      "item": "minecraft:redstone_block"
     },
     "R": {
-      "item": "minecraft:redstone_block"
+      "item": "helicopter_mod:helicopter_rotors"
     }
   },
   "result": {
