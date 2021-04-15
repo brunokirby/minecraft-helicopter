@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
+import net.minecraft.client.input.Input;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -242,10 +243,10 @@ public class HelicopterEntity extends Entity {
             }
 
             this.updateVelocity();
-//            if (this.world.isClient) {
-//                this.updatePaddles();
+            if (this.world.isClient) {
+                this.updateMotion();
 //                this.world.sendPacket(new BoatPaddleStateC2SPacket(this.isPaddleMoving(0), this.isPaddleMoving(1)));
-//            }
+            }
 
             this.move(MovementType.SELF, this.getVelocity());
         } else {
@@ -562,34 +563,34 @@ public class HelicopterEntity extends Entity {
 
     }
 
-//    private void updatePaddles() {
-//        if (this.hasPassengers()) {
-//            float f = 0.0F;
-//            if (this.pressingLeft) {
-//                --this.yawVelocity;
-//            }
-//
-//            if (this.pressingRight) {
-//                ++this.yawVelocity;
-//            }
-//
-//            if (this.pressingRight != this.pressingLeft && !this.pressingForward && !this.pressingBack) {
-//                f += 0.005F;
-//            }
-//
-//            this.yaw += this.yawVelocity;
-//            if (this.pressingForward) {
-//                f += 0.04F;
-//            }
-//
-//            if (this.pressingBack) {
-//                f -= 0.005F;
-//            }
-//
-//            this.setVelocity(this.getVelocity().add((double)(MathHelper.sin(-this.yaw * 0.017453292F) * f), 0.0D, (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
+    private void updateMotion() {
+        if (this.hasPassengers()) {
+            float f = 0.0F;
+            if (this.pressingLeft) {
+                --this.yawVelocity;
+            }
+
+            if (this.pressingRight) {
+                ++this.yawVelocity;
+            }
+
+            if (this.pressingRight != this.pressingLeft && !this.pressingForward && !this.pressingBack) {
+                f += 0.005F;
+            }
+
+            this.yaw += this.yawVelocity;
+            if (this.pressingForward) {
+                f += 0.04F;
+            }
+
+            if (this.pressingBack) {
+                f -= 0.005F;
+            }
+
+            this.setVelocity(this.getVelocity().add((double)(MathHelper.sin(-this.yaw * 0.017453292F) * f), 0.0D, (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
 //            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
-//        }
-//    }
+        }
+    }
 
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
@@ -784,6 +785,14 @@ public class HelicopterEntity extends Entity {
     public boolean isSubmergedInWater() {
         return this.location == HelicopterEntity.Location.UNDER_WATER || this.location == HelicopterEntity.Location.UNDER_FLOWING_WATER;
     }
+
+    public boolean playerTickRiding(Input input) {
+        setInputs(input.pressingLeft, input.pressingRight, input.pressingForward, input.pressingBack);
+//        System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack);
+
+        return false;
+    }
+
 
     static {
         DAMAGE_WOBBLE_TICKS = DataTracker.registerData(HelicopterEntity.class, TrackedDataHandlerRegistry.INTEGER);

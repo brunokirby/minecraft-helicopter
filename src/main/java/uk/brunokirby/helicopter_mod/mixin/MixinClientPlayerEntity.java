@@ -18,8 +18,8 @@ import java.lang.reflect.Field;
 @Mixin(ClientPlayerEntity.class)
 //public abstract class MixinClientPlayerEntity {
 public class MixinClientPlayerEntity {
-//    @Shadow
-//    private boolean riding;
+    @Shadow
+    private boolean riding;
 
 //    @Shadow
 //    public Entity getVehicle() { return null; };
@@ -30,7 +30,6 @@ public class MixinClientPlayerEntity {
     @Shadow
     public Input input;
 
-
     // Based on contents of ClientPlayerEntity.tickRiding(...)
     //
     // This code is inserted at the bottom of the function, adding a section similar
@@ -38,7 +37,7 @@ public class MixinClientPlayerEntity {
 
     @Inject(method = "tickRiding", at = @At(value = "TAIL"))
     private void injected(CallbackInfo ci) {
-        System.out.println("My bananas got injected");
+//        System.out.println("My bananas got injected");
 
         try {
             Field f = Entity.class.getDeclaredField("vehicle");
@@ -46,9 +45,10 @@ public class MixinClientPlayerEntity {
             Entity vehicle = (Entity)f.get(this);
             System.out.println("gotta vehicle");
             if (vehicle instanceof HelicopterEntity) {
-                System.out.println("gotta helicopter");
-//            this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack
-                System.out.println("inputs="+ this.input.pressingLeft + this.input.pressingRight + this.input.pressingForward + this.input.pressingBack);
+                HelicopterEntity helicopterEntity = (HelicopterEntity)vehicle;
+                System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack);
+//                System.out.println("gotta helicopter");
+                riding = helicopterEntity.playerTickRiding(input);
             }
 
         } catch (NoSuchFieldException | IllegalAccessException e) {
