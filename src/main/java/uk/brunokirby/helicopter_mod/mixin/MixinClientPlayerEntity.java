@@ -43,10 +43,10 @@ public class MixinClientPlayerEntity {
             Field f = Entity.class.getDeclaredField("vehicle");
             f.setAccessible(true);
             Entity vehicle = (Entity)f.get(this);
-            System.out.println("gotta vehicle");
+//            System.out.println("gotta vehicle");
             if (vehicle instanceof HelicopterEntity) {
                 HelicopterEntity helicopterEntity = (HelicopterEntity)vehicle;
-                System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack);
+//                System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack);
 //                System.out.println("gotta helicopter");
                 riding = helicopterEntity.playerTickRiding(input);
             }

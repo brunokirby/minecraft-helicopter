@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
 import net.minecraft.client.input.Input;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -778,7 +779,7 @@ public class HelicopterEntity extends Entity {
         this.pressingRight = pressingRight;
         this.pressingForward = pressingForward;
         this.pressingBack = pressingBack;
-        System.out.println("pressingLeft"+pressingLeft);
+//        System.out.println("pressingLeft"+pressingLeft);
     }
 
     public Packet<?> createSpawnPacket() {
@@ -791,7 +792,12 @@ public class HelicopterEntity extends Entity {
 
     public boolean playerTickRiding(Input input) {
         setInputs(input.pressingLeft, input.pressingRight, input.pressingForward, input.pressingBack);
-//        System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack);
+
+        // TODO this isn't the right place really
+        // TODO move to "motion calcualtion"
+        if (testKeyPressed)
+            System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack + testKeyPressed);
+        clearCustomKeys();
 
         return false;
     }
@@ -820,4 +826,16 @@ public class HelicopterEntity extends Entity {
         private Location() {
         }
     }
+
+    // TODO cleaner interface to define multiple keys
+    private boolean testKeyPressed = false;
+    public void customKeyPressed (KeyBinding keyBinding) {
+        System.out.println("got a key "+keyBinding.getTranslationKey());
+        testKeyPressed=true;
+    }
+
+    private void clearCustomKeys () {
+        testKeyPressed=false;
+    }
+
 }
