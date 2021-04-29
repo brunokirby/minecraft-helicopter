@@ -523,8 +523,8 @@ public class HelicopterEntity extends Entity {
     }
 
     private void updateVelocity() {
-        double d = -0.03999999910593033D;
-        double e = this.hasNoGravity() ? 0.0D : -0.03999999910593033D;
+        double d = -0.04D;
+        double e = this.hasNoGravity() ? 0.0D : -0.04D;
         double f = 0.0D;
         this.velocityDecay = 0.05F;
         if (this.lastLocation == HelicopterEntity.Location.IN_AIR && this.location != HelicopterEntity.Location.IN_AIR && this.location != HelicopterEntity.Location.ON_LAND) {
@@ -541,7 +541,7 @@ public class HelicopterEntity extends Entity {
                 e = -7.0E-4D;
                 this.velocityDecay = 0.9F;
             } else if (this.location == HelicopterEntity.Location.UNDER_WATER) {
-                f = 0.009999999776482582D;
+                f = 0.01D;
                 this.velocityDecay = 0.45F;
             } else if (this.location == HelicopterEntity.Location.IN_AIR) {
                 this.velocityDecay = 0.9F;
@@ -587,7 +587,10 @@ public class HelicopterEntity extends Entity {
                 f -= 0.005F;
             }
 
-            this.setVelocity(this.getVelocity().add((double)(MathHelper.sin(-this.yaw * 0.017453292F) * f), 0.0D, (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
+            this.setVelocity(this.getVelocity().add(
+                    (double)(MathHelper.sin(-this.yaw * 0.017453292F) * f),
+                    0.0D,
+                    (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
 //            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
         }
     }

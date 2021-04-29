@@ -1,5 +1,6 @@
 {"item.helicopter_mod.helicopter" : "Helicopter",
   "item.helicopter_mod.helicopter_part" : "Helicopter Part",
-  "item.helicopter_mod.helicopter_rotors" : "Helicopter Rotors"
+  "item.helicopter_mod.helicopter_rotors" : "Helicopter Rotors",
+  "block.helicopter_mod.aluminium_ore" : "Aluminium Ore"
 }
 

@@ -2,7 +2,11 @@ package uk.brunokirby.helicopter_mod;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
@@ -31,6 +35,7 @@ public class HelicopterModInitializer implements ModInitializer {
 
 	public static final Item HELICOPTER_ITEM_PART = new Item(new FabricItemSettings().group(ItemGroup.MISC));
 	public static final Item HELICOPTER_ITEM_ROTORS = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+	public static final Block ALUMINIUM_ORE = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 
 
 
@@ -55,12 +60,15 @@ public class HelicopterModInitializer implements ModInitializer {
 				HelicopterItem.getPrototype());
 
 		Registry.register(Registry.ITEM,new Identifier(HELICOPTER_MOD_NAMESPACE,
-				"helicopter_part"),
-				HELICOPTER_ITEM_PART);
+				"helicopter_part"), HELICOPTER_ITEM_PART);
 		Registry.register(Registry.ITEM,new Identifier(HELICOPTER_MOD_NAMESPACE,
-						"helicopter_rotors"),
-				HELICOPTER_ITEM_ROTORS);
+				"helicopter_rotors"), HELICOPTER_ITEM_ROTORS);
+		Registry.register(Registry.BLOCK, new Identifier(HELICOPTER_MOD_NAMESPACE,
+				"aluminium_ore"), ALUMINIUM_ORE);
+		Registry.register(Registry.ITEM, new Identifier(HELICOPTER_MOD_NAMESPACE,
+				"aluminium_ore"), new BlockItem(
+						ALUMINIUM_ORE,
+						new FabricItemSettings().group(ItemGroup.MISC)
+		));
 	}
 }
-
-//
