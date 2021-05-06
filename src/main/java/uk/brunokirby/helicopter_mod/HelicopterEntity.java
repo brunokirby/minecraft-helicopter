@@ -39,6 +39,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.entity.Dismounting;
 import net.minecraft.entity.Entity;
@@ -566,6 +567,12 @@ public class HelicopterEntity extends Entity {
 
     private void updateMotion() {
         if (this.hasPassengers()) {
+
+            if (keyPressed_R) {
+                System.out.println("inputs=" + pressingLeft + pressingRight + pressingForward + pressingBack
+                        + (keyPressed_R ? "R" : "_"));
+            }
+
             float f = 0.0F;
             if (this.pressingLeft) {
                 --this.yawVelocity;
@@ -594,6 +601,8 @@ public class HelicopterEntity extends Entity {
                     (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
 //            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
         }
+
+        clearCustomKeys();
     }
 
     public void updatePassengerPosition(Entity passenger) {
@@ -793,12 +802,6 @@ public class HelicopterEntity extends Entity {
     public boolean playerTickRiding(Input input) {
         setInputs(input.pressingLeft, input.pressingRight, input.pressingForward, input.pressingBack);
 
-        // TODO this isn't the right place really
-        // TODO move to "motion calcualtion"
-        if (testKeyPressed)
-            System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack + testKeyPressed);
-        clearCustomKeys();
-
         return false;
     }
 
@@ -827,15 +830,42 @@ public class HelicopterEntity extends Entity {
         }
     }
 
+    public static enum KeyPress {
+        KEY_R,
+        KEY_UP_ARROW,
+        KEY_DOWN_ARROW;
+
+        private KeyPress() {
+        }
+    }
+
     // TODO cleaner interface to define multiple keys
-    private boolean testKeyPressed = false;
-    public void customKeyPressed (KeyBinding keyBinding) {
-        System.out.println("got a key "+keyBinding.getTranslationKey());
-        testKeyPressed=true;
+//    private boolean testKeyPressed = false;
+//    public void customKeyPressed (KeyBinding keyBinding) {
+//        System.out.println("got a key "+keyBinding.getTranslationKey());
+//        testKeyPressed=true;
+//    }
+
+    private boolean keyPressed_R = false;
+    private boolean keyPressedUpArrow = false;
+    private boolean keyPressedDownArrow = false;
+
+    // TODO
+//    private Set<KeyPress> customKeyPresses;
+
+    public void customKeyPressed (KeyPress keyPress) {
+        switch(keyPress) {
+            case KEY_R: keyPressed_R = true; break;
+            case KEY_UP_ARROW: keyPressedUpArrow = true; break;
+            case KEY_DOWN_ARROW: keyPressedDownArrow = true; break;
+        }
     }
 
     private void clearCustomKeys () {
-        testKeyPressed=false;
+//        testKeyPressed=false;
+        keyPressed_R = false;
+        keyPressedUpArrow = false;
+        keyPressedDownArrow = false;
     }
 
 }
