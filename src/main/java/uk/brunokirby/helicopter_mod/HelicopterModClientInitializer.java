@@ -32,10 +32,6 @@ import java.util.TreeMap;
 @Environment(EnvType.CLIENT)
 public class HelicopterModClientInitializer implements ClientModInitializer {
 
-    private static KeyBinding testKeyBinding;
-
-    private static KeyBinding upArrowKeyBinding;
-
     private static Map<KeyBinding, HelicopterEntity.KeyPress> keyMapping = new TreeMap<>();
 
     @Override
@@ -51,11 +47,10 @@ public class HelicopterModClientInitializer implements ClientModInitializer {
         );
 
         // register key bindings
-        testKeyBinding = registerKeyBinding(GLFW.GLFW_KEY_R, "key.helicopter_mod.spook");
-        upArrowKeyBinding = registerKeyBinding(GLFW.GLFW_KEY_UP, "key.helicopter_mod.up_arrow");
-
-        keyMapping.put(testKeyBinding, HelicopterEntity.KeyPress.KEY_R);
-        keyMapping.put(upArrowKeyBinding, HelicopterEntity.KeyPress.KEY_UP_ARROW);
+        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_UP, "key.helicopter_mod.up_arrow"), HelicopterEntity.KeyPress.KEY_UP_ARROW);
+        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_DOWN, "key.helicopter_mod.down_arrow"), HelicopterEntity.KeyPress.KEY_DOWN_ARROW);
+        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_LEFT, "key.helicopter_mod.left_arrow"), HelicopterEntity.KeyPress.KEY_LEFT_ARROW);
+        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_RIGHT, "key.helicopter_mod.right_arrow"), HelicopterEntity.KeyPress.KEY_RIGHT_ARROW);
 
         // create handler for key binding
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -78,9 +73,8 @@ public class HelicopterModClientInitializer implements ClientModInitializer {
         ));
     }
 
-
-    // TODO multiple keys
-    // TODO call new interface on HelicopterEntity
+    // Get Helicopter entity (via reflection to get private 'vehicle')
+    // and pass it the decoded KeyBinding
     private void handleKey(ClientPlayerEntity clientPlayerEntity, KeyBinding keyBinding) {
         try {
             Field f = Entity.class.getDeclaredField("vehicle");
@@ -91,7 +85,6 @@ public class HelicopterModClientInitializer implements ClientModInitializer {
                 System.out.println("custom helicopter keypress: "+keyBinding.getTranslationKey());
                 helicopterEntity.customKeyPressed(keyMapping.get(keyBinding));
             }
-
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

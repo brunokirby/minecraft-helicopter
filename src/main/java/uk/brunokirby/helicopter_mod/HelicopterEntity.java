@@ -568,10 +568,10 @@ public class HelicopterEntity extends Entity {
     private void updateMotion() {
         if (this.hasPassengers()) {
 
-            if (keyPressed_R) {
-                System.out.println("inputs=" + pressingLeft + pressingRight + pressingForward + pressingBack
-                        + (keyPressed_R ? "R" : "_"));
-            }
+//            if (keyPressed_R) {
+//                System.out.println("inputs=" + pressingLeft + pressingRight + pressingForward + pressingBack
+//                        + (keyPressed_R ? "R" : "_"));
+//            }
 
             float f = 0.0F;
             if (this.pressingLeft) {
@@ -831,9 +831,10 @@ public class HelicopterEntity extends Entity {
     }
 
     public static enum KeyPress {
-        KEY_R,
         KEY_UP_ARROW,
-        KEY_DOWN_ARROW;
+        KEY_DOWN_ARROW,
+        KEY_LEFT_ARROW,
+        KEY_RIGHT_ARROW;
 
         private KeyPress() {
         }
@@ -846,26 +847,26 @@ public class HelicopterEntity extends Entity {
 //        testKeyPressed=true;
 //    }
 
-    private boolean keyPressed_R = false;
     private boolean keyPressedUpArrow = false;
     private boolean keyPressedDownArrow = false;
+    private boolean keyPressedLeftArrow = false;
+    private boolean keyPressedRightArrow = false;
 
-    // TODO
-//    private Set<KeyPress> customKeyPresses;
 
     public void customKeyPressed (KeyPress keyPress) {
         switch(keyPress) {
-            case KEY_R: keyPressed_R = true; break;
             case KEY_UP_ARROW: keyPressedUpArrow = true; break;
             case KEY_DOWN_ARROW: keyPressedDownArrow = true; break;
+            case KEY_LEFT_ARROW: keyPressedLeftArrow = true; break;
+            case KEY_RIGHT_ARROW: keyPressedRightArrow = true; break;
         }
     }
 
     private void clearCustomKeys () {
-//        testKeyPressed=false;
-        keyPressed_R = false;
         keyPressedUpArrow = false;
         keyPressedDownArrow = false;
+        keyPressedLeftArrow = false;
+        keyPressedRightArrow = false;
     }
 
 }
