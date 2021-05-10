@@ -3,12 +3,10 @@ package uk.brunokirby.helicopter_mod;
 import com.google.common.collect.UnmodifiableIterator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
 import net.minecraft.client.input.Input;
-import net.minecraft.client.options.KeyBinding;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -18,11 +16,9 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.BoatPaddleStateC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -39,7 +35,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Set;
 
 import net.minecraft.entity.Dismounting;
 import net.minecraft.entity.Entity;
@@ -61,7 +56,6 @@ public class HelicopterEntity extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE;
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH;
     private static final TrackedData<Integer> BUBBLE_WOBBLE_TICKS;
-    private float velocityDecay;
     private float ticksUnderwater;
     private float yawVelocity;
     private int field_7708;
@@ -202,13 +196,14 @@ public class HelicopterEntity extends Entity {
         return !this.removed;
     }
 
+    // ?? client guessing where things are on the server ??
     @Environment(EnvType.CLIENT)
     public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.boatYaw = (double)yaw;
-        this.boatPitch = (double)pitch;
+        this.boatYaw = yaw;
+        this.boatPitch = pitch;
         this.field_7708 = 10;
     }
 
@@ -240,10 +235,6 @@ public class HelicopterEntity extends Entity {
         super.tick();
         this.method_7555();
         if (this.isLogicalSideForUpdatingMovement()) {
-            if (this.getPassengerList().isEmpty() || !(this.getPassengerList().get(0) instanceof PlayerEntity)) {
-//                this.setPaddleMovings(false, false);
-            }
-
             this.updateVelocity();
             if (this.world.isClient) {
                 this.updateMotion();
@@ -277,12 +268,11 @@ public class HelicopterEntity extends Entity {
 //        }
 
         this.checkBlockCollision();
-        List<Entity> list = this.world.getOtherEntities(this, this.getBoundingBox().expand(0.20000000298023224D, -0.009999999776482582D, 0.20000000298023224D), EntityPredicates.canBePushedBy(this));
+        List<Entity> list = this.world.getOtherEntities(this, this.getBoundingBox().expand(0.2D, -0.01D, 0.2D), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
             boolean bl = !this.world.isClient && !(this.getPrimaryPassenger() instanceof PlayerEntity);
 
-            for(int j = 0; j < list.size(); ++j) {
-                Entity entity = (Entity)list.get(j);
+            for (Entity entity : list) {
                 if (!entity.hasPassenger(this)) {
                     if (bl && this.getPassengerList().size() < 2 && !entity.hasVehicle() && entity.getWidth() < this.getWidth() && entity instanceof LivingEntity && !(entity instanceof WaterCreatureEntity) && !(entity instanceof PlayerEntity)) {
                         entity.startRiding(this);
@@ -307,7 +297,7 @@ public class HelicopterEntity extends Entity {
 
             this.bubbleWobbleStrength = MathHelper.clamp(this.bubbleWobbleStrength, 0.0F, 1.0F);
             this.lastBubbleWobble = this.bubbleWobble;
-            this.bubbleWobble = 10.0F * (float)Math.sin((double)(0.5F * (float)this.world.getTime())) * this.bubbleWobbleStrength;
+            this.bubbleWobble = 10.0F * (float)Math.sin(0.5F * (float)this.world.getTime()) * this.bubbleWobbleStrength;
         } else {
             if (!this.onBubbleColumnSurface) {
                 this.setBubbleWobbleTicks(0);
@@ -350,6 +340,7 @@ public class HelicopterEntity extends Entity {
         }
     }
 
+    // probably something to do with interpolation?
     private void method_7555() {
         if (this.isLogicalSideForUpdatingMovement()) {
             this.field_7708 = 0;
@@ -392,6 +383,7 @@ public class HelicopterEntity extends Entity {
         }
     }
 
+    // something to do with water
     public float method_7544() {
         Box box = this.getBoundingBox();
         int i = MathHelper.floor(box.minX);
@@ -428,6 +420,7 @@ public class HelicopterEntity extends Entity {
         return (float)(l + 1);
     }
 
+    // something to do with lily pads
     public float method_7548() {
         Box box = this.getBoundingBox();
         Box box2 = new Box(box.minX, box.minY - 0.001D, box.minZ, box.maxX, box.minY, box.maxZ);
@@ -450,7 +443,7 @@ public class HelicopterEntity extends Entity {
                         if (r <= 0 || s != k && s != l - 1) {
                             mutable.set(p, s, q);
                             BlockState blockState = this.world.getBlockState(mutable);
-                            if (!(blockState.getBlock() instanceof LilyPadBlock) && VoxelShapes.matchesAnywhere(blockState.getCollisionShape(this.world, mutable).offset((double)p, (double)s, (double)q), voxelShape, BooleanBiFunction.AND)) {
+                            if (!(blockState.getBlock() instanceof LilyPadBlock) && VoxelShapes.matchesAnywhere(blockState.getCollisionShape(this.world, mutable).offset(p, s, q), voxelShape, BooleanBiFunction.AND)) {
                                 f += blockState.getBlock().getSlipperiness();
                                 ++o;
                             }
@@ -482,7 +475,7 @@ public class HelicopterEntity extends Entity {
                     FluidState fluidState = this.world.getFluidState(mutable);
                     if (fluidState.isIn(FluidTags.WATER)) {
                         float f = (float)p + fluidState.getHeight(this.world, mutable);
-                        this.waterLevel = Math.max((double)f, this.waterLevel);
+                        this.waterLevel = Math.max(f, this.waterLevel);
                         bl |= box.minY < (double)f;
                     }
                 }
@@ -528,8 +521,9 @@ public class HelicopterEntity extends Entity {
         double d = -0.04D;
         double e = this.hasNoGravity() ? 0.0D : -0.04D;
         double f = 0.0D;
-        this.velocityDecay = 0.05F;
+        float velocityDecay = 0.05F;
         if (this.lastLocation == HelicopterEntity.Location.IN_AIR && this.location != HelicopterEntity.Location.IN_AIR && this.location != HelicopterEntity.Location.ON_LAND) {
+            // we plopped into the water
             this.waterLevel = this.getBodyY(1.0D);
             this.updatePosition(this.getX(), (double)(this.method_7544() - this.getHeight()) + 0.101D, this.getZ());
             this.setVelocity(this.getVelocity().multiply(1.0D, 0.0D, 1.0D));
@@ -538,25 +532,29 @@ public class HelicopterEntity extends Entity {
         } else {
             if (this.location == HelicopterEntity.Location.IN_WATER) {
                 f = (this.waterLevel - this.getY()) / (double)this.getHeight();
-                this.velocityDecay = 0.9F;
+                velocityDecay = 0.9F;
             } else if (this.location == HelicopterEntity.Location.UNDER_FLOWING_WATER) {
                 e = -7.0E-4D;
-                this.velocityDecay = 0.9F;
+                velocityDecay = 0.9F;
             } else if (this.location == HelicopterEntity.Location.UNDER_WATER) {
                 f = 0.01D;
-                this.velocityDecay = 0.45F;
+                velocityDecay = 0.45F;
             } else if (this.location == HelicopterEntity.Location.IN_AIR) {
-                this.velocityDecay = 0.9F;
+                velocityDecay = 0.9F;
             } else if (this.location == HelicopterEntity.Location.ON_LAND) {
-                this.velocityDecay = this.field_7714;
+                velocityDecay = this.field_7714;
                 if (this.getPrimaryPassenger() instanceof PlayerEntity) {
                     this.field_7714 /= 2.0F;
                 }
             }
 
+            // temporary
+//            velocityDecay = 1.0F;
+
             Vec3d vec3d = this.getVelocity();
-            this.setVelocity(vec3d.x * (double)this.velocityDecay, vec3d.y + e, vec3d.z * (double)this.velocityDecay);
-            this.yawVelocity *= this.velocityDecay;
+            // gradually slow down ...
+            this.setVelocity(vec3d.x * (double) velocityDecay, vec3d.y + e, vec3d.z * (double) velocityDecay);
+            this.yawVelocity *= velocityDecay;
             if (f > 0.0D) {
                 Vec3d vec3d2 = this.getVelocity();
                 this.setVelocity(vec3d2.x, (vec3d2.y + f * 0.06153846016296973D) * 0.75D, vec3d2.z);
@@ -595,10 +593,17 @@ public class HelicopterEntity extends Entity {
                 f -= 0.005F;
             }
 
-            this.setVelocity(this.getVelocity().add(
-                    (double)(MathHelper.sin(-this.yaw * 0.017453292F) * f),
-                    0.0D,
-                    (double)(MathHelper.cos(this.yaw * 0.017453292F) * f)));
+            // implementing vertical take-off for now
+            float v = 0.0F;
+            if (this.keyPressedUpArrow) {
+                v += 0.05F;
+            }
+
+
+                this.setVelocity(this.getVelocity().add(
+                    MathHelper.sin(-this.yaw * 0.017453292F) * f,
+                    v,  // vertical speed modifier
+                    MathHelper.cos(this.yaw * 0.017453292F) * f));
 //            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
         }
 
@@ -622,7 +627,7 @@ public class HelicopterEntity extends Entity {
                 }
             }
 
-            Vec3d vec3d = (new Vec3d((double)f, 0.0D, 0.0D)).rotateY(-this.yaw * 0.017453292F - 1.5707964F);
+            Vec3d vec3d = (new Vec3d(f, 0.0D, 0.0D)).rotateY(-this.yaw * 0.017453292F - 1.5707964F);
             passenger.updatePosition(this.getX() + vec3d.x, this.getY() + (double)g, this.getZ() + vec3d.z);
             passenger.yaw += this.yawVelocity;
             passenger.setHeadYaw(passenger.getHeadYaw() + this.yawVelocity);
@@ -637,7 +642,7 @@ public class HelicopterEntity extends Entity {
     }
 
     public Vec3d updatePassengerForDismount(LivingEntity passenger) {
-        Vec3d vec3d = getPassengerDismountOffset((double)(this.getWidth() * MathHelper.SQUARE_ROOT_OF_TWO), (double)passenger.getWidth(), this.yaw);
+        Vec3d vec3d = getPassengerDismountOffset(this.getWidth() * MathHelper.SQUARE_ROOT_OF_TWO, passenger.getWidth(), this.yaw);
         double d = this.getX() + vec3d.x;
         double e = this.getZ() + vec3d.z;
         BlockPos blockPos = new BlockPos(d, this.getBoundingBox().maxY, e);
@@ -740,7 +745,7 @@ public class HelicopterEntity extends Entity {
     }
 
     public float getDamageWobbleStrength() {
-        return (Float)this.dataTracker.get(DAMAGE_WOBBLE_STRENGTH);
+        return this.dataTracker.get(DAMAGE_WOBBLE_STRENGTH);
     }
 
     public void setDamageWobbleTicks(int wobbleTicks) {
@@ -748,7 +753,7 @@ public class HelicopterEntity extends Entity {
     }
 
     public int getDamageWobbleTicks() {
-        return (Integer)this.dataTracker.get(DAMAGE_WOBBLE_TICKS);
+        return this.dataTracker.get(DAMAGE_WOBBLE_TICKS);
     }
 
     private void setBubbleWobbleTicks(int wobbleTicks) {
@@ -756,20 +761,20 @@ public class HelicopterEntity extends Entity {
     }
 
     private int getBubbleWobbleTicks() {
-        return (Integer)this.dataTracker.get(BUBBLE_WOBBLE_TICKS);
+        return this.dataTracker.get(BUBBLE_WOBBLE_TICKS);
     }
 
-    @Environment(EnvType.CLIENT)
-    public float interpolateBubbleWobble(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.lastBubbleWobble, this.bubbleWobble);
-    }
+//    @Environment(EnvType.CLIENT)
+//    public float interpolateBubbleWobble(float tickDelta) {
+//        return MathHelper.lerp(tickDelta, this.lastBubbleWobble, this.bubbleWobble);
+//    }
 
     public void setDamageWobbleSide(int side) {
         this.dataTracker.set(DAMAGE_WOBBLE_SIDE, side);
     }
 
     public int getDamageWobbleSide() {
-        return (Integer)this.dataTracker.get(DAMAGE_WOBBLE_SIDE);
+        return this.dataTracker.get(DAMAGE_WOBBLE_SIDE);
     }
 
     protected boolean canAddPassenger(Entity passenger) {
@@ -779,7 +784,7 @@ public class HelicopterEntity extends Entity {
     @Nullable
     public Entity getPrimaryPassenger() {
         List<Entity> list = this.getPassengerList();
-        return list.isEmpty() ? null : (Entity)list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Environment(EnvType.CLIENT)
@@ -819,25 +824,19 @@ public class HelicopterEntity extends Entity {
     }
 
 
-    public static enum Location {
+    public enum Location {
         IN_WATER,
         UNDER_WATER,
         UNDER_FLOWING_WATER,
         ON_LAND,
-        IN_AIR;
-
-        private Location() {
-        }
+        IN_AIR
     }
 
-    public static enum KeyPress {
+    public enum KeyPress {
         KEY_UP_ARROW,
         KEY_DOWN_ARROW,
         KEY_LEFT_ARROW,
-        KEY_RIGHT_ARROW;
-
-        private KeyPress() {
-        }
+        KEY_RIGHT_ARROW
     }
 
     // TODO cleaner interface to define multiple keys

@@ -15,6 +15,17 @@ optional:
   - aluminium
 
 
+motion planning:
+- "1" up/down does takeoff/landing  
+  concepts of "flying" / "not flying"  
+  optional: visuals/audibles
+- "2" WASD does pitch/roll
+- "3" move follows pitch/roll  
+  while stationary, A/D does a "strafe"
+  while moving, A/D does a banked curve
+- "4" L/R keys do stationary yaw  
+  (& while moving, slows you down & maybe off-bank & maybe crash)
+
 ---
 
 Done:
