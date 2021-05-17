@@ -48,7 +48,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.lwjgl.system.CallbackI;
 
+import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_DOWN_ARROW;
 import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_UP_ARROW;
 
 
@@ -73,6 +75,8 @@ public class HelicopterEntity extends Entity {
     private float field_7714;
     private HelicopterEntity.Location location;
     private HelicopterEntity.Location lastLocation;
+    private HelicopterEntity.Flying flying = Flying.NOT_FLYING;
+    private HelicopterEntity.Flying lastFlying = Flying.NOT_FLYING;
     private double fallVelocity;
     private boolean onBubbleColumnSurface;
     private boolean bubbleColumnIsDrag;
@@ -214,11 +218,26 @@ public class HelicopterEntity extends Entity {
 
     public void tick() {
         this.lastLocation = this.location;
+        this.lastFlying = this.flying;
         this.location = this.checkLocation();
         if (this.location != HelicopterEntity.Location.UNDER_WATER && this.location != HelicopterEntity.Location.UNDER_FLOWING_WATER) {
             this.ticksUnderwater = 0.0F;
         } else {
             ++this.ticksUnderwater;
+        }
+
+        if (this.location == Location.IN_AIR && this.getPrimaryPassenger() instanceof PlayerEntity) {
+            this.flying = Flying.IS_FLYING;
+        } else {
+            this.flying = Flying.NOT_FLYING;
+        }
+
+        if (lastFlying != flying) {
+            if (flying == Flying.IS_FLYING) {
+                System.out.println("take-off!!!");
+            } else {
+                System.out.println("landing!!!");
+            }
         }
 
         if (!this.world.isClient && this.ticksUnderwater >= 60.0F) {
@@ -518,6 +537,10 @@ public class HelicopterEntity extends Entity {
         return bl ? HelicopterEntity.Location.UNDER_WATER : null;
     }
 
+    // doing it properly ;-)
+    final static float VERTICAL_ACCELERATION = 0.05F;
+
+
     private void updateVelocity() {
         double d = -0.04D;
         double e = this.hasNoGravity() ? 0.0D : -0.04D;
@@ -549,12 +572,21 @@ public class HelicopterEntity extends Entity {
                 }
             }
 
-            // temporary
+            if (this.getPrimaryPassenger() instanceof PlayerEntity) {
+                // we're in the helicopter
+                e = 0.0D;
+            } else {
+                // wot no pilot!
+                // leave variables as-is, and helicopter will gradually stop + fall
+            }
+
+
+                // temporary
 //            velocityDecay = 1.0F;
 
             Vec3d vec3d = this.getVelocity();
             // gradually slow down ...
-            this.setVelocity(vec3d.x * (double) velocityDecay, vec3d.y + e, vec3d.z * (double) velocityDecay);
+            this.setVelocity(vec3d.x * (double) velocityDecay, vec3d.y * (double) velocityDecay + e, vec3d.z * (double) velocityDecay);
             this.yawVelocity *= velocityDecay;
             if (f > 0.0D) {
                 Vec3d vec3d2 = this.getVelocity();
@@ -563,6 +595,7 @@ public class HelicopterEntity extends Entity {
         }
 
     }
+
 
     private void updateMotion() {
         if (this.hasPassengers()) {
@@ -596,19 +629,19 @@ public class HelicopterEntity extends Entity {
 
             // implementing vertical take-off for now
             float v = 0.0F;
-//            if (this.keyPressedUpArrow) {
-//                v += 0.05F;
-//            }
+            if (helicopterControlsIsPressed(KEY_UP_ARROW)) {
+                v += VERTICAL_ACCELERATION;
+            }
+            if (helicopterControlsIsPressed(KEY_DOWN_ARROW)) {
+                v -= VERTICAL_ACCELERATION;
+            }
 
-
-                this.setVelocity(this.getVelocity().add(
+            this.setVelocity(this.getVelocity().add(
                     MathHelper.sin(-this.yaw * 0.017453292F) * f,
                     v,  // vertical speed modifier
                     MathHelper.cos(this.yaw * 0.017453292F) * f));
 //            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
         }
-
-//        clearCustomKeys();
     }
 
     public void updatePassengerPosition(Entity passenger) {
@@ -808,11 +841,11 @@ public class HelicopterEntity extends Entity {
     public boolean playerTickRiding(Input input) {
         setInputs(input.pressingLeft, input.pressingRight, input.pressingForward, input.pressingBack);
 
-        if (HelicopterModClientInitializer.getHelicopterControls().isPressed(KEY_UP_ARROW)) {
-            System.out.println("hello Humphrey");
-        }
-
         return false;
+    }
+
+    boolean helicopterControlsIsPressed(HelicopterControls.KeyPress keyPress) {
+        return HelicopterModClientInitializer.getHelicopterControls().isPressed(keyPress);
     }
 
 
@@ -837,4 +870,8 @@ public class HelicopterEntity extends Entity {
         IN_AIR
     }
 
+    public enum Flying {
+        IS_FLYING,
+        NOT_FLYING
+    }
 }
