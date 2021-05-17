@@ -49,6 +49,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
+import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_UP_ARROW;
 
 
 public class HelicopterEntity extends Entity {
@@ -595,9 +596,9 @@ public class HelicopterEntity extends Entity {
 
             // implementing vertical take-off for now
             float v = 0.0F;
-            if (this.keyPressedUpArrow) {
-                v += 0.05F;
-            }
+//            if (this.keyPressedUpArrow) {
+//                v += 0.05F;
+//            }
 
 
                 this.setVelocity(this.getVelocity().add(
@@ -607,7 +608,7 @@ public class HelicopterEntity extends Entity {
 //            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
         }
 
-        clearCustomKeys();
+//        clearCustomKeys();
     }
 
     public void updatePassengerPosition(Entity passenger) {
@@ -807,6 +808,10 @@ public class HelicopterEntity extends Entity {
     public boolean playerTickRiding(Input input) {
         setInputs(input.pressingLeft, input.pressingRight, input.pressingForward, input.pressingBack);
 
+        if (HelicopterModClientInitializer.getHelicopterControls().isPressed(KEY_UP_ARROW)) {
+            System.out.println("hello Humphrey");
+        }
+
         return false;
     }
 
@@ -830,42 +835,6 @@ public class HelicopterEntity extends Entity {
         UNDER_FLOWING_WATER,
         ON_LAND,
         IN_AIR
-    }
-
-    public enum KeyPress {
-        KEY_UP_ARROW,
-        KEY_DOWN_ARROW,
-        KEY_LEFT_ARROW,
-        KEY_RIGHT_ARROW
-    }
-
-    // TODO cleaner interface to define multiple keys
-//    private boolean testKeyPressed = false;
-//    public void customKeyPressed (KeyBinding keyBinding) {
-//        System.out.println("got a key "+keyBinding.getTranslationKey());
-//        testKeyPressed=true;
-//    }
-
-    private boolean keyPressedUpArrow = false;
-    private boolean keyPressedDownArrow = false;
-    private boolean keyPressedLeftArrow = false;
-    private boolean keyPressedRightArrow = false;
-
-
-    public void customKeyPressed (KeyPress keyPress) {
-        switch(keyPress) {
-            case KEY_UP_ARROW: keyPressedUpArrow = true; break;
-            case KEY_DOWN_ARROW: keyPressedDownArrow = true; break;
-            case KEY_LEFT_ARROW: keyPressedLeftArrow = true; break;
-            case KEY_RIGHT_ARROW: keyPressedRightArrow = true; break;
-        }
-    }
-
-    private void clearCustomKeys () {
-        keyPressedUpArrow = false;
-        keyPressedDownArrow = false;
-        keyPressedLeftArrow = false;
-        keyPressedRightArrow = false;
     }
 
 }

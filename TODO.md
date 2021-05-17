@@ -6,17 +6,15 @@ TODO list
 - height of base?
 - size of hitbox (should be smaller?)
 - make it fly
-  - basic: up with sprint?
-  - custom key commands?
 - placement rules (?)
 - icon
 - cleanup
 optional:
   - aluminium
 
-
 motion planning:
-- "1" up/down does takeoff/landing  
+- "1" up/down does takeoff/landing
+  - start engine key?
   concepts of "flying" / "not flying"  
   optional: visuals/audibles
 - "2" WASD does pitch/roll
@@ -36,4 +34,5 @@ Done:
 - fix player height in vehicle when mounted / edit model
 - craft from parts
 - use the fine texture
+- custom key commands
 

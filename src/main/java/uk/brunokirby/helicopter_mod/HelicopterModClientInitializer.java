@@ -32,7 +32,7 @@ import java.util.TreeMap;
 @Environment(EnvType.CLIENT)
 public class HelicopterModClientInitializer implements ClientModInitializer {
 
-    private static Map<KeyBinding, HelicopterEntity.KeyPress> keyMapping = new TreeMap<>();
+    public static HelicopterControls helicopterControls;
 
     @Override
     public void onInitializeClient() {
@@ -46,47 +46,10 @@ public class HelicopterModClientInitializer implements ClientModInitializer {
                 (dispatcher, context) -> new HelicopterEntityRenderer(dispatcher)
         );
 
-        // register key bindings
-        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_UP, "key.helicopter_mod.up_arrow"), HelicopterEntity.KeyPress.KEY_UP_ARROW);
-        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_DOWN, "key.helicopter_mod.down_arrow"), HelicopterEntity.KeyPress.KEY_DOWN_ARROW);
-        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_LEFT, "key.helicopter_mod.left_arrow"), HelicopterEntity.KeyPress.KEY_LEFT_ARROW);
-        keyMapping.put(registerKeyBinding(GLFW.GLFW_KEY_RIGHT, "key.helicopter_mod.right_arrow"), HelicopterEntity.KeyPress.KEY_RIGHT_ARROW);
-
-        // create handler for key binding
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            for (KeyBinding keyBinding: keyMapping.keySet()) {
-                while (keyBinding.wasPressed()) {
-                    client.player.sendMessage(new LiteralText("test: Key " + keyMapping.get(keyBinding)
-                            + " was pressed!"), false);
-                    handleKey(client.player, keyBinding);
-                }
-            }
-        });
+        helicopterControls = new HelicopterControls();
     }
 
-    private static KeyBinding registerKeyBinding(int keyCode, String translationKey) {
-        return KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                translationKey, // The translation key of the keybinding's name
-                InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                keyCode, // The keycode of the key
-                "category.helicopter_mod.custom_keys" // The translation key of the keybinding's category.
-        ));
-    }
-
-    // Get Helicopter entity (via reflection to get private 'vehicle')
-    // and pass it the decoded KeyBinding
-    private void handleKey(ClientPlayerEntity clientPlayerEntity, KeyBinding keyBinding) {
-        try {
-            Field f = Entity.class.getDeclaredField("vehicle");
-            f.setAccessible(true);
-            Entity vehicle = (Entity)f.get(clientPlayerEntity);
-            if (vehicle instanceof HelicopterEntity) {
-                HelicopterEntity helicopterEntity = (HelicopterEntity)vehicle;
-                System.out.println("custom helicopter keypress: "+keyBinding.getTranslationKey());
-                helicopterEntity.customKeyPressed(keyMapping.get(keyBinding));
-            }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+    public static HelicopterControls getHelicopterControls() {
+        return helicopterControls;
     }
 }
