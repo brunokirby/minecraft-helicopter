@@ -26,22 +26,23 @@ public class HelicopterEntityRenderer extends EntityRenderer<HelicopterEntity> {
         this.shadowRadius = 0.8F;
     }
 
-    public void render(HelicopterEntity helicopterEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    public void render(HelicopterEntity helicopterEntity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
         matrixStack.translate(0.0D, 1.375D, 0.0D);
-        matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F - f));
+        matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F - yaw));
 
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
         matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
 
         // TODO we probably don't want setAngles when it stops being a mob!
-        this.model.setAngles(helicopterEntity, g, 0.0F, -0.1F, 0.0F, 0.0F);
+//        this.model.setAngles(helicopterEntity, yaw, tickDelta);
+        this.model.animateModel(helicopterEntity, 0, 0, tickDelta);
 
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(this.getTexture(helicopterEntity)));
         this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 
         matrixStack.pop();
-        super.render(helicopterEntity, f, g, matrixStack, vertexConsumerProvider, i);
+        super.render(helicopterEntity, yaw, tickDelta, matrixStack, vertexConsumerProvider, i);
     }
 
     @Override

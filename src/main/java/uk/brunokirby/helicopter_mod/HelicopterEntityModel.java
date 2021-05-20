@@ -6,6 +6,8 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+
+import static uk.brunokirby.helicopter_mod.HelicopterEntity.Flying.IS_FLYING;
 // Made with Blockbench 3.8.2
 // Exported for Minecraft version 1.15
 // Paste this class into your mod and generate all required imports
@@ -274,7 +276,16 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 
 	@Override
 	public void setAngles(HelicopterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
-		//previously the render function, render code was moved to a method below
+	}
+
+
+	public void animateModel(HelicopterEntity entity, float limbAngle, float limbDistance, float tickDelta) {
+		if (entity.getFlying() == IS_FLYING) {
+			float animationProgress = (float) entity.age + tickDelta;
+			main_rotors.yaw = animationProgress / 2.0F;
+		} else {
+			main_rotors.yaw = (float) Math.PI / 4.0F;
+		}
 	}
 
 	@Override

@@ -90,6 +90,8 @@ public class HelicopterEntity extends Entity {
         System.out.println("I'm a new Helicopter!!!");
     }
 
+    public HelicopterEntity.Flying getFlying() { return flying; }
+
     public void moveTo (Vec3d position) {
         updatePosition(position.x, position.y, position.z);
         setVelocity(Vec3d.ZERO);
