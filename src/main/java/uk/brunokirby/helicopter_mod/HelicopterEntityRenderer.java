@@ -34,8 +34,7 @@ public class HelicopterEntityRenderer extends EntityRenderer<HelicopterEntity> {
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
         matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
 
-        // TODO we probably don't want setAngles when it stops being a mob!
-//        this.model.setAngles(helicopterEntity, yaw, tickDelta);
+        // animate
         this.model.animateModel(helicopterEntity, 0, 0, tickDelta);
 
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(this.getTexture(helicopterEntity)));
