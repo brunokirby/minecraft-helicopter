@@ -1,5 +1,5 @@
-// Made with Blockbench 3.8.2
-// Exported for Minecraft version 1.15
+// Made with Blockbench 3.8.4
+// Exported for Minecraft version 1.15 - 1.16
 // Paste this class into your mod and generate all required imports
 
 
@@ -140,30 +140,30 @@ public class helicopter_entity_model extends EntityModel<Entity> {
 		cube_r10.setTextureOffset(0, 35).addBox(-5.0F, -19.0F, -1.0F, 9.0F, 19.0F, 2.0F, 0.0F, false);
 
 		secondary_rotors = new ModelRenderer(this);
-		secondary_rotors.setRotationPoint(0.0F, 2.0F, 0.0F);
+		secondary_rotors.setRotationPoint(58.0F, -28.0F, -3.0F);
 		full_heli.addChild(secondary_rotors);
-		secondary_rotors.setTextureOffset(114, 21).addBox(56.0F, -32.0F, -4.0F, 4.0F, 4.0F, 3.0F, 0.0F, false);
+		secondary_rotors.setTextureOffset(114, 21).addBox(-2.0F, -2.0F, -1.0F, 4.0F, 4.0F, 3.0F, 0.0F, false);
 
 		secondary_rotors_top_r1 = new ModelRenderer(this);
-		secondary_rotors_top_r1.setRotationPoint(58.0F, -32.0F, -3.0F);
+		secondary_rotors_top_r1.setRotationPoint(0.0F, -2.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotors_top_r1);
 		setRotationAngle(secondary_rotors_top_r1, -0.3927F, 0.0F, 1.5708F);
 		secondary_rotors_top_r1.setTextureOffset(108, 21).addBox(-9.0F, -1.0F, 0.0F, 9.0F, 2.0F, 1.0F, 0.0F, false);
 
 		secondary_rotors_front_r1 = new ModelRenderer(this);
-		secondary_rotors_front_r1.setRotationPoint(56.0F, -30.0F, -3.0F);
+		secondary_rotors_front_r1.setRotationPoint(-2.0F, 0.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotors_front_r1);
 		setRotationAngle(secondary_rotors_front_r1, -0.3927F, 0.0F, 0.0F);
 		secondary_rotors_front_r1.setTextureOffset(108, 21).addBox(-9.0F, -1.0F, 0.0F, 9.0F, 2.0F, 1.0F, 0.0F, false);
 
 		secondary_rotorsback_r1 = new ModelRenderer(this);
-		secondary_rotorsback_r1.setRotationPoint(69.0F, -30.0F, -3.0F);
+		secondary_rotorsback_r1.setRotationPoint(11.0F, 0.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotorsback_r1);
 		setRotationAngle(secondary_rotorsback_r1, 0.3927F, 0.0F, 0.0F);
 		secondary_rotorsback_r1.setTextureOffset(108, 21).addBox(-9.0F, -1.0F, 0.0F, 9.0F, 2.0F, 1.0F, 0.0F, false);
 
 		secondary_rotors_bottom_r1 = new ModelRenderer(this);
-		secondary_rotors_bottom_r1.setRotationPoint(58.0F, -19.0F, -3.0F);
+		secondary_rotors_bottom_r1.setRotationPoint(0.0F, 11.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotors_bottom_r1);
 		setRotationAngle(secondary_rotors_bottom_r1, 0.3927F, 0.0F, 1.5708F);
 		secondary_rotors_bottom_r1.setTextureOffset(108, 21).addBox(-9.0F, -1.0F, 0.0F, 9.0F, 2.0F, 1.0F, 0.0F, false);
@@ -230,30 +230,30 @@ public class helicopter_entity_model extends EntityModel<Entity> {
 		l_outer_wheel_stalk_r1.setTextureOffset(114, 30).addBox(-1.0F, -1.0F, 0.0F, 1.0F, 7.0F, 1.0F, 0.0F, false);
 
 		main_rotors = new ModelRenderer(this);
-		main_rotors.setRotationPoint(0.0F, 0.0F, 0.0F);
+		main_rotors.setRotationPoint(8.1F, -31.7F, 0.0F);
 		full_heli.addChild(main_rotors);
-		main_rotors.setTextureOffset(112, 21).addBox(6.0F, -32.0F, -2.0F, 4.0F, 3.0F, 4.0F, 0.0F, false);
+		main_rotors.setTextureOffset(112, 21).addBox(-2.1F, -0.3F, -2.0F, 4.0F, 3.0F, 4.0F, 0.0F, false);
 
 		main_rotors_right_r1 = new ModelRenderer(this);
-		main_rotors_right_r1.setRotationPoint(8.0F, -30.0F, 3.0F);
+		main_rotors_right_r1.setRotationPoint(-0.1F, 1.7F, 3.0F);
 		main_rotors.addChild(main_rotors_right_r1);
 		setRotationAngle(main_rotors_right_r1, -0.3927F, 1.5708F, 0.0F);
 		main_rotors_right_r1.setTextureOffset(56, 20).addBox(-33.0F, -1.0F, -1.0F, 34.0F, 1.0F, 2.0F, 0.0F, false);
 
 		main_rotors_front_r1 = new ModelRenderer(this);
-		main_rotors_front_r1.setRotationPoint(6.0F, -30.0F, 0.0F);
+		main_rotors_front_r1.setRotationPoint(-2.1F, 1.7F, 0.0F);
 		main_rotors.addChild(main_rotors_front_r1);
 		setRotationAngle(main_rotors_front_r1, -0.3927F, 0.0F, 0.0F);
 		main_rotors_front_r1.setTextureOffset(56, 21).addBox(-33.0F, -1.0F, -1.0F, 34.0F, 1.0F, 2.0F, 0.0F, false);
 
 		main_rotors_left_r1 = new ModelRenderer(this);
-		main_rotors_left_r1.setRotationPoint(8.0F, -30.0F, -35.0F);
+		main_rotors_left_r1.setRotationPoint(-0.1F, 1.7F, -35.0F);
 		main_rotors.addChild(main_rotors_left_r1);
 		setRotationAngle(main_rotors_left_r1, 0.3927F, 1.5708F, 0.0F);
 		main_rotors_left_r1.setTextureOffset(56, 20).addBox(-33.0F, -1.0F, -1.0F, 34.0F, 1.0F, 2.0F, 0.0F, false);
 
 		main_rotors_back_r1 = new ModelRenderer(this);
-		main_rotors_back_r1.setRotationPoint(43.0F, -30.0F, 0.0F);
+		main_rotors_back_r1.setRotationPoint(34.9F, 1.7F, 0.0F);
 		main_rotors.addChild(main_rotors_back_r1);
 		setRotationAngle(main_rotors_back_r1, 0.3927F, 0.0F, 0.0F);
 		main_rotors_back_r1.setTextureOffset(56, 20).addBox(-33.0F, -1.0F, -1.0F, 34.0F, 1.0F, 2.0F, 0.0F, false);

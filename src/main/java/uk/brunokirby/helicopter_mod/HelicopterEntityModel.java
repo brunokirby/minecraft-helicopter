@@ -6,10 +6,8 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-
-import static uk.brunokirby.helicopter_mod.HelicopterEntity.Flying.IS_FLYING;
-// Made with Blockbench 3.8.2
-// Exported for Minecraft version 1.15
+// Made with Blockbench 3.8.4
+// Exported for Minecraft version 1.15 - 1.16
 // Paste this class into your mod and generate all required imports
 
 
@@ -151,31 +149,31 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		cube_r10.addCuboid("banana", -5.0F, -19.0F, -1.0F, 9, 19, 2, 0.0F, 0, 35);
 
 		secondary_rotors = new ModelPart(this);
-		secondary_rotors.setPivot(0.0F, 2.0F, 0.0F);
+		secondary_rotors.setPivot(58.0F, -28.0F, -3.0F);
 		full_heli.addChild(secondary_rotors);
-		secondary_rotors.addCuboid("banana", 56.0F, -32.0F, -4.0F, 4, 4, 3, 0.0F, 114, 21);
+		secondary_rotors.addCuboid("banana", -2.0F, -2.0F, -1.0F, 4, 4, 3, 0.0F, 114, 21);
 
 		secondary_rotors_top_r1 = new ModelPart(this);
-		secondary_rotors_top_r1.setPivot(58.0F, -32.0F, -3.0F);
+		secondary_rotors_top_r1.setPivot(0.0F, -2.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotors_top_r1);
 		secondary_rotors_top_r1.pitch = -0.3927F;
 		secondary_rotors_top_r1.roll = 1.5708F;
 		secondary_rotors_top_r1.addCuboid("banana", -9.0F, -1.0F, 0.0F, 9, 2, 1, 0.0F, 108, 21);
 
 		secondary_rotors_front_r1 = new ModelPart(this);
-		secondary_rotors_front_r1.setPivot(56.0F, -30.0F, -3.0F);
+		secondary_rotors_front_r1.setPivot(-2.0F, 0.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotors_front_r1);
 		secondary_rotors_front_r1.pitch = -0.3927F;
 		secondary_rotors_front_r1.addCuboid("banana", -9.0F, -1.0F, 0.0F, 9, 2, 1, 0.0F, 108, 21);
 
 		secondary_rotorsback_r1 = new ModelPart(this);
-		secondary_rotorsback_r1.setPivot(69.0F, -30.0F, -3.0F);
+		secondary_rotorsback_r1.setPivot(11.0F, 0.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotorsback_r1);
 		secondary_rotorsback_r1.pitch = 0.3927F;
 		secondary_rotorsback_r1.addCuboid("banana", -9.0F, -1.0F, 0.0F, 9, 2, 1, 0.0F, 108, 21);
 
 		secondary_rotors_bottom_r1 = new ModelPart(this);
-		secondary_rotors_bottom_r1.setPivot(58.0F, -19.0F, -3.0F);
+		secondary_rotors_bottom_r1.setPivot(0.0F, 11.0F, 0.0F);
 		secondary_rotors.addChild(secondary_rotors_bottom_r1);
 		secondary_rotors_bottom_r1.pitch = 0.3927F;
 		secondary_rotors_bottom_r1.roll = 1.5708F;
@@ -243,32 +241,32 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		l_outer_wheel_stalk_r1.addCuboid("banana", -1.0F, -1.0F, 0.0F, 1, 7, 1, 0.0F, 114, 30);
 
 		main_rotors = new ModelPart(this);
-		main_rotors.setPivot(0.0F, 0.0F, 0.0F);
+		main_rotors.setPivot(8.1F, -31.7F, 0.0F);
 		full_heli.addChild(main_rotors);
-		main_rotors.addCuboid("banana", 6.0F, -32.0F, -2.0F, 4, 3, 4, 0.0F, 112, 21);
+		main_rotors.addCuboid("banana", -2.1F, -0.3F, -2.0F, 4, 3, 4, 0.0F, 112, 21);
 
 		main_rotors_right_r1 = new ModelPart(this);
-		main_rotors_right_r1.setPivot(8.0F, -30.0F, 3.0F);
+		main_rotors_right_r1.setPivot(-0.1F, 1.7F, 3.0F);
 		main_rotors.addChild(main_rotors_right_r1);
 		main_rotors_right_r1.pitch = -0.3927F;
 		main_rotors_right_r1.yaw = 1.5708F;
 		main_rotors_right_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 20);
 
 		main_rotors_front_r1 = new ModelPart(this);
-		main_rotors_front_r1.setPivot(6.0F, -30.0F, 0.0F);
+		main_rotors_front_r1.setPivot(-2.1F, 1.7F, 0.0F);
 		main_rotors.addChild(main_rotors_front_r1);
 		main_rotors_front_r1.pitch = -0.3927F;
 		main_rotors_front_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 21);
 
 		main_rotors_left_r1 = new ModelPart(this);
-		main_rotors_left_r1.setPivot(8.0F, -30.0F, -35.0F);
+		main_rotors_left_r1.setPivot(-0.1F, 1.7F, -35.0F);
 		main_rotors.addChild(main_rotors_left_r1);
 		main_rotors_left_r1.pitch = 0.3927F;
 		main_rotors_left_r1.yaw = 1.5708F;
 		main_rotors_left_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 20);
 
 		main_rotors_back_r1 = new ModelPart(this);
-		main_rotors_back_r1.setPivot(43.0F, -30.0F, 0.0F);
+		main_rotors_back_r1.setPivot(34.9F, 1.7F, 0.0F);
 		main_rotors.addChild(main_rotors_back_r1);
 		main_rotors_back_r1.pitch = 0.3927F;
 		main_rotors_back_r1.addCuboid("banana", -33.0F, -1.0F, -1.0F, 34, 1, 2, 0.0F, 56, 20);
@@ -276,24 +274,24 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 
 	@Override
 	public void setAngles(HelicopterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
-	}
-
-
-	public void animateModel(HelicopterEntity entity, float limbAngle, float limbDistance, float tickDelta) {
-		if (entity.getFlying() == IS_FLYING) {
-			float animationProgress = (float) entity.age + tickDelta;
-			main_rotors.yaw = animationProgress / 2.0F;
-		} else {
-			main_rotors.yaw = (float) Math.PI / 4.0F;
-		}
+		//previously the render function, render code was moved to a method below
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		full_heli.yaw = (float) Math.PI;
+        // hack to reverse the entire helicopter
+        full_heli.yaw = (float) Math.PI;
 		full_heli.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 
+    public void animateModel(HelicopterEntity entity, float limbAngle, float limbDistance, float tickDelta) {
+       if (entity.getFlying() == HelicopterEntity.Flying.IS_FLYING) {
+            float animationProgress = (float) entity.age + tickDelta;
+            main_rotors.yaw = animationProgress / 2.0F;
+        } else {
+            main_rotors.yaw = (float) Math.PI / 4.0F;
+        }
+    }
 
 
 

@@ -101,9 +101,20 @@ public class BlockbenchConverter {
             return original.replaceAll(
                     "setRotationAngles\\(Entity",
                     "setAngles(HelicopterEntity");
-        }else if (original.contains("public void setRotationAngle(ModelRenderer modelRenderer")) {
+        } else if (original.contains(".render")) {
+            return  "        // hack to reverse the entire helicopter\n"
+                    +"        full_heli.yaw = (float) Math.PI;\n"
+                    + original;
+        } else if (original.contains("public void setRotationAngle(ModelRenderer modelRenderer")) {
             deleteNextLine = true;
-            return "";
+            return "    public void animateModel(HelicopterEntity entity, float limbAngle, float limbDistance, float tickDelta) {\n"
+                +"       if (entity.getFlying() == HelicopterEntity.Flying.IS_FLYING) {\n"
+                +"            float animationProgress = (float) entity.age + tickDelta;\n"
+                +"            main_rotors.yaw = animationProgress / 2.0F;\n"
+                +"        } else {\n"
+                +"            main_rotors.yaw = (float) Math.PI / 4.0F;\n"
+                +"        }\n"
+                +"    }\n";
         } else if (deleteNextLine) {
             if (original.contains("}")) {
                 deleteNextLine = false;
