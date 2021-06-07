@@ -116,15 +116,16 @@ public class HelicopterEntity extends Entity {
     }
 
     public boolean collidesWith(Entity other) {
-        return method_30959(this, other);
+//        return method_30959(this, other);
+        return (other.isCollidable() || other.isPushable()) && !this.isConnectedThroughVehicle(other);
     }
 
-    public static boolean method_30959(Entity entity, Entity entity2) {
-        return (entity2.isCollidable() || entity2.isPushable()) && !entity.isConnectedThroughVehicle(entity2);
-    }
+//    public static boolean method_30959(Entity entity, Entity entity2) {
+//        return (entity2.isCollidable() || entity2.isPushable()) && !entity.isConnectedThroughVehicle(entity2);
+//    }
 
     public boolean isCollidable() {
-        return false;
+        return true;
     }
 
     public boolean isPushable() {
