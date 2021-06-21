@@ -4,13 +4,14 @@ TODO list
 
 - what should it drop if broken? parts (rotor etc)? 
 - height of base?
-- position after dismount  
 - make it fly
 - placement rules (?)
 - icon
 - cleanup
 - transparent floor
 - sounds
+- Minecraft 1.17 etc
+- helicopter landing on head should be fatal
 optional:
   - aluminium
 
@@ -36,6 +37,7 @@ Done:
 - use the fine texture
 - custom key commands
 - size of hitbox
+- position after dismount
 
 motion planning:
 - "1" up/down does takeoff/landing

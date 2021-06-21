@@ -3,7 +3,9 @@ package uk.brunokirby.helicopter_mod;
 import com.google.common.collect.UnmodifiableIterator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
 import net.minecraft.client.input.Input;
@@ -24,6 +26,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -48,7 +51,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.system.CallbackI;
 
 import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_DOWN_ARROW;
 import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_UP_ARROW;
@@ -679,33 +681,33 @@ public class HelicopterEntity extends Entity {
     }
 
     public Vec3d updatePassengerForDismount(LivingEntity passenger) {
-        Vec3d vec3d = getPassengerDismountOffset(this.getWidth() * MathHelper.SQUARE_ROOT_OF_TWO, passenger.getWidth(), this.yaw);
-        double d = this.getX() + vec3d.x;
-        double e = this.getZ() + vec3d.z;
-        BlockPos blockPos = new BlockPos(d, this.getBoundingBox().maxY, e);
-        BlockPos blockPos2 = blockPos.down();
-        if (!this.world.isWater(blockPos2)) {
-            double f = (double)blockPos.getY() + this.world.getDismountHeight(blockPos);
-            double g = (double)blockPos.getY() + this.world.getDismountHeight(blockPos2);
-            UnmodifiableIterator var13 = passenger.getPoses().iterator();
 
-            while(var13.hasNext()) {
-                EntityPose entityPose = (EntityPose)var13.next();
-                Vec3d vec3d2 = Dismounting.findDismountPos(this.world, d, f, e, passenger, entityPose);
-                if (vec3d2 != null) {
-                    passenger.setPose(entityPose);
-                    return vec3d2;
-                }
+        // separation is half sum of diagonals
+        float separation = (this.getWidth() + passenger.getWidth() + 0.01F) / 2.0F * MathHelper.SQUARE_ROOT_OF_TWO;
 
-                Vec3d vec3d3 = Dismounting.findDismountPos(this.world, d, g, e, passenger, entityPose);
-                if (vec3d3 != null) {
-                    passenger.setPose(entityPose);
-                    return vec3d3;
-                }
-            }
+        // we dismount on the right-hand side
+        float yaw_offset = 90.0f;
+
+        float xOffset = - separation * MathHelper.sin((this.yaw + yaw_offset) * (float)Math.PI / 180.0F);
+        float zOffset = separation * MathHelper.cos((this.yaw + yaw_offset) * (float)Math.PI / 180.0F);
+        Vec3d attemptedDismount = new Vec3d(this.getX() + xOffset, this.getY() + 0.0F, this.getZ() + zOffset);
+
+        // correct for blocks in the way
+        // (NB this isn't perfect because it doesn't check for partial blocks, or entities)
+        int groundHeight = getGroundHeight(attemptedDismount);
+        return new Vec3d(attemptedDismount.getX(), (double)groundHeight, attemptedDismount.getZ());
+    }
+
+    // find the nearest ground above a position
+    protected int getGroundHeight(Vec3d vec3d) {
+        int x = MathHelper.floor(vec3d.x);
+        int y = MathHelper.floor(vec3d.y - 0.2D);
+        int z = MathHelper.floor(vec3d.z);
+        BlockPos blockPos = new BlockPos(x, y, z);
+        while (!this.world.getBlockState(blockPos).isAir()) {
+            blockPos = blockPos.up();
         }
-
-        return super.updatePassengerForDismount(passenger);
+        return blockPos.getY();
     }
 
     protected void copyEntityData(Entity entity) {
