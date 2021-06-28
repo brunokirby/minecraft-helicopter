@@ -20,13 +20,13 @@ import java.util.TreeMap;
 /*
  * "client" entrypoint e.g. in fabric.mod.json
 ```
-"entrypoints": {
-    "main": [  ... ],
+  "entrypoints": {
     "client": [
-        "org.anthony.experiment.GorillaModClient"
+        "uk.brunokirby.helicopter_mod.HelicopterModClientInitializer"
     ]
   }
 ```
+
  */
 
 @Environment(EnvType.CLIENT)

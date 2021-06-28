@@ -17,8 +17,9 @@ import net.minecraft.util.registry.Registry;
 ```
   "entrypoints": {
     "main": [
-      "org.anthony.gorilla_mod.GorillaMod"
-    ]
+      "uk.brunokirby.helicopter_mod.HelicopterModInitializer"
+    ],
+    ...
   }
 ```
  */
@@ -41,16 +42,11 @@ public class HelicopterModInitializer implements ModInitializer {
 
 	// NB don't register an Item for Helicopter: we create a custom class
 
-//	public static final Item CANOE_ITEM = new Item(new FabricItemSettings().group(ItemGroup.MISC));
-
-
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-
-		System.out.println("Hello Fabric world with a Helicopter!");
 
 		// NB we don't need to register "Attributes" because they're specific to LivingEntity
 

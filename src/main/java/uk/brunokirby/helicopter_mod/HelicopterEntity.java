@@ -1,11 +1,8 @@
 package uk.brunokirby.helicopter_mod;
 
-import com.google.common.collect.UnmodifiableIterator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
 import net.minecraft.client.input.Input;
@@ -26,7 +23,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -39,7 +35,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import net.minecraft.entity.Dismounting;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -89,7 +84,6 @@ public class HelicopterEntity extends Entity {
     public HelicopterEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
         this.inanimate = true;
-        System.out.println("I'm a new Helicopter!!!");
     }
 
     public HelicopterEntity.Flying getFlying() { return flying; }
@@ -239,9 +233,9 @@ public class HelicopterEntity extends Entity {
 
         if (lastFlying != flying) {
             if (flying == Flying.IS_FLYING) {
-                System.out.println("take-off!!!");
+                // take-off!
             } else {
-                System.out.println("landing!!!");
+                // landed!
             }
         }
 

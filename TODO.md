@@ -1,17 +1,18 @@
 TODO list
 =========
 
-
 - what should it drop if broken? parts (rotor etc)? 
 - height of base?
 - make it fly
 - placement rules (?)
-- icon
+- icon for helicopter
 - cleanup
 - transparent floor
 - sounds
 - Minecraft 1.17 etc
 - helicopter landing on head should be fatal
+- make a release / zipfile
+- write a README / documentation for github
 optional:
   - aluminium
 

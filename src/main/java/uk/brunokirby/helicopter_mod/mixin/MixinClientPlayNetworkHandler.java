@@ -31,7 +31,6 @@ public class MixinClientPlayNetworkHandler {
         double y = pkt.getY();
         double z = pkt.getZ();
         EntityType<?> entityTypeId = pkt.getEntityTypeId();
-        System.out.println("client got an EntitySpawnS2CPacket packet for "+entityTypeId.getClass().getName());
         if (entityTypeId instanceof HelicopterEntityType) {
             HelicopterEntityType entityType = (HelicopterEntityType) entityTypeId;
             Entity helicopterEntity = entityType.create(world);
