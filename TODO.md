@@ -3,8 +3,6 @@ TODO list
 
 - what should it drop if broken? parts (rotor etc)? 
 - height of base?
-- make it fly
-- placement rules (?)
 - icon for helicopter
 - cleanup
 - transparent floor
@@ -13,6 +11,7 @@ TODO list
 - helicopter landing on head should be fatal
 - make a release / zipfile
 - write a README / documentation for github
+- fix committer history
 optional:
   - aluminium
 
@@ -25,6 +24,8 @@ motion planning:
   (& while moving, slows you down & maybe off-bank & maybe crash)
 
 ---------------------------------------------
+
+
 
 Done:
 ====
@@ -39,6 +40,7 @@ Done:
 - custom key commands
 - size of hitbox
 - position after dismount
+- placement rules (OK as they are, given hitbox etc)
 
 motion planning:
 - "1" up/down does takeoff/landing
