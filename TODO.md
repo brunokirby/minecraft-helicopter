@@ -1,6 +1,13 @@
 TODO list
 =========
 
+Planning for release:
+- update to Minecraft 1.16.5
+- test as a jarfile
+- write README
+- testing
+- licence
+
 - what should it drop if broken? parts (rotor etc)? 
 - height of base?
 - icon for helicopter
