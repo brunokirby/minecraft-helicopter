@@ -4,10 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
-import net.minecraft.class_5459;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -18,23 +15,21 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.PortalUtil;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -133,8 +128,8 @@ public class HelicopterEntity extends Entity {
         return false;
     }
 
-    protected Vec3d method_30633(Direction.Axis axis, class_5459.class_5460 arg) {
-        return LivingEntity.method_31079(super.method_30633(axis, arg));
+    protected Vec3d method_30633(Direction.Axis axis, PortalUtil.Rectangle rectangle) {
+        return LivingEntity.method_31079(super.method_30633(axis, rectangle));
     }
 
     public double getMountedHeightOffset() {
@@ -686,7 +681,7 @@ public class HelicopterEntity extends Entity {
             this.copyEntityData(passenger);
             if (passenger instanceof AnimalEntity && this.getPassengerList().size() > 1) {
                 int j = passenger.getEntityId() % 2 == 0 ? 90 : 270;
-                passenger.setYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
+                passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
                 passenger.setHeadYaw(passenger.getHeadYaw() + (float)j);
             }
 
@@ -724,7 +719,7 @@ public class HelicopterEntity extends Entity {
     }
 
     protected void copyEntityData(Entity entity) {
-        entity.setYaw(this.yaw);
+        entity.setBodyYaw(this.yaw);
         float f = MathHelper.wrapDegrees(entity.yaw - this.yaw);
         float g = MathHelper.clamp(f, -105.0F, 105.0F);
         entity.prevYaw += g - f;
@@ -737,13 +732,13 @@ public class HelicopterEntity extends Entity {
         this.copyEntityData(passenger);
     }
 
-    protected void writeCustomDataToTag(CompoundTag tag) {
-//        tag.putString("Type", this.getCanoeType().getName());
+    protected void writeCustomDataToNbt(NbtCompound nbt) {
+//        nbt.putString("Type", this.getBoatType().getName());
     }
 
-    protected void readCustomDataFromTag(CompoundTag tag) {
-//        if (tag.contains("Type", 8)) {
-//            this.setCanoeType(HelicopterEntity.Type.getType(tag.getString("Type")));
+    protected void readCustomDataFromNbt(NbtCompound nbt) {
+//        if (nbt.contains("Type", 8)) {
+//            this.setBoatType(BoatEntity.Type.getType(nbt.getString("Type")));
 //        }
     }
 

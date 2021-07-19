@@ -8,7 +8,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.Identifier;
 
 
@@ -29,10 +29,10 @@ public class HelicopterEntityRenderer extends EntityRenderer<HelicopterEntity> {
     public void render(HelicopterEntity helicopterEntity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
         matrixStack.translate(0.0D, 1.375D, 0.0D);
-        matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F - yaw));
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - yaw));
 
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
-        matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
 
         // animate
         this.model.animateModel(helicopterEntity, 0, 0, tickDelta);

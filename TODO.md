@@ -8,6 +8,7 @@ Planning for release:
 - testing
 - licence
 
+- fix juddering (1.16.5)
 - what should it drop if broken? parts (rotor etc)? 
 - height of base?
 - icon for helicopter
