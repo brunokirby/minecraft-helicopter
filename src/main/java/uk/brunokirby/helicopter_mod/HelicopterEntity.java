@@ -5,7 +5,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -21,9 +23,12 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -215,6 +220,16 @@ public class HelicopterEntity extends Entity {
         return this.getHorizontalFacing().rotateYClockwise();
     }
 
+
+//    protected void addPassenger(Entity passenger) {
+//        super.addPassenger(passenger);
+//        if (this.world.isClient()) {
+//            MinecraftClient client = MinecraftClient.getInstance();
+//            client.inGameHud.setOverlayMessage(new LiteralText("wibbly\nwobbly"), false);
+//            System.out.println("wobbly");
+//        }
+//    }
+
     public void tick() {
         this.lastLocation = this.location;
         this.lastFlying = this.flying;
@@ -234,6 +249,10 @@ public class HelicopterEntity extends Entity {
         if (lastFlying != flying) {
             if (flying == Flying.IS_FLYING) {
                 // take-off!
+//                if (this.world.isClient()) {
+//                    MinecraftClient client = MinecraftClient.getInstance();
+//                    client.inGameHud.setOverlayMessage(new LiteralText("wibbly"), false);
+//                }
             } else {
                 // landed!
             }
