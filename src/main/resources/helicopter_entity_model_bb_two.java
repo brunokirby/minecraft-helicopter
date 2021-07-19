@@ -1,5 +1,5 @@
-// Made with Blockbench 3.8.4
-// Exported for Minecraft version 1.15 - 1.16
+// Made with Blockbench 3.9.1
+// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
 // Paste this class into your mod and generate all required imports
 
 
@@ -52,9 +52,9 @@ public class helicopter_entity_model extends EntityModel<Entity> {
 		heli_body.setTextureOffset(34, 65).addBox(-15.0F, -8.0F, -7.0F, 14.0F, 10.0F, 14.0F, 0.0F, false);
 		heli_body.setTextureOffset(0, 39).addBox(37.0F, -16.0F, -3.0F, 22.0F, 11.0F, 6.0F, 0.0F, false);
 		heli_body.setTextureOffset(2, 70).addBox(-5.0F, -12.0F, 7.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
-		heli_body.setTextureOffset(2, 61).addBox(-5.0F, -12.0F, -8.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
-		heli_body.setTextureOffset(0, 42).addBox(-2.0F, -29.0F, -5.0F, 21.0F, 4.0F, 10.0F, 0.0F, false);
-		heli_body.setTextureOffset(0, 37).addBox(0.0F, -25.0F, -6.0F, 19.0F, 7.0F, 12.0F, 0.0F, false);
+		heli_body.setTextureOffset(0, 62).addBox(-5.0F, -12.0F, -8.0F, 22.0F, 8.0F, 1.0F, 0.0F, false);
+		heli_body.setTextureOffset(1, 31).addBox(-2.0F, -29.0F, -5.0F, 21.0F, 4.0F, 10.0F, 0.0F, false);
+		heli_body.setTextureOffset(0, 26).addBox(0.0F, -25.0F, -6.0F, 19.0F, 7.0F, 12.0F, 0.0F, false);
 		heli_body.setTextureOffset(40, 49).addBox(53.0F, -10.0F, 3.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
 		heli_body.setTextureOffset(40, 49).addBox(53.0F, -10.0F, -9.0F, 2.0F, 1.0F, 6.0F, 0.0F, false);
 		heli_body.setTextureOffset(14, 29).addBox(16.0F, -18.1F, -7.0F, 7.0F, 13.0F, 14.0F, -0.01F, false);
@@ -118,7 +118,7 @@ public class helicopter_entity_model extends EntityModel<Entity> {
 		heli_body.addChild(cube_r7);
 		setRotationAngle(cube_r7, 0.0F, 0.0F, -0.5672F);
 		cube_r7.setTextureOffset(70, 20).addBox(-7.0F, -1.0F, 0.0F, 28.0F, 1.0F, 1.0F, 0.0F, false);
-		cube_r7.setTextureOffset(78, 20).addBox(-3.0F, -1.0F, 13.0F, 24.0F, 1.0F, 1.0F, 0.0F, false);
+		cube_r7.setTextureOffset(78, 20).addBox(-7.0F, -1.0F, 13.0F, 28.0F, 1.0F, 1.0F, 0.0F, false);
 
 		cube_r8 = new ModelRenderer(this);
 		cube_r8.setRotationPoint(55.0F, -9.0F, -10.0F);

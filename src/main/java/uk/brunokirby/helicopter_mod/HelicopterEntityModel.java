@@ -6,8 +6,8 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-// Made with Blockbench 3.8.4
-// Exported for Minecraft version 1.15 - 1.16
+// Made with Blockbench 3.9.1
+// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
 // Paste this class into your mod and generate all required imports
 
 
@@ -61,9 +61,9 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		heli_body.addCuboid("banana", -15.0F, -8.0F, -7.0F, 14, 10, 14, 0.0F, 34, 65);
 		heli_body.addCuboid("banana", 37.0F, -16.0F, -3.0F, 22, 11, 6, 0.0F, 0, 39);
 		heli_body.addCuboid("banana", -5.0F, -12.0F, 7.0F, 22, 8, 1, 0.0F, 2, 70);
-		heli_body.addCuboid("banana", -5.0F, -12.0F, -8.0F, 22, 8, 1, 0.0F, 2, 61);
-		heli_body.addCuboid("banana", -2.0F, -29.0F, -5.0F, 21, 4, 10, 0.0F, 0, 42);
-		heli_body.addCuboid("banana", 0.0F, -25.0F, -6.0F, 19, 7, 12, 0.0F, 0, 37);
+		heli_body.addCuboid("banana", -5.0F, -12.0F, -8.0F, 22, 8, 1, 0.0F, 0, 62);
+		heli_body.addCuboid("banana", -2.0F, -29.0F, -5.0F, 21, 4, 10, 0.0F, 1, 31);
+		heli_body.addCuboid("banana", 0.0F, -25.0F, -6.0F, 19, 7, 12, 0.0F, 0, 26);
 		heli_body.addCuboid("banana", 53.0F, -10.0F, 3.0F, 2, 1, 6, 0.0F, 40, 49);
 		heli_body.addCuboid("banana", 53.0F, -10.0F, -9.0F, 2, 1, 6, 0.0F, 40, 49);
 		heli_body.addCuboid("banana", 16.0F, -18.1F, -7.0F, 7, 13, 14, -0.01F, 14, 29);
@@ -127,7 +127,7 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		heli_body.addChild(cube_r7);
 		cube_r7.roll = -0.5672F;
 		cube_r7.addCuboid("banana", -7.0F, -1.0F, 0.0F, 28, 1, 1, 0.0F, 70, 20);
-		cube_r7.addCuboid("banana", -3.0F, -1.0F, 13.0F, 24, 1, 1, 0.0F, 78, 20);
+		cube_r7.addCuboid("banana", -7.0F, -1.0F, 13.0F, 28, 1, 1, 0.0F, 78, 20);
 
 		cube_r8 = new ModelPart(this);
 		cube_r8.setPivot(55.0F, -9.0F, -10.0F);

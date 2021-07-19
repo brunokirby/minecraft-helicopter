@@ -46,6 +46,6 @@ public class HelicopterEntityRenderer extends EntityRenderer<HelicopterEntity> {
 
     @Override
     public Identifier getTexture(HelicopterEntity entity) {
-        return new Identifier(HELICOPTER_MOD_NAMESPACE, "textures/camouflage_helicopter_texture_128_128.png");
+        return new Identifier(HELICOPTER_MOD_NAMESPACE, "textures/camouflage_helicopter_texture_128_128_wip.png");
     }
 }
