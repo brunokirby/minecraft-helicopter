@@ -1,4 +1,4 @@
-// Made with Blockbench 3.9.1
+// Made with Blockbench 3.9.2
 // Exported for Minecraft version 1.15 - 1.16 with MCP mappings
 // Paste this class into your mod and generate all required imports
 
@@ -6,6 +6,7 @@
 public class helicopter_entity_model extends EntityModel<Entity> {
 	private final ModelRenderer full_heli;
 	private final ModelRenderer heli_body;
+	private final ModelRenderer heli_body_r1;
 	private final ModelRenderer cube_r1;
 	private final ModelRenderer cube_r2;
 	private final ModelRenderer cube_r3;
@@ -66,6 +67,12 @@ public class helicopter_entity_model extends EntityModel<Entity> {
 		heli_body.setTextureOffset(72, 89).addBox(15.0F, -16.0F, -3.0F, 22.0F, 11.0F, 6.0F, 0.0F, false);
 		heli_body.setTextureOffset(72, 42).addBox(4.0F, -8.0F, -7.0F, 14.0F, 9.0F, 14.0F, 0.0F, false);
 		heli_body.setTextureOffset(90, 65).addBox(-1.0F, -8.0F, -7.0F, 5.0F, 10.0F, 14.0F, 0.0F, false);
+
+		heli_body_r1 = new ModelRenderer(this);
+		heli_body_r1.setRotationPoint(-12.4573F, -5.4787F, 0.0F);
+		heli_body.addChild(heli_body_r1);
+		setRotationAngle(heli_body_r1, 0.0F, 0.0F, 0.8727F);
+		heli_body_r1.setTextureOffset(0, 0).addBox(1.1F, -5.0F, -7.0F, 1.0F, 7.0F, 14.0F, -0.01F, false);
 
 		cube_r1 = new ModelRenderer(this);
 		cube_r1.setRotationPoint(-18.9F, -6.1F, 6.9F);

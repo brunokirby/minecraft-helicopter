@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-// Made with Blockbench 3.9.1
+// Made with Blockbench 3.9.2
 // Exported for Minecraft version 1.15 - 1.16 with MCP mappings
 // Paste this class into your mod and generate all required imports
 
@@ -15,6 +15,7 @@ import net.minecraft.client.util.math.MatrixStack;
 public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 	protected final ModelPart full_heli;
 	protected final ModelPart heli_body;
+	protected final ModelPart heli_body_r1;
 	protected final ModelPart cube_r1;
 	protected final ModelPart cube_r2;
 	protected final ModelPart cube_r3;
@@ -75,6 +76,12 @@ public class HelicopterEntityModel extends EntityModel<HelicopterEntity> {
 		heli_body.addCuboid("banana", 15.0F, -16.0F, -3.0F, 22, 11, 6, 0.0F, 72, 89);
 		heli_body.addCuboid("banana", 4.0F, -8.0F, -7.0F, 14, 9, 14, 0.0F, 72, 42);
 		heli_body.addCuboid("banana", -1.0F, -8.0F, -7.0F, 5, 10, 14, 0.0F, 90, 65);
+
+		heli_body_r1 = new ModelPart(this);
+		heli_body_r1.setPivot(-12.4573F, -5.4787F, 0.0F);
+		heli_body.addChild(heli_body_r1);
+		heli_body_r1.roll = 0.8727F;
+		heli_body_r1.addCuboid("banana", 1.1F, -5.0F, -7.0F, 1, 7, 14, -0.01F, 0, 0);
 
 		cube_r1 = new ModelPart(this);
 		cube_r1.setPivot(-18.9F, -6.1F, 6.9F);

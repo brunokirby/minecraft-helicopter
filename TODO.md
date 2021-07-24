@@ -10,9 +10,7 @@ Planning for release:
 
 - what should it drop if broken? parts (rotor etc)? 
 - height of base?
-- icon for helicopter
 - cleanup
-- transparent floor
 - sounds
 - Minecraft 1.17 etc
 - helicopter landing on head should be fatal
@@ -48,6 +46,8 @@ Done:
 - size of hitbox
 - position after dismount
 - placement rules (OK as they are, given hitbox etc)
+- icon for helicopter
+- transparent floor
 
 motion planning:
 - "1" up/down does takeoff/landing
