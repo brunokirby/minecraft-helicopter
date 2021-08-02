@@ -1,18 +1,27 @@
 # minecraft-helicopter
 
+![helicopter screenshot](doc/heli_screenshot_4_cropped.png)
+
 ## What is it
 This is a minecraft mod that adds usable helicopters to minecraft
 
-![helicopter screenshot](docs/screenshots.png)
+![helicopter screenshot](doc/heli_screenshot_2_cropped.png)
 
 ### controls
 - arrow keys to move up and down
 - W & S to move
 - A & D to turn
 
+![helicopter screenshot](doc/heli_screenshot_6_cropped.png)
+
 ### crafting
-The mod also adds aluminium and various helicopter parts to add depth
+The mod also adds helicopter parts and rotor blades to add depth
 to the crafting recipe and make helicopters late game
+
+![helicopter screenshot](doc/helicopter_part.png)
+![helicopter screenshot](doc/helicopter.png)
+![helicopter screenshot](doc/helicopter_rotors.png)
+
 
 ## Installation
 WIP
@@ -25,7 +34,7 @@ How to install:
 - assuming you've already got minecraft installed
 - download Fabric installer
 - run the Fabric installer
-  - point at existing Minecraft installatiom
+  - point at existing Minecraft installation
   - tell it to install version xxx
 - this will create something that looks like a separate minecraft version/installation
 - create `mods` folder
