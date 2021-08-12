@@ -36,7 +36,7 @@ public class HelicopterModInitializer implements ModInitializer {
 
 	public static final Item HELICOPTER_ITEM_PART = new Item(new FabricItemSettings().group(ItemGroup.MISC));
 	public static final Item HELICOPTER_ITEM_ROTORS = new Item(new FabricItemSettings().group(ItemGroup.MISC));
-	public static final Block ALUMINIUM_ORE = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f));
+// 	public static final Block ALUMINIUM_ORE = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 
 
 
@@ -59,12 +59,12 @@ public class HelicopterModInitializer implements ModInitializer {
 				"helicopter_part"), HELICOPTER_ITEM_PART);
 		Registry.register(Registry.ITEM,new Identifier(HELICOPTER_MOD_NAMESPACE,
 				"helicopter_rotors"), HELICOPTER_ITEM_ROTORS);
-		Registry.register(Registry.BLOCK, new Identifier(HELICOPTER_MOD_NAMESPACE,
+/*		Registry.register(Registry.BLOCK, new Identifier(HELICOPTER_MOD_NAMESPACE,
 				"aluminium_ore"), ALUMINIUM_ORE);
 		Registry.register(Registry.ITEM, new Identifier(HELICOPTER_MOD_NAMESPACE,
 				"aluminium_ore"), new BlockItem(
 						ALUMINIUM_ORE,
 						new FabricItemSettings().group(ItemGroup.MISC)
-		));
+		));*/
 	}
 }

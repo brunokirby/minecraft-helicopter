@@ -18,8 +18,13 @@ This is a minecraft mod that adds usable helicopters to minecraft
 The mod also adds helicopter parts and rotor blades to add depth
 to the crafting recipe and make helicopters late game
 
+![helicopter part crafting](doc/heli_part_crafting.png)
 ![helicopter part](doc/helicopter_part.png)
+
+![helicopter crafting](doc/heli_crafting.png)
 ![helicopter icon](doc/helicopter.png)
+
+![helicopter rotor blades crafting](doc/rotors_crafting.png)
 ![helicopter rotor blades](doc/helicopter_rotors.png)
 
 
@@ -39,7 +44,8 @@ How to install:
   [CurseForce](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all); you
   need to match the Minecraft version (use the "Game Version" filter) 
   and save it into the `mods` folder
-- download the HelicopterMod jarfile from the github "releases" and put into the `mods` folder
+- [download](https://github.com/brunokirby/minecraft-helicopter/releases/download/1.0-1.16.4/helicopter-mod-1.0-1.16.4.jar)
+  the HelicopterMod jarfile from the github "releases" and put into the `mods` folder
   
 
 ## Source code
