@@ -4,16 +4,16 @@
   "version": "${version}",
 
   "name": "Helicopter Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "A simple helicopter mod for minecraft 1.16.4",
   "authors": [
-    "Me!"
+    "Bruno Kirby"
   ],
   "contact": {
     "homepage": "https://github.com/brunokirby/minecraft-helicopter",
     "sources": "https://github.com/brunokirby/minecraft-helicopter"
   },
 
-  "license": "TODO not CC0-1.0",
+  "license": "MIT",
   "icon": "assets/helicopter_mod/icon.png",
 
   "environment": "*",
@@ -32,7 +32,7 @@
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
-    "minecraft": "1.16.x",
+    "minecraft": "1.16.4",
     "fabric-key-binding-api-v1": "*"
   },
   "suggests": {

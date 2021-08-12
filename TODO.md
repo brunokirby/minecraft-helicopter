@@ -15,7 +15,7 @@ Planning for release:
 - Minecraft 1.17 etc
 - helicopter landing on head should be fatal
 - make a release / zipfile
-- write a README / documentation for github
+- write a README / documentation for GitHub
 - fix committer history
 optional:
   - aluminium
@@ -52,4 +52,4 @@ Done:
 motion planning:
 - "1" up/down does takeoff/landing
   - start engine key?
-    concepts of "flying" / "not flying"  
+    concepts of "flying" / "not flying"
