@@ -3,10 +3,6 @@ TODO list
 
 Planning for release:
 - update to Minecraft 1.16.5
-- test as a jarfile
-- write README
-- testing
-- licence
 
 - what should it drop if broken? parts (rotor etc)? 
 - height of base?
@@ -16,7 +12,6 @@ Planning for release:
 - helicopter landing on head should be fatal
 - make a release / zipfile
 - write a README / documentation for GitHub
-- fix committer history
 optional:
   - aluminium
 
@@ -48,6 +43,11 @@ Done:
 - placement rules (OK as they are, given hitbox etc)
 - icon for helicopter
 - transparent floor
+- test as a jarfile
+- write README
+- testing
+- licence
+- fix committer history
 
 motion planning:
 - "1" up/down does takeoff/landing
