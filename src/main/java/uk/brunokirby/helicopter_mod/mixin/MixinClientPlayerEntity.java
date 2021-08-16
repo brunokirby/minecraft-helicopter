@@ -3,64 +3,70 @@ package uk.brunokirby.helicopter_mod.mixin;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import org.lwjgl.system.CallbackI;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import uk.brunokirby.helicopter_mod.HelicopterEntity;
-import uk.brunokirby.helicopter_mod.HelicopterEntityType;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 
-
+/*
+ * Mixin to intercept ClientPlayerEntity.tickRiding & capture keypresses
+ */
 @Mixin(ClientPlayerEntity.class)
-//public abstract class MixinClientPlayerEntity {
 public class MixinClientPlayerEntity {
-    @Shadow
-    private boolean riding;
-
-//    @Shadow
-//    public Entity getVehicle() { return null; };
-
-//    @Shadow
-//    private Entity vehicle;
-
     @Shadow
     public Input input;
 
     // Based on contents of ClientPlayerEntity.tickRiding(...)
     //
-    // This code is inserted at the bottom of the function, adding a section similar
-    // to the BoatEntity input handling
+    // This code is inserted at the bottom of the function, adding a section
+    // similar to the BoatEntity input handling
+
+    // non-obfuscated field "vehicle" for MC 1.16.4
+    final static String VEHICLE_FIELD_1_16_4 = "field_6034";
 
     @Inject(method = "tickRiding", at = @At(value = "TAIL"))
     private void injected(CallbackInfo ci) {
-//        System.out.println("My bananas got injected");
 
-        try {
-            Field f = Entity.class.getDeclaredField("vehicle");
-            f.setAccessible(true);
-            Entity vehicle = (Entity)f.get(this);
-//            System.out.println("gotta vehicle");
-            if (vehicle instanceof HelicopterEntity) {
-                HelicopterEntity helicopterEntity = (HelicopterEntity)vehicle;
-//                System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack);
-//                System.out.println("gotta helicopter");
-                riding = helicopterEntity.playerTickRiding(input);
+        // get the 'vehicle' field for the Entity
+        // try both obfuscated & de-obfuscated strings for the 'vehicle' field
+        // (the de-obfuscation doesn't work here because we're using Reflection)
+        Field vehicleField = null;
+        List<String> fieldNames = Arrays.asList("vehicle", VEHICLE_FIELD_1_16_4);
+        for (String fieldName: fieldNames) {
+            try {
+                vehicleField = Entity.class.getDeclaredField(fieldName);
+                break;
+            } catch (NoSuchFieldException e) {
+                // try the other one
             }
+        }
 
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        if (vehicleField == null) {
+            // failed
+            // TODO emit a warning (first time only)
+            return;
+        }
+
+        // hack private -> public & get the vehicle
+        vehicleField.setAccessible(true);
+        Entity vehicle;
+        try {
+            vehicle = (Entity)vehicleField.get(this);
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
-
-//        if (this.getVehicle() instanceof HelicopterEntity) {
-//            BoatEntity boatEntity = (BoatEntity)this.getVehicle();
-//            boatEntity.setInputs(this.input.pressingLeft, this.input.pressingRight, this.input.pressingForward, this.input.pressingBack);
-//            this.riding |= this.input.pressingLeft || this.input.pressingRight || this.input.pressingForward || this.input.pressingBack;
-//        }
-
+        // pass the 'input' object to our Helicopter, so we can read movement keypresses
+        if (vehicle instanceof HelicopterEntity) {
+            HelicopterEntity helicopterEntity = (HelicopterEntity)vehicle;
+//          System.out.println("inputs="+ input.pressingLeft + input.pressingRight + input.pressingForward + input.pressingBack);
+            helicopterEntity.playerTickRiding(input);
+        }
     }
 }
