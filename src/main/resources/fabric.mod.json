@@ -14,7 +14,7 @@
   },
 
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "assets/helicopter_mod/icon.png",
 
   "environment": "*",
   "entrypoints": {
