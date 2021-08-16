@@ -28,7 +28,7 @@ public class MixinClientPlayerEntity {
     // similar to the BoatEntity input handling
 
     // non-obfuscated field "vehicle" for MC 1.16.4
-    final static String VEHICLE_FIELD_1_16_4 = "field_6034";
+    private final static String VEHICLE_FIELD_1_16_4 = "field_6034";
 
     @Inject(method = "tickRiding", at = @At(value = "TAIL"))
     private void injected(CallbackInfo ci) {
