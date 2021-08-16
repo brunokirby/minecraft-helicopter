@@ -47,10 +47,11 @@ How to install:
   - this will create something that looks like a separate minecraft version/installation 
     when you run the Minecraft launcher
 - create a `mods` folder in your Minecraft installation
-- download the Fabric API from
-  [CurseForce](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all); you
-  need to match the Minecraft version (use the "Game Version" filter) 
-  and save it into the `mods` folder
+- [download](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3155174)
+  the Fabric API mod from
+  [CurseForce](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all);
+  you need to match the Minecraft version (use the "Game Version" filter)
+  and the Fabric API version (0.29.1), and save it into the `mods` folder
 - [download](https://github.com/brunokirby/minecraft-helicopter/releases/download/1.0-1.16.4/helicopter-mod-1.0-1.16.4.jar)
   the HelicopterMod jarfile from the github "releases" and put into the `mods` folder
   
