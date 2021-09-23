@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " I ",
-    "III",
-    " I "
+    " A ",
+    "AAA",
+    " A "
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
+    "A": {
+      "item": "helicopter_mod:aluminium_ingot"
     }
   },
   "result": {

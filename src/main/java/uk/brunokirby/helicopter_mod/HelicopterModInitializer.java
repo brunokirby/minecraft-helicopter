@@ -1,12 +1,27 @@
 package uk.brunokirby.helicopter_mod;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.decorator.Decorator;
+import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 
 /*
  * "main" entrypoint e.g. in fabric.mod.json:
@@ -32,11 +47,21 @@ public class HelicopterModInitializer implements ModInitializer {
 
 	public static final Item HELICOPTER_ITEM_PART = new Item(new FabricItemSettings().group(ItemGroup.MISC));
 	public static final Item HELICOPTER_ITEM_ROTOR = new Item(new FabricItemSettings().group(ItemGroup.MISC));
-// 	public static final Block ALUMINIUM_ORE = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f));
-
+	public static final Item ALUMINIUM_INGOT = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+ 	public static final Block ALUMINIUM_ORE = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 
 
 	// NB don't register an Item for Helicopter: we create a custom class
+
+	private static ConfiguredFeature<?, ?> ORE_ALUMINIUM_OVERWORLD = Feature.ORE
+			.configure(new OreFeatureConfig(
+					OreFeatureConfig.Rules.BASE_STONE_OVERWORLD,
+					ALUMINIUM_ORE.getDefaultState(),
+					9)) // vein size
+			.decorate(Decorator.RANGE.configure(new RangeDecoratorConfig(
+			0,0,64)))
+			.spreadHorizontally()
+			.repeat(20); // number of veins per chunk
 
 	@Override
 	public void onInitialize() {
@@ -55,12 +80,21 @@ public class HelicopterModInitializer implements ModInitializer {
 				"helicopter_part"), HELICOPTER_ITEM_PART);
 		Registry.register(Registry.ITEM,new Identifier(HELICOPTER_MOD_NAMESPACE,
 				"helicopter_rotor"), HELICOPTER_ITEM_ROTOR);
-/*		Registry.register(Registry.BLOCK, new Identifier(HELICOPTER_MOD_NAMESPACE,
+		Registry.register(Registry.BLOCK, new Identifier(HELICOPTER_MOD_NAMESPACE,
 				"aluminium_ore"), ALUMINIUM_ORE);
 		Registry.register(Registry.ITEM, new Identifier(HELICOPTER_MOD_NAMESPACE,
 				"aluminium_ore"), new BlockItem(
 						ALUMINIUM_ORE,
 						new FabricItemSettings().group(ItemGroup.MISC)
-		));*/
+		));
+		Registry.register(Registry.ITEM,
+				new Identifier(HELICOPTER_MOD_NAMESPACE, "aluminium_ingot"),
+				ALUMINIUM_INGOT);
+
+		RegistryKey<ConfiguredFeature<?, ?>> oreWoolOverworld = RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,
+				new Identifier("helicopter_mod", "ore_aluminium_overworld"));
+		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, oreWoolOverworld.getValue(), ORE_ALUMINIUM_OVERWORLD);
+		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, oreWoolOverworld);
+
 	}
 }
