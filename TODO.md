@@ -11,9 +11,6 @@ Planning for release:
 - Minecraft 1.17 etc
 - helicopter landing on head should be fatal
 - make a release / zipfile
-- write a README / documentation for GitHub
-optional:
-  - aluminium
 
 motion planning:
 - "2" WASD does pitch/roll
@@ -48,6 +45,9 @@ Done:
 - testing
 - licence
 - fix committer history
+- aluminium
+- - write a README / documentation for GitHub
+    optional:
 
 motion planning:
 - "1" up/down does takeoff/landing
