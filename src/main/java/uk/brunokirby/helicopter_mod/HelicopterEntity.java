@@ -2,10 +2,15 @@ package uk.brunokirby.helicopter_mod;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.class_5459;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -13,19 +18,25 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -49,6 +60,8 @@ import net.minecraft.util.math.Vec3d;
 
 import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_DOWN_ARROW;
 import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_UP_ARROW;
+import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.FIRE_ROCKET_MESSAGE;
+import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.HELICOPTER_MOD_NAMESPACE;
 
 
 public class HelicopterEntity extends Entity {
@@ -68,6 +81,7 @@ public class HelicopterEntity extends Entity {
     private boolean pressingRight;
     private boolean pressingForward;
     private boolean pressingBack;
+    private boolean jumping;
     private double waterLevel;
     private float field_7714;
     private HelicopterEntity.Location location;
@@ -300,6 +314,10 @@ public class HelicopterEntity extends Entity {
                     }
                 }
             }
+        }
+        // if space is pressed
+        if (this.jumping) {
+            fireMissile();
         }
 
     }
@@ -689,7 +707,7 @@ public class HelicopterEntity extends Entity {
         // correct for blocks in the way
         // (NB this isn't perfect because it doesn't check for partial blocks, or entities)
         int groundHeight = getGroundHeight(attemptedDismount);
-        return new Vec3d(attemptedDismount.getX(), (double)groundHeight, attemptedDismount.getZ());
+        return new Vec3d(attemptedDismount.getX(), groundHeight, attemptedDismount.getZ());
     }
 
     // find the nearest ground above a position
@@ -821,11 +839,12 @@ public class HelicopterEntity extends Entity {
     }
 
     @Environment(EnvType.CLIENT)
-    public void setInputs(boolean pressingLeft, boolean pressingRight, boolean pressingForward, boolean pressingBack) {
+    public void setInputs(boolean pressingLeft, boolean pressingRight, boolean pressingForward, boolean pressingBack, boolean jumping) {
         this.pressingLeft = pressingLeft;
         this.pressingRight = pressingRight;
         this.pressingForward = pressingForward;
         this.pressingBack = pressingBack;
+        this.jumping = jumping;
 //        System.out.println("pressingLeft"+pressingLeft);
     }
 
@@ -838,13 +857,97 @@ public class HelicopterEntity extends Entity {
     }
 
     public boolean playerTickRiding(Input input) {
-        setInputs(input.pressingLeft, input.pressingRight, input.pressingForward, input.pressingBack);
+        setInputs(input.pressingLeft, input.pressingRight, input.pressingForward, input.pressingBack, input.jumping);
 
         return false;
     }
 
     boolean helicopterControlsIsPressed(HelicopterControls.KeyPress keyPress) {
         return HelicopterModClientInitializer.getHelicopterControls().isPressed(keyPress);
+    }
+
+    private void fireMissile() {
+        // TODO limit fire rate "lastFired="
+        MinecraftClient client = MinecraftClient.getInstance();
+        Vec3d cameraDirection = client.cameraEntity.getRotationVec(1.0F);
+
+        System.out.println("missile fired: camera="+cameraDirection.x+","+cameraDirection.y+","+cameraDirection.z);
+
+//        if (!world.isClient) {
+//            // we can fire the rocket
+//            System.out.println("yay");
+//        } else {
+//            System.out.println("arse");
+//        }
+//
+//        //Object projectileEntity;
+//        ProjectileEntity projectileEntity = new FireworkRocketEntity(
+//                world,
+//                ItemStack.EMPTY, // projectile,
+//                //shooter,
+//                // TODO make it come from R/L weapon pods alternately
+//                getX(), getY(), getZ(),
+//                true);
+//
+//        projectileEntity.setVelocity(cameraDirection.x, cameraDirection.y, cameraDirection.z,
+//                3.0F, 0.0F);
+//
+//        world.spawnEntity(projectileEntity);
+//        // TODO make a sound
+//        //world.playSound((PlayerEntity)null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, soundPitch);
+
+        if (world.isClient) {
+            System.out.println("sending C2S");
+
+            System.out.println("world="+world.getRegistryKey().getValue().toString());
+
+
+            HelicopterRocketPacket hrp = new HelicopterRocketPacket(
+                    new Vec3d(getX(), getY(), getZ()),
+                    new Vec3d(cameraDirection.x, cameraDirection.y, cameraDirection.z),
+                    3.0F,
+                    world.getRegistryKey().getValue());
+
+            ClientPlayNetworking.send(FIRE_ROCKET_MESSAGE, hrp.asPacketByteBuf());
+        }
+    }
+
+    // rocket data is sent via C2S packet
+    public static class HelicopterRocketPacket {
+        public HelicopterRocketPacket(Vec3d position, Vec3d direction, float speed, Identifier worldIdentifier) {
+            this.position = position;
+            this.direction = direction;
+            this.speed = speed;
+            this.worldIdentifier = worldIdentifier;
+        }
+        private final Vec3d position;
+        private final Vec3d direction;
+        private final float speed;
+        private final Identifier worldIdentifier;
+
+        Vec3d getPosition() { return position; }
+        Vec3d getDirection() { return direction; }
+        float getSpeed() { return speed; }
+        Identifier getWorldIdentifier() { return worldIdentifier; }
+
+        PacketByteBuf asPacketByteBuf() {
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeDouble(position.x);
+            buf.writeDouble(position.y);
+            buf.writeDouble(position.z);
+            buf.writeDouble(direction.x);
+            buf.writeDouble(direction.y);
+            buf.writeDouble(direction.z);
+            buf.writeFloat(speed);
+            buf.writeIdentifier(worldIdentifier);
+            return buf;
+        }
+        public HelicopterRocketPacket(PacketByteBuf buf) {
+            position = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+            direction = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+            speed = buf.readFloat();
+            worldIdentifier = buf.readIdentifier();
+        }
     }
 
 
