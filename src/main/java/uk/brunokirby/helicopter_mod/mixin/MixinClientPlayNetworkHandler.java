@@ -4,6 +4,8 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import uk.brunokirby.helicopter_mod.HelicopterEntityType;
+import uk.brunokirby.helicopter_mod.HelicopterMissileEntity;
+import uk.brunokirby.helicopter_mod.HelicopterMissileEntityType;
 
 
 @Mixin(ClientPlayNetworkHandler.class)
@@ -44,6 +48,20 @@ public class MixinClientPlayNetworkHandler {
             helicopterEntity.setEntityId(pkt.getId());
             helicopterEntity.setUuid(pkt.getUuid());
             this.world.addEntity(pkt.getId(), helicopterEntity);
+        } else if (entityTypeId instanceof HelicopterMissileEntityType) {
+//            HelicopterMissileEntityType entityType = (HelicopterMissileEntityType) entityTypeId;
+//            Entity missileEntity = entityType.create(world);
+            Entity missileEntity = new HelicopterMissileEntity(this.world, ItemStack.EMPTY, x, y, z, true);
+
+            // see ClientPlayNetworkHandler#onEntitySpawn
+            missileEntity.setPos(x,y,z);
+            missileEntity.updateTrackedPosition(x, y, z);
+            missileEntity.refreshPositionAfterTeleport(x, y, z);
+            missileEntity.pitch = (float) (pkt.getPitch() * 360) / 256.0F;
+            missileEntity.yaw = (float) (pkt.getYaw() * 360) / 256.0F;
+            missileEntity.setEntityId(pkt.getId());
+            missileEntity.setUuid(pkt.getUuid());
+            this.world.addEntity(pkt.getId(), missileEntity);
         }
     }
 }

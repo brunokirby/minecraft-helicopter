@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.render.entity.FireworkEntityRenderer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.LiteralText;
@@ -44,6 +45,11 @@ public class HelicopterModClientInitializer implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(
                 HelicopterModInitializer.HELICOPTER,
                 (dispatcher, context) -> new HelicopterEntityRenderer(dispatcher)
+        );
+
+        EntityRendererRegistry.INSTANCE.register(
+                HelicopterModInitializer.HELICOPTER_MISSILE,
+                (dispatcher, context) -> new HelicopterMissileEntityRenderer(dispatcher)
         );
 
         helicopterControls = new HelicopterControls();

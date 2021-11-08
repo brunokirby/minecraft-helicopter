@@ -16,6 +16,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -48,6 +49,12 @@ public class HelicopterModInitializer implements ModInitializer {
 			Registry.ENTITY_TYPE,
 			new Identifier(HELICOPTER_MOD_NAMESPACE, "helicopter"),
 			new HelicopterEntityType()
+	);
+
+	public static final EntityType<HelicopterMissileEntity> HELICOPTER_MISSILE = Registry.register(
+			Registry.ENTITY_TYPE,
+			new Identifier(HELICOPTER_MOD_NAMESPACE, "helicopter_missile"),
+			new HelicopterMissileEntityType()
 	);
 
 	public static final Item HELICOPTER_ITEM_PART = new Item(new FabricItemSettings().group(ItemGroup.MISC));
@@ -109,29 +116,13 @@ public class HelicopterModInitializer implements ModInitializer {
 		// handler for implementing "helicopter fired a rocket"
 		ServerPlayNetworking.registerGlobalReceiver(FIRE_ROCKET_MESSAGE,
 				(server, player, handler, buf, responseSender) -> {
-
 			HelicopterEntity.HelicopterRocketPacket hrp = new HelicopterEntity.HelicopterRocketPacket(buf);
 
-			// work out the world
-			// TODO this is horrid; surely there's a better way to pass the world from C->S?
-			RegistryKey worldKey = null;
-			if (hrp.getWorldIdentifier().equals(World.OVERWORLD.getValue())) {
-				worldKey = World.OVERWORLD;
-			} else if (hrp.getWorldIdentifier().equals(World.NETHER.getValue())) {
-				worldKey = World.NETHER;
-			} else if (hrp.getWorldIdentifier().equals(World.END.getValue())) {
-				worldKey = World.END;
-			}
-			RegistryKey finalWorldKey = worldKey;
-
-			System.out.println("hrp.getWorldIdentifier()="+hrp.getWorldIdentifier());
-			System.out.println("worldKey.getValue()="+worldKey.getValue());
-
 			server.execute(() -> {
-				System.out.println("received C2S");
+//				System.out.println("received C2S");
 
-				ProjectileEntity projectileEntity = new FireworkRocketEntity(
-						server.getWorld(finalWorldKey),
+				ProjectileEntity projectileEntity = new HelicopterMissileEntity(
+						getTargetWorld(server, hrp.getWorldIdentifier()),
 						ItemStack.EMPTY, // projectile,
 						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
 						true);
@@ -139,11 +130,25 @@ public class HelicopterModInitializer implements ModInitializer {
 				projectileEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
 						hrp.getSpeed(), 0.0F);
 
-		        server.getWorld(World.OVERWORLD).spawnEntity(projectileEntity);
-
+				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(projectileEntity);
 			});
 		});
 	}
 
+	// TODO this is a bit nasty; is there a better way?
+	public static RegistryKey getWorldFromIdentifier(Identifier identifier) {
+		if (identifier.equals(World.OVERWORLD.getValue())) {
+			return World.OVERWORLD;
+		} else if (identifier.equals(World.NETHER.getValue())) {
+			return World.NETHER;
+		} else if (identifier.equals(World.END.getValue())) {
+			return World.END;
+		} else {
+			throw new RuntimeException("failed to match identifier="+identifier);
+		}
+	}
+	public World getTargetWorld(MinecraftServer server, Identifier key) {
+		return server.getWorld(getWorldFromIdentifier(key));
+	}
 
 }
