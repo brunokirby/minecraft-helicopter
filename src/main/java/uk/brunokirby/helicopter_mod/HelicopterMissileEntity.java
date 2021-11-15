@@ -29,6 +29,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 
+import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.HELICOPTER_MISSILE;
+
 //@EnvironmentInterfaces({@EnvironmentInterface(
 //        value = EnvType.CLIENT,
 //        itf = FlyingItemEntity.class
@@ -46,8 +48,7 @@ public class HelicopterMissileEntity extends Entity  {
     }
 
     public HelicopterMissileEntity(World world, ItemStack stack, double x, double y, double z, boolean shotAtAngle) {
-//        this(world, x, y, z, stack);
-        super(new HelicopterMissileEntityType(), world);
+        super(HELICOPTER_MISSILE, world);
         System.out.println("made a HelicopterMissileEntity!!!!");
         this.life = 0;
         this.updatePosition(x, y, z);

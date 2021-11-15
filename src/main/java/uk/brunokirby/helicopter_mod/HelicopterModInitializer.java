@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -50,7 +51,7 @@ public class HelicopterModInitializer implements ModInitializer {
 	public static final EntityType<HelicopterMissileEntity> HELICOPTER_MISSILE = Registry.register(
 			Registry.ENTITY_TYPE,
 			new Identifier(HELICOPTER_MOD_NAMESPACE, "helicopter_missile"),
-			new HelicopterMissileEntityType()
+			HelicopterMissileEntityType.getInstance()
 	);
 
 	public static final Item HELICOPTER_ITEM_PART = new Item(new FabricItemSettings().group(ItemGroup.MISC));
@@ -117,45 +118,15 @@ public class HelicopterModInitializer implements ModInitializer {
 			server.execute(() -> {
 //				System.out.println("received C2S");
 
-//				ProjectileEntity projectileEntity = new HelicopterMissileEntity(
-//						getTargetWorld(server, hrp.getWorldIdentifier()),
-//						ItemStack.EMPTY, // projectile,
-//						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
-//						true);
-//
-//				projectileEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
-//						hrp.getSpeed(), 0.0F);
+				HelicopterMissileEntity hme = new HelicopterMissileEntity(
+						getTargetWorld(server, hrp.getWorldIdentifier()),
+						ItemStack.EMPTY, // projectile,
+						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
+						true);
 
-
-//				HelicopterMissileEntity hme = new HelicopterMissileEntity(
-//						getTargetWorld(server, hrp.getWorldIdentifier()),
-//						ItemStack.EMPTY, // projectile,
-//						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
-//						true);
-//
-//				hme.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
-//						hrp.getSpeed(), 0.0F);
-//				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(hme);
-
-				HelicopterMissileEntity hme = new HelicopterMissileEntity(HELICOPTER_MISSILE,
-						getTargetWorld(server, hrp.getWorldIdentifier()));
-
-//				hme.moveTo(new Vec3d(hrp.getPosition().x+ 10D, hrp.getPosition().y, hrp.getPosition().z));
-				hme.updatePosition(hrp.getPosition().x+ 10D, hrp.getPosition().y, hrp.getPosition().z);
-//				helicopterEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
-//						hrp.getSpeed(), 0.0F);
+				hme.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
+						hrp.getSpeed(), 0.0F);
 				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(hme);
-
-
-//				HelicopterEntity helicopterEntity = new HelicopterEntity(HELICOPTER,
-//						getTargetWorld(server, hrp.getWorldIdentifier()));
-//
-//				helicopterEntity.moveTo(new Vec3d(hrp.getPosition().x+ 10D, hrp.getPosition().y, hrp.getPosition().z));
-////				helicopterEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
-////						hrp.getSpeed(), 0.0F);
-//				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(helicopterEntity);
-
-
 			});
 		});
 	}

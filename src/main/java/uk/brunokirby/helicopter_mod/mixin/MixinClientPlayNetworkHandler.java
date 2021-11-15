@@ -46,8 +46,6 @@ public class MixinClientPlayNetworkHandler {
             helicopterEntity.setUuid(pkt.getUuid());
             this.world.addEntity(pkt.getId(), helicopterEntity);
         } else if (entityTypeId instanceof HelicopterMissileEntityType) {
-//            Entity missileEntity = new HelicopterMissileEntity(this.world, ItemStack.EMPTY, x, y, z, true);
-//            Entity missileEntity = new HelicopterMissileEntity(this.world, ItemStack.EMPTY, x, y, z, true);
             HelicopterMissileEntityType entityType = (HelicopterMissileEntityType) entityTypeId;
             Entity missileEntity = entityType.create(world);
 
