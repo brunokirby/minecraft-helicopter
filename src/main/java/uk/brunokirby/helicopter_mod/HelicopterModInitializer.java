@@ -7,15 +7,11 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.FireworkRocketEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -121,16 +117,45 @@ public class HelicopterModInitializer implements ModInitializer {
 			server.execute(() -> {
 //				System.out.println("received C2S");
 
-				ProjectileEntity projectileEntity = new HelicopterMissileEntity(
-						getTargetWorld(server, hrp.getWorldIdentifier()),
-						ItemStack.EMPTY, // projectile,
-						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
-						true);
+//				ProjectileEntity projectileEntity = new HelicopterMissileEntity(
+//						getTargetWorld(server, hrp.getWorldIdentifier()),
+//						ItemStack.EMPTY, // projectile,
+//						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
+//						true);
+//
+//				projectileEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
+//						hrp.getSpeed(), 0.0F);
 
-				projectileEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
-						hrp.getSpeed(), 0.0F);
 
-				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(projectileEntity);
+//				HelicopterMissileEntity hme = new HelicopterMissileEntity(
+//						getTargetWorld(server, hrp.getWorldIdentifier()),
+//						ItemStack.EMPTY, // projectile,
+//						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
+//						true);
+//
+//				hme.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
+//						hrp.getSpeed(), 0.0F);
+//				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(hme);
+
+				HelicopterMissileEntity hme = new HelicopterMissileEntity(HELICOPTER_MISSILE,
+						getTargetWorld(server, hrp.getWorldIdentifier()));
+
+//				hme.moveTo(new Vec3d(hrp.getPosition().x+ 10D, hrp.getPosition().y, hrp.getPosition().z));
+				hme.updatePosition(hrp.getPosition().x+ 10D, hrp.getPosition().y, hrp.getPosition().z);
+//				helicopterEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
+//						hrp.getSpeed(), 0.0F);
+				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(hme);
+
+
+//				HelicopterEntity helicopterEntity = new HelicopterEntity(HELICOPTER,
+//						getTargetWorld(server, hrp.getWorldIdentifier()));
+//
+//				helicopterEntity.moveTo(new Vec3d(hrp.getPosition().x+ 10D, hrp.getPosition().y, hrp.getPosition().z));
+////				helicopterEntity.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
+////						hrp.getSpeed(), 0.0F);
+//				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(helicopterEntity);
+
+
 			});
 		});
 	}

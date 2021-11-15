@@ -44,6 +44,7 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
@@ -94,10 +95,12 @@ public class HelicopterEntity extends Entity {
     private float bubbleWobbleStrength;
     private float bubbleWobble;
     private float lastBubbleWobble;
+    private Instant lastFired;
 
     public HelicopterEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
         this.inanimate = true;
+        this.lastFired = Instant.now();
     }
 
     public HelicopterEntity.Flying getFlying() { return flying; }
@@ -867,48 +870,52 @@ public class HelicopterEntity extends Entity {
     }
 
     private void fireMissile() {
+        Instant now = Instant.now();
         // TODO limit fire rate "lastFired="
-        MinecraftClient client = MinecraftClient.getInstance();
-        Vec3d cameraDirection = client.cameraEntity.getRotationVec(1.0F);
+        if (now.isAfter(lastFired.plusSeconds(1))) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            Vec3d cameraDirection = client.cameraEntity.getRotationVec(1.0F);
 
-        System.out.println("missile fired: camera="+cameraDirection.x+","+cameraDirection.y+","+cameraDirection.z);
+            System.out.println("missile fired: camera="+cameraDirection.x+","+cameraDirection.y+","+cameraDirection.z);
 
-//        if (!world.isClient) {
-//            // we can fire the rocket
-//            System.out.println("yay");
-//        } else {
-//            System.out.println("arse");
-//        }
-//
-//        //Object projectileEntity;
-//        ProjectileEntity projectileEntity = new FireworkRocketEntity(
-//                world,
-//                ItemStack.EMPTY, // projectile,
-//                //shooter,
-//                // TODO make it come from R/L weapon pods alternately
-//                getX(), getY(), getZ(),
-//                true);
-//
-//        projectileEntity.setVelocity(cameraDirection.x, cameraDirection.y, cameraDirection.z,
-//                3.0F, 0.0F);
-//
-//        world.spawnEntity(projectileEntity);
-//        // TODO make a sound
-//        //world.playSound((PlayerEntity)null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, soundPitch);
+    //        if (!world.isClient) {
+    //            // we can fire the rocket
+    //            System.out.println("yay");
+    //        } else {
+    //            System.out.println("arse");
+    //        }
+    //
+    //        //Object projectileEntity;
+    //        ProjectileEntity projectileEntity = new FireworkRocketEntity(
+    //                world,
+    //                ItemStack.EMPTY, // projectile,
+    //                //shooter,
+    //                // TODO make it come from R/L weapon pods alternately
+    //                getX(), getY(), getZ(),
+    //                true);
+    //
+    //        projectileEntity.setVelocity(cameraDirection.x, cameraDirection.y, cameraDirection.z,
+    //                3.0F, 0.0F);
+    //
+    //        world.spawnEntity(projectileEntity);
+    //        // TODO make a sound
+    //        //world.playSound((PlayerEntity)null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, soundPitch);
 
-        if (world.isClient) {
-            System.out.println("sending C2S");
+            if (world.isClient) {
+                System.out.println("sending C2S");
 
-            System.out.println("world="+world.getRegistryKey().getValue().toString());
+                System.out.println("world=" + world.getRegistryKey().getValue().toString());
 
 
-            HelicopterRocketPacket hrp = new HelicopterRocketPacket(
-                    new Vec3d(getX(), getY(), getZ()),
-                    new Vec3d(cameraDirection.x, cameraDirection.y, cameraDirection.z),
-                    3.0F,
-                    world.getRegistryKey().getValue());
+                HelicopterRocketPacket hrp = new HelicopterRocketPacket(
+                        new Vec3d(getX(), getY(), getZ()),
+                        new Vec3d(cameraDirection.x, cameraDirection.y, cameraDirection.z),
+                        3.0F,
+                        world.getRegistryKey().getValue());
 
-            ClientPlayNetworking.send(FIRE_ROCKET_MESSAGE, hrp.asPacketByteBuf());
+                ClientPlayNetworking.send(FIRE_ROCKET_MESSAGE, hrp.asPacketByteBuf());
+                lastFired = Instant.now();
+            }
         }
     }
 

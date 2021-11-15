@@ -33,7 +33,7 @@ import net.minecraft.entity.LivingEntity;
 //        value = EnvType.CLIENT,
 //        itf = FlyingItemEntity.class
 //)})
-public class HelicopterMissileEntity extends Entity  {
+public class HelicopterMissileOriginalEntity extends Entity  {
     private static final TrackedData<ItemStack> ITEM;
     private static final TrackedData<OptionalInt> SHOOTER_ENTITY_ID;
     private static final TrackedData<Boolean> SHOT_AT_ANGLE;
@@ -41,13 +41,13 @@ public class HelicopterMissileEntity extends Entity  {
     private int lifeTime;
     private LivingEntity shooter;
 
-    public HelicopterMissileEntity(EntityType<? extends Entity> entityType, World world) {
+    public HelicopterMissileOriginalEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
     }
 
-    public HelicopterMissileEntity(World world, ItemStack stack, double x, double y, double z, boolean shotAtAngle) {
+    public HelicopterMissileOriginalEntity(World world, ItemStack stack, double x, double y, double z, boolean shotAtAngle) {
 //        this(world, x, y, z, stack);
-        super(new HelicopterMissileEntityType(), world);
+        super(new HelicopterMissileEntityOriginalType(), world);
         System.out.println("made a HelicopterMissileEntity!!!!");
         this.life = 0;
         this.updatePosition(x, y, z);
@@ -270,7 +270,7 @@ public class HelicopterMissileEntity extends Entity  {
 //        }
     }
 
-    // problematic pointless because parent is private
+// problematic pointless because parent is private
     private boolean wasShotByEntity() {
         return ((OptionalInt)this.dataTracker.get(SHOOTER_ENTITY_ID)).isPresent();
     }

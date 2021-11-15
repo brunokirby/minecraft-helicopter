@@ -12,23 +12,24 @@ import net.minecraft.client.util.math.MatrixStack;
 
 
 @Environment(EnvType.CLIENT)
-public class HelicopterMissileEntityModel extends EntityModel<HelicopterMissileEntity> {
+public class HelicopterMissileEntityOriginalModel extends EntityModel<HelicopterMissileOriginalEntity> {
 	protected final ModelPart missile;
 
-	public HelicopterMissileEntityModel() {
+
+	public HelicopterMissileEntityOriginalModel() {
 		textureWidth = 128;
 		textureHeight = 128;
 
 		missile = new ModelPart(this);
 
-		missile.addCuboid("missile", 0.0F, 0.0F, 0.0F, 10, 10, 10, 0.0F, 0 ,0);
+		missile.addCuboid("missile", 0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F, 0 ,0);
 
 
 	}
 
 	@Override
-	public void setAngles(HelicopterMissileEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-		//previously the render function, render code was moved to a method below
+	public void setAngles(HelicopterMissileOriginalEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+	//previously the render function, render code was moved to a method below
 
 	}
 
@@ -37,8 +38,10 @@ public class HelicopterMissileEntityModel extends EntityModel<HelicopterMissileE
 		missile.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 
-	public void animateModel(HelicopterMissileEntity entity, float limbAngle, float limbDistance, float tickDelta) {
-	}
+    public void animateModel(HelicopterMissileOriginalEntity entity, float limbAngle, float limbDistance, float tickDelta) {
+    }
+
+
 
 
 
