@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -45,7 +44,7 @@ public class HelicopterModInitializer implements ModInitializer {
 	public static final EntityType<HelicopterEntity> HELICOPTER = Registry.register(
 			Registry.ENTITY_TYPE,
 			new Identifier(HELICOPTER_MOD_NAMESPACE, "helicopter"),
-			new HelicopterEntityType()
+			HelicopterEntityType.getInstance()
 	);
 
 	public static final EntityType<HelicopterMissileEntity> HELICOPTER_MISSILE = Registry.register(
@@ -120,9 +119,8 @@ public class HelicopterModInitializer implements ModInitializer {
 
 				HelicopterMissileEntity hme = new HelicopterMissileEntity(
 						getTargetWorld(server, hrp.getWorldIdentifier()),
-						ItemStack.EMPTY, // projectile,
-						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z,
-						true);
+						// projectile,
+						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z);
 
 				hme.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
 						hrp.getSpeed(), 0.0F);
