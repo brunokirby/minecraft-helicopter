@@ -28,26 +28,55 @@ public class HelicopterMissileEntity extends Entity  {
     private static final TrackedData<ItemStack> ITEM;
     private int life;
     private int lifeTime;
+    private float speed;
+
+    // missile trajectory data
+    // (NB also standard 'velocity' from parent)
+
+    // direction missile is aimed towards
+    Vec3d aimDirection;
+    // point that missile was fired from
+    Vec3d firedFrom;
+    // direction that helicopter was pointing when missile was fired (i.e. initial direction of missile)
+    Vec3d heliDirection;
 
     public HelicopterMissileEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
     }
 
-    public HelicopterMissileEntity(World world, double x, double y, double z) {
+    public HelicopterMissileEntity(World world, Vec3d position, Vec3d aimDirection, Vec3d heliDirection) {
         super(HELICOPTER_MISSILE, world);
+
+        this.firedFrom = position;
+        this.aimDirection = aimDirection.normalize();
+        this.heliDirection = heliDirection.normalize();
+        this.speed = 3.0f;
+
         this.life = 0;
-        this.updatePosition(x, y, z);
-        this.setVelocity(this.random.nextGaussian() * 0.001D, 0.05D, this.random.nextGaussian() * 0.001D);
+        this.updatePosition(position.x, position.y, position.z);
+        //this.setVelocity(this.random.nextGaussian() * 0.001D, 0.05D, this.random.nextGaussian() * 0.001D);
         this.lifeTime = 50;    // ticks
+
+        // HACK for testing
+//        Vec3d velocity = aimDirection.normalize().multiply(this.speed);
+
+        // rockets start off heading straight from helicopter
+        Vec3d velocity = this.heliDirection.multiply(3.0f);
+        this.setVelocity(velocity);
+
+        this.recalculatePitchAndYaw();
     }
 
-    public void setVelocity(double x, double y, double z, float speed, float divergence) {
-        Vec3d vec3d = (new Vec3d(x, y, z)).normalize().add(
-                this.random.nextGaussian() * 0.007499999832361937D * (double)divergence,
-                this.random.nextGaussian() * 0.007499999832361937D * (double)divergence,
-                this.random.nextGaussian() * 0.007499999832361937D * (double)divergence)
-                    .multiply(speed);
-        this.setVelocity(vec3d);
+//    public void setVelocity(double x, double y, double z, float speed, float divergence) {
+//        Vec3d vec3d = (new Vec3d(x, y, z)).normalize().add(
+//                        this.random.nextGaussian() * 0.007499999832361937D * (double) divergence,
+//                        this.random.nextGaussian() * 0.007499999832361937D * (double) divergence,
+//                        this.random.nextGaussian() * 0.007499999832361937D * (double) divergence)
+//                .multiply(speed);
+//        this.setVelocity(vec3d);
+//    }
+    void recalculatePitchAndYaw() {
+        Vec3d vec3d = getVelocity();
         float f = MathHelper.sqrt(squaredHorizontalLength(vec3d));
         this.yaw = (float)(MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D);
         this.pitch = (float)(MathHelper.atan2(vec3d.y, f) * 57.2957763671875D);
@@ -55,17 +84,58 @@ public class HelicopterMissileEntity extends Entity  {
         this.prevPitch = this.pitch;
     }
 
+
     protected void initDataTracker() {
         this.dataTracker.startTracking(ITEM, ItemStack.EMPTY);
     }
 
+    Vec3d nearestPointOnTrajectory() {
+        // point on line
+        Vec3d hypotenuse=getPos().subtract(firedFrom);
+        double dotprod = hypotenuse.dotProduct(aimDirection);
+        return firedFrom.add(aimDirection.multiply(dotprod));
+    }
+
+    // rocket trajectory calculation
+    void tickFlight() {
+        // precondition check
+        if (firedFrom == null) {
+            System.out.println("WARNING no firedFrom");
+            this.remove();
+            return;
+        }
+        if (aimDirection == null) {
+            System.out.println("WARNING no aimDirection");
+            this.remove();
+            return;
+        }
+        if (getPos() == null) {
+            System.out.println("WARNING no getPos - what a POS");
+            this.remove();
+            return;
+        }
+
+        // calculate distance from aimed line
+        Vec3d nearestPol = nearestPointOnTrajectory();
+        double distanceFromTrajectory = getPos().subtract(nearestPol).length();
+        System.out.println("distance="+distanceFromTrajectory);
+
+        // adjust to head towards aimed line
+
+        Vec3d velocity = this.getVelocity();
+        this.setVelocity(velocity);
+
+    }
 
     public void tick() {
         super.tick();
 
-        Vec3d vec3d = this.getVelocity();
-        this.move(MovementType.SELF, vec3d);
-        this.setVelocity(vec3d);
+        if (!this.world.isClient) {
+            tickFlight();
+            recalculatePitchAndYaw();
+            this.move(MovementType.SELF, getVelocity());
+       }
+
         HitResult hitResult = ProjectileUtil.getCollision(this, this::entityCollisionPredicate);
         if (!this.noClip) {
             this.onCollision(hitResult);

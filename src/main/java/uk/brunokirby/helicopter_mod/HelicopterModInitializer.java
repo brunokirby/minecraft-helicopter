@@ -118,12 +118,9 @@ public class HelicopterModInitializer implements ModInitializer {
 //				System.out.println("received C2S");
 
 				HelicopterMissileEntity hme = new HelicopterMissileEntity(
-						getTargetWorld(server, hrp.getWorldIdentifier()),
-						// projectile,
-						hrp.getPosition().x, hrp.getPosition().y, hrp.getPosition().z);
-
-				hme.setVelocity(hrp.getDirection().x, hrp.getDirection().y, hrp.getDirection().z,
-						hrp.getSpeed(), 0.0F);
+						getTargetWorld(
+								server, hrp.getWorldIdentifier()),
+								hrp.getPosition(), hrp.getAimDirection(), hrp.getHeliDirection());
 				getTargetWorld(server, hrp.getWorldIdentifier()).spawnEntity(hme);
 			});
 		});

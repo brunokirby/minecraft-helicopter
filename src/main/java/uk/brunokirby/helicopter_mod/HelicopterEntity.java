@@ -58,6 +58,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.lwjgl.system.CallbackI;
 
 import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_DOWN_ARROW;
 import static uk.brunokirby.helicopter_mod.HelicopterControls.KeyPress.KEY_UP_ARROW;
@@ -906,11 +907,16 @@ public class HelicopterEntity extends Entity {
 
                 System.out.println("world=" + world.getRegistryKey().getValue().toString());
 
+                // create helicopter direction
+                float x = -MathHelper.sin(yaw * 0.017453292F);
+                float z = MathHelper.cos(yaw * 0.017453292F);
+                float y = 0.0f;
+                Vec3d heliDirection = new Vec3d(x,y,z);
 
                 HelicopterRocketPacket hrp = new HelicopterRocketPacket(
-                        new Vec3d(getX(), getY(), getZ()),
+                        new Vec3d(getX(), getY(), getZ()),  // TODO add offset to missile pods :-)
                         new Vec3d(cameraDirection.x, cameraDirection.y, cameraDirection.z),
-                        3.0F,
+                        heliDirection,
                         world.getRegistryKey().getValue());
 
                 ClientPlayNetworking.send(FIRE_ROCKET_MESSAGE, hrp.asPacketByteBuf());
@@ -921,20 +927,20 @@ public class HelicopterEntity extends Entity {
 
     // rocket data is sent via C2S packet
     public static class HelicopterRocketPacket {
-        public HelicopterRocketPacket(Vec3d position, Vec3d direction, float speed, Identifier worldIdentifier) {
+        public HelicopterRocketPacket(Vec3d position, Vec3d aimDirection, Vec3d heliDirection, Identifier worldIdentifier) {
             this.position = position;
-            this.direction = direction;
-            this.speed = speed;
+            this.aimDirection = aimDirection;
+            this.heliDirection = heliDirection;
             this.worldIdentifier = worldIdentifier;
         }
         private final Vec3d position;
-        private final Vec3d direction;
-        private final float speed;
+        private final Vec3d aimDirection;
+        private final Vec3d heliDirection;
         private final Identifier worldIdentifier;
 
         Vec3d getPosition() { return position; }
-        Vec3d getDirection() { return direction; }
-        float getSpeed() { return speed; }
+        Vec3d getAimDirection() { return aimDirection; }
+        Vec3d getHeliDirection() { return heliDirection; }
         Identifier getWorldIdentifier() { return worldIdentifier; }
 
         PacketByteBuf asPacketByteBuf() {
@@ -942,17 +948,19 @@ public class HelicopterEntity extends Entity {
             buf.writeDouble(position.x);
             buf.writeDouble(position.y);
             buf.writeDouble(position.z);
-            buf.writeDouble(direction.x);
-            buf.writeDouble(direction.y);
-            buf.writeDouble(direction.z);
-            buf.writeFloat(speed);
+            buf.writeDouble(aimDirection.x);
+            buf.writeDouble(aimDirection.y);
+            buf.writeDouble(aimDirection.z);
+            buf.writeDouble(heliDirection.x);
+            buf.writeDouble(heliDirection.y);
+            buf.writeDouble(heliDirection.z);
             buf.writeIdentifier(worldIdentifier);
             return buf;
         }
         public HelicopterRocketPacket(PacketByteBuf buf) {
             position = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-            direction = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-            speed = buf.readFloat();
+            aimDirection = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+            heliDirection = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
             worldIdentifier = buf.readIdentifier();
         }
     }

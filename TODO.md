@@ -4,21 +4,16 @@ TODO list
 Planning for release:
 - update to Minecraft 1.16.5
 
-- what should it drop if broken? parts (rotor etc)? 
-- height of base?
+- what should it drop if broken? parts (rotor etc)?
 - cleanup
 - sounds
 - Minecraft 1.17 etc
 - helicopter landing on head should be fatal
-- make a release / zipfile
-
-motion planning:
-- "2" WASD does pitch/roll
-- "3" move follows pitch/roll  
-  while stationary, A/D does a "strafe"
-  while moving, A/D does a banked curve
-- "4" L/R keys do stationary yaw  
-  (& while moving, slows you down & maybe off-bank & maybe crash)
+- missile model / texture
+- missiles fired from pods + missiles go out forwards (and turn)
+- limited missiles / fuel? (requires inventory)
+- alternative up/down controls (not arrow keys)
+- (handheld rocket launcher)
 
 ---------------------------------------------
 
@@ -46,8 +41,11 @@ Done:
 - licence
 - fix committer history
 - aluminium
-- - write a README / documentation for GitHub
-    optional:
+- write a README / documentation for GitHub
+- make a release / zipfile
+- height of base?
+
+optional:
 
 motion planning:
 - "1" up/down does takeoff/landing
