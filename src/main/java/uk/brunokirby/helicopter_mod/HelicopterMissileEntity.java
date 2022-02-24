@@ -1,5 +1,6 @@
 package uk.brunokirby.helicopter_mod;
 
+import net.fabricmc.loader.util.sat4j.core.Vec;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -21,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.explosion.Explosion;
+import org.lwjgl.system.CallbackI;
 
 import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.HELICOPTER_MISSILE;
 
@@ -28,7 +30,8 @@ public class HelicopterMissileEntity extends Entity  {
     private static final TrackedData<ItemStack> ITEM;
     private int life;
     private int lifeTime;
-    private float speed;
+    private final static float speed = 3.0f;
+    private final static float correctionFactor = 0.25f;
 
     // missile trajectory data
     // (NB also standard 'velocity' from parent)
@@ -50,7 +53,6 @@ public class HelicopterMissileEntity extends Entity  {
         this.firedFrom = position;
         this.aimDirection = aimDirection.normalize();
         this.heliDirection = heliDirection.normalize();
-        this.speed = 3.0f;
 
         this.life = 0;
         this.updatePosition(position.x, position.y, position.z);
@@ -115,25 +117,48 @@ public class HelicopterMissileEntity extends Entity  {
             return;
         }
 
+        System.out.println("------");
+        System.out.println("tickFlight: read Velocity="+getVelocity().toString());
+
+
         // calculate distance from aimed line
         Vec3d nearestPol = nearestPointOnTrajectory();
         double distanceFromTrajectory = getPos().subtract(nearestPol).length();
-        System.out.println("distance="+distanceFromTrajectory);
+        System.out.println("distanceFromTrajectory ="+distanceFromTrajectory);
 
         // adjust to head towards aimed line
+        Vec3d correctionDirection = nearestPol.subtract(getPos()).normalize();
+        Vec3d distanceCorrection = correctionDirection.multiply(0.05 * distanceFromTrajectory);
+        System.out.println("distanceCorrection ="+distanceCorrection.toString());
 
-        Vec3d velocity = this.getVelocity();
-        this.setVelocity(velocity);
+        // slow down if we're already heading towards the line
+        double velocityTowardsLine = getVelocity().dotProduct(correctionDirection);
+        System.out.println("velocityTowardsLine = "+velocityTowardsLine);
+        Vec3d velocityCorrection = correctionDirection.multiply(-1 * velocityTowardsLine * 0.25);
+        System.out.println("velocityCorrection ="+velocityCorrection.toString());
+
+        Vec3d v = getVelocity();
+        System.out.println("read Velocity="+v.toString());
+        v = v.add(distanceCorrection).add(velocityCorrection);
+        System.out.println("velocity ="+v.toString());
+        // normalize velocity
+        v = v.normalize().multiply(speed);
+        System.out.println("velocity(normalised) ="+v.toString());
+        setVelocity(v);
 
     }
 
     public void tick() {
         super.tick();
 
-        if (!this.world.isClient) {
+        if (!world.isClient) {
             tickFlight();
             recalculatePitchAndYaw();
-            this.move(MovementType.SELF, getVelocity());
+            Vec3d vec3d = getVelocity();
+            if (vec3d.lengthSquared() > 1.0E-7D) {
+                this.setBoundingBox(this.getBoundingBox().offset(vec3d));
+                this.moveToBoundingBoxCenter();
+            }
        }
 
         HitResult hitResult = ProjectileUtil.getCollision(this, this::entityCollisionPredicate);
