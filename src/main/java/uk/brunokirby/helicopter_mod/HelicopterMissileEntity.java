@@ -95,7 +95,14 @@ public class HelicopterMissileEntity extends Entity  {
         // point on line
         Vec3d hypotenuse=getPos().subtract(firedFrom);
         double dotprod = hypotenuse.dotProduct(aimDirection);
+//        System.out.println("dotprod =" + dotprod);
         return firedFrom.add(aimDirection.multiply(dotprod));
+    }
+
+    boolean itsBehindYou() {
+        Vec3d hypotenuse=getPos().subtract(firedFrom);
+        double dotprod = hypotenuse.dotProduct(aimDirection);
+        return dotprod <= 0;
     }
 
     // rocket trajectory calculation
@@ -117,35 +124,39 @@ public class HelicopterMissileEntity extends Entity  {
             return;
         }
 
-        System.out.println("------");
-        System.out.println("tickFlight: read Velocity="+getVelocity().toString());
+//        System.out.println("------");
+//        System.out.println("tickFlight: read Velocity="+getVelocity().toString());
 
+        Vec3d correction;
+        if (itsBehindYou()) {
+            correction = aimDirection.normalize().multiply(0.5);
+        } else {
+            // calculate distance from aimed line
+            Vec3d nearestPol = nearestPointOnTrajectory();
+            double distanceFromTrajectory = getPos().subtract(nearestPol).length();
+//            System.out.println("distanceFromTrajectory =" + distanceFromTrajectory);
 
-        // calculate distance from aimed line
-        Vec3d nearestPol = nearestPointOnTrajectory();
-        double distanceFromTrajectory = getPos().subtract(nearestPol).length();
-        System.out.println("distanceFromTrajectory ="+distanceFromTrajectory);
+            // adjust to head towards aimed line
+            Vec3d correctionDirection = nearestPol.subtract(getPos()).normalize();
+            Vec3d distanceCorrection = correctionDirection.multiply(0.05 * distanceFromTrajectory);
+//            System.out.println("distanceCorrection =" + distanceCorrection.toString());
 
-        // adjust to head towards aimed line
-        Vec3d correctionDirection = nearestPol.subtract(getPos()).normalize();
-        Vec3d distanceCorrection = correctionDirection.multiply(0.05 * distanceFromTrajectory);
-        System.out.println("distanceCorrection ="+distanceCorrection.toString());
-
-        // slow down if we're already heading towards the line
-        double velocityTowardsLine = getVelocity().dotProduct(correctionDirection);
-        System.out.println("velocityTowardsLine = "+velocityTowardsLine);
-        Vec3d velocityCorrection = correctionDirection.multiply(-1 * velocityTowardsLine * 0.25);
-        System.out.println("velocityCorrection ="+velocityCorrection.toString());
+            // slow down if we're already heading towards the line
+            double velocityTowardsLine = getVelocity().dotProduct(correctionDirection);
+//            System.out.println("velocityTowardsLine = " + velocityTowardsLine);
+            Vec3d velocityCorrection = correctionDirection.multiply(-1 * velocityTowardsLine * 0.25);
+//            System.out.println("velocityCorrection =" + velocityCorrection.toString());
+            correction = distanceCorrection.add(velocityCorrection);
+        }
 
         Vec3d v = getVelocity();
-        System.out.println("read Velocity="+v.toString());
-        v = v.add(distanceCorrection).add(velocityCorrection);
-        System.out.println("velocity ="+v.toString());
+//        System.out.println("read Velocity="+v.toString());
+        v = v.add(correction);
+//        System.out.println("velocity ="+v.toString());
         // normalize velocity
         v = v.normalize().multiply(speed);
-        System.out.println("velocity(normalised) ="+v.toString());
+//        System.out.println("velocity(normalised) ="+v.toString());
         setVelocity(v);
-
     }
 
     public void tick() {
