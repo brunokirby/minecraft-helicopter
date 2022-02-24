@@ -617,6 +617,9 @@ public class HelicopterEntity extends Entity {
 
     }
 
+    private static final float YAW_SCALE_FACTOR = 0.4f;
+    private static final float ACCELERATION_FORWARDS = 0.04f;
+    private static final float ACCELERATION_BACKWARDS = 0.02f;
 
     private void updateMotion() {
         if (this.hasPassengers()) {
@@ -626,26 +629,26 @@ public class HelicopterEntity extends Entity {
 //                        + (keyPressed_R ? "R" : "_"));
 //            }
 
-            float f = 0.0F;
+            float acceleration = 0.0F;
             if (this.pressingLeft) {
-                --this.yawVelocity;
+                this.yawVelocity -= YAW_SCALE_FACTOR;
             }
 
             if (this.pressingRight) {
-                ++this.yawVelocity;
+                this.yawVelocity += YAW_SCALE_FACTOR;
             }
 
-            if (this.pressingRight != this.pressingLeft && !this.pressingForward && !this.pressingBack) {
-                f += 0.005F;
-            }
+//            if (this.pressingRight != this.pressingLeft && !this.pressingForward && !this.pressingBack) {
+//                acceleration += 0.005F;
+//            }
 
             this.yaw += this.yawVelocity;
             if (this.pressingForward) {
-                f += 0.04F;
+                acceleration += ACCELERATION_FORWARDS;
             }
 
             if (this.pressingBack) {
-                f -= 0.005F;
+                acceleration -= ACCELERATION_BACKWARDS;
             }
 
             // implementing vertical take-off for now
@@ -658,9 +661,9 @@ public class HelicopterEntity extends Entity {
             }
 
             this.setVelocity(this.getVelocity().add(
-                    MathHelper.sin(-this.yaw * 0.017453292F) * f,
+                    MathHelper.sin(-this.yaw * 0.017453292F) * acceleration,
                     v,  // vertical speed modifier
-                    MathHelper.cos(this.yaw * 0.017453292F) * f));
+                    MathHelper.cos(this.yaw * 0.017453292F) * acceleration));
 //            this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
         }
     }
