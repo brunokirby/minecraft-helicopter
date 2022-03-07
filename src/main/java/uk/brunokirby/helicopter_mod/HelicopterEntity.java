@@ -97,6 +97,10 @@ public class HelicopterEntity extends Entity {
     private float bubbleWobble;
     private float lastBubbleWobble;
     private Instant lastFired;
+    private boolean latestMissilePodLeft = true;
+    private final static float MISSILE_POD_SIDE_OFFSET = 1.25f;
+    private final static float MISSILE_POD_HEIGHT_OFFSET = 0.5f;
+    private final static float MISSILE_POD_FORWARDS_OFFSET = 0.6f;
 
     public HelicopterEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
@@ -911,13 +915,29 @@ public class HelicopterEntity extends Entity {
                 System.out.println("world=" + world.getRegistryKey().getValue().toString());
 
                 // create helicopter direction
-                float x = -MathHelper.sin(yaw * 0.017453292F);
-                float z = MathHelper.cos(yaw * 0.017453292F);
+                float x = -MathHelper.sin(yaw * (float)Math.PI / 180.0f);
+                float z = MathHelper.cos(yaw * (float)Math.PI / 180.0f);
                 float y = 0.0f;
                 Vec3d heliDirection = new Vec3d(x,y,z);
 
+                // calculate missile pod position
+                latestMissilePodLeft=!latestMissilePodLeft; // alternate pods
+                // missile pods are left & right sides
+                Vec3d missilePodOffset = heliDirection.normalize().multiply(MISSILE_POD_SIDE_OFFSET).rotateY((float)Math.PI / 2.0f );
+                Vec3d heliPos = new Vec3d(getX(), getY(), getZ());
+                Vec3d missilePodPosition = latestMissilePodLeft
+                        ? heliPos.add(missilePodOffset)
+                        : heliPos.subtract(missilePodOffset);
+
+                // adjust missile pods forwards from Steve's position (NB depends on Helicopter geometry)
+                missilePodPosition = missilePodPosition.add(heliDirection.normalize().multiply(MISSILE_POD_FORWARDS_OFFSET));
+                // adjust missile pods down from Steve's position (NB depends on Helicopter geometry)
+                missilePodPosition = missilePodPosition.add(new Vec3d(0.0d, -MISSILE_POD_HEIGHT_OFFSET, 0.0d));
+
+
                 HelicopterRocketPacket hrp = new HelicopterRocketPacket(
-                        new Vec3d(getX(), getY(), getZ()),  // TODO add offset to missile pods :-)
+                        //new Vec3d(getX(), getY(), getZ()),  // TODO add offset to missile pods :-)
+                        missilePodPosition,
                         new Vec3d(cameraDirection.x, cameraDirection.y, cameraDirection.z),
                         heliDirection,
                         world.getRegistryKey().getValue());

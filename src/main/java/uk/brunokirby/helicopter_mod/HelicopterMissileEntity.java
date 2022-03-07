@@ -30,7 +30,7 @@ public class HelicopterMissileEntity extends Entity  {
     private static final TrackedData<ItemStack> ITEM;
     private int life;
     private int lifeTime;
-    private final static float speed = 3.0f;
+    private final static float MISSILE_SPEED = 1.5f;
     private final static float correctionFactor = 0.25f;
 
     // missile trajectory data
@@ -57,13 +57,13 @@ public class HelicopterMissileEntity extends Entity  {
         this.life = 0;
         this.updatePosition(position.x, position.y, position.z);
         //this.setVelocity(this.random.nextGaussian() * 0.001D, 0.05D, this.random.nextGaussian() * 0.001D);
-        this.lifeTime = 50;    // ticks
+        this.lifeTime = 75;    // ticks
 
         // HACK for testing
 //        Vec3d velocity = aimDirection.normalize().multiply(this.speed);
 
         // rockets start off heading straight from helicopter
-        Vec3d velocity = this.heliDirection.multiply(3.0f);
+        Vec3d velocity = this.heliDirection.multiply(MISSILE_SPEED);
         this.setVelocity(velocity);
 
         this.recalculatePitchAndYaw();
@@ -154,7 +154,7 @@ public class HelicopterMissileEntity extends Entity  {
         v = v.add(correction);
 //        System.out.println("velocity ="+v.toString());
         // normalize velocity
-        v = v.normalize().multiply(speed);
+        v = v.normalize().multiply(MISSILE_SPEED);
 //        System.out.println("velocity(normalised) ="+v.toString());
         setVelocity(v);
     }
@@ -208,9 +208,12 @@ public class HelicopterMissileEntity extends Entity  {
 
     protected void onCollision(HitResult hitResult) {
         HitResult.Type type = hitResult.getType();
+        System.out.println("onCollision "+type);
         if (type == HitResult.Type.ENTITY) {
+            System.out.println("hit entity");
             this.onEntityHit();
         } else if (type == HitResult.Type.BLOCK) {
+            System.out.println("hit block");
             this.onBlockHit((BlockHitResult)hitResult);
         }
     }
