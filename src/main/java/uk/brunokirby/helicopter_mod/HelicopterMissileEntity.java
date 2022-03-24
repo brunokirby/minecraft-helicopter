@@ -216,14 +216,12 @@ public class HelicopterMissileEntity extends Entity  {
         Iterator var12 = world.getOtherEntities(this, pointBoxStretched, null).iterator();
         while(var12.hasNext()) {
             Entity entity3 = (Entity) var12.next();
-            System.out.println("found an entity: " + entity3.toString());
             return new EntityHitResult(entity3);
         }
 
         // let's look for blocks
         Optional<BlockPos> closest = BlockPos.findClosest(new BlockPos(this.getPos()), 1, 1, this::blockPosPredicate);
         if (closest.isPresent()) {
-            System.out.println("found a block: " + closest.get().toString());
             return new BlockHitResult(getPos(), null, closest.get(), true);
         }
 
@@ -249,12 +247,9 @@ public class HelicopterMissileEntity extends Entity  {
 
     protected void onCollision(HitResult hitResult) {
         HitResult.Type type = hitResult.getType();
-        System.out.println("onCollision "+type);
         if (type == HitResult.Type.ENTITY) {
-            System.out.println("hit entity");
             this.onEntityHit();
         } else if (type == HitResult.Type.BLOCK) {
-            System.out.println("hit block");
             this.onBlockHit((BlockHitResult)hitResult);
         }
     }
