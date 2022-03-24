@@ -1,6 +1,10 @@
 package uk.brunokirby.helicopter_mod;
 
 import net.fabricmc.loader.util.sat4j.core.Vec;
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -12,8 +16,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -24,6 +30,11 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.world.explosion.Explosion;
 import org.lwjgl.system.CallbackI;
 
+import java.util.Iterator;
+import java.util.Optional;
+
+import static net.minecraft.util.hit.HitResult.Type.BLOCK;
+import static net.minecraft.util.hit.HitResult.Type.MISS;
 import static uk.brunokirby.helicopter_mod.HelicopterModInitializer.HELICOPTER_MISSILE;
 
 public class HelicopterMissileEntity extends Entity  {
@@ -172,7 +183,8 @@ public class HelicopterMissileEntity extends Entity  {
             }
        }
 
-        HitResult hitResult = ProjectileUtil.getCollision(this, this::entityCollisionPredicate);
+        //HitResult hitResult = ProjectileUtil.getCollision(this, this::entityCollisionPredicate);
+        HitResult hitResult = getCollision();
         if (!this.noClip) {
             this.onCollision(hitResult);
             this.velocityDirty = true;
@@ -194,6 +206,35 @@ public class HelicopterMissileEntity extends Entity  {
             this.explodeAndRemove();
         }
 
+    }
+
+    protected HitResult getCollision() {
+
+        // let's look for entities
+        Box pointBox = new Box (getPos(), getPos());
+        Box pointBoxStretched = pointBox.stretch(this.getVelocity()).expand(0.5D);
+        Iterator var12 = world.getOtherEntities(this, pointBoxStretched, null).iterator();
+        while(var12.hasNext()) {
+            Entity entity3 = (Entity) var12.next();
+            System.out.println("found an entity: " + entity3.toString());
+            return new EntityHitResult(entity3);
+        }
+
+        // let's look for blocks
+        Optional<BlockPos> closest = BlockPos.findClosest(new BlockPos(this.getPos()), 1, 1, this::blockPosPredicate);
+        if (closest.isPresent()) {
+            System.out.println("found a block: " + closest.get().toString());
+            return new BlockHitResult(getPos(), null, closest.get(), true);
+        }
+
+
+        return BlockHitResult.createMissed(null, null, null);
+    }
+
+    protected boolean blockPosPredicate(BlockPos bp) {
+        BlockState blockState = world.getBlockState(bp);
+        Block blocktype = blockState.getBlock();
+        return ! (blocktype instanceof AirBlock);
     }
 
     protected boolean entityCollisionPredicate(Entity entity) {
